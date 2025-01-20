@@ -1,48 +1,36 @@
 using UnityEngine;
-using System;
-using TMPro;
-using UniRx;
+using UnityEngine.UI;
+using System.Collections.Generic;
 using UniRx.Triggers;
+using UniRx;
+
 public class Keyboard_Input : MonoBehaviour
 {
-    public KeyCode Detect_Input()
+    bool isKey;
+    [SerializeField] private Sprite[] blackKeySprites;
+    [SerializeField] private Sprite[] whiteKeySprites;
+    [SerializeField] private Image blackButtonDisplay;
+    [SerializeField] private Image whiteButtonDisplay;
+    [SerializeField] private Dictionary<string, Sprite> blackKeys = new Dictionary<string, Sprite>();
+    [SerializeField] private Dictionary<string, Sprite> whiteKeys = new Dictionary<string, Sprite>();
+
+    private void Start()
     {
-        foreach(KeyCode key in Enum.GetValues(typeof(KeyCode)))
+        foreach (Sprite keySprite in blackKeySprites)
+            blackKeys.Add(keySprite.name, keySprite);
+        foreach (Sprite keySprite in whiteKeySprites)
+            whiteKeys.Add(keySprite.name, keySprite);
+    }
+
+    private void KeyCodeRet()
+    {
+        Event ev = Event.current;
+        if (ev.isKey)
         {
-            if (Input.GetKey(key))
-            {
-                if (key != KeyCode.Mouse0 && key != KeyCode.Mouse1 && key != KeyCode.Mouse2
-                    && key != KeyCode.Mouse3 && key != KeyCode.Mouse4 && key != KeyCode.Mouse5
-                    && key != KeyCode.Mouse6 && key != KeyCode.RightAlt)
-                    return key;
-            }
+            string keyName = ev.keyCode.ToString();
+            blackButtonDisplay.sprite = blackKeys.ContainsKey(keyName) ? blackKeys[keyName] : blackButtonDisplay.sprite;
+            whiteButtonDisplay.sprite = whiteKeys.ContainsKey(keyName) ? whiteKeys[keyName] : whiteButtonDisplay.sprite;
         }
-        return KeyCode.None;
-    }
-
-    [SerializeField] TMP_InputField inputField;
-
-    void Start()
-    {
-        inputField.onSubmit.AddListener(OnEndEdit);
-        this.UpdateAsObservable()
-            .Where(_ => inputField.isFocused)
-            .Where(_ => KeyCode.None != Detect_Input())
-            .Subscribe(_ => Accept_Input(Detect_Input()));
-    }
-
-    void Accept_Input(KeyCode key)
-    {
-        inputField.text = key.ToString();
-        inputField.DeactivateInputField();  // 입력 후 InputField 비활성화(포커스 해제)
-    }
-
-    public void OnEndEdit(string text)
-    {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            inputField.text = text;
-            inputField.ActivateInputField();
-        }
+        
     }
 }
