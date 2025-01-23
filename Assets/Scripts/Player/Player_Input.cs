@@ -77,7 +77,18 @@ public class Player_Input : MonoBehaviour
     {
         foreach (var key in keyDelegate.Keys)
         {
-            keyValue[key].isPressed = Input.GetKeyDown(key);
+            switch (keyValue[key].value)
+            {
+                case 0: // 단발 입력
+                    keyValue[key].isPressed = Input.GetKeyDown(key);
+                    break;
+                case 1: // 지속 입력
+                    keyValue[key].isPressed = Input.GetKey(key);
+                    break;
+                case 2: // 특수 입력
+                    keyValue[key].isPressed = Input.GetKeyUp(key);
+                    break;
+            }
         }
     }
 
