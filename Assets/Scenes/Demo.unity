@@ -222,13 +222,15 @@ GameObject:
   - component: {fileID: 1468131943}
   - component: {fileID: 1468131942}
   - component: {fileID: 1468131941}
-  - component: {fileID: 1468131944}
   - component: {fileID: 1468131946}
   - component: {fileID: 1468131945}
   - component: {fileID: 1468131947}
+  - component: {fileID: 1468131948}
+  - component: {fileID: 1468131944}
+  - component: {fileID: 1468131949}
   m_Layer: 0
   m_Name: Warrior
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -413,6 +415,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558ce4188cb6fb14b9f164f63badd76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1468131948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468131940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 518e1a50e9e09ac4798b42f6dfe80229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGrounded: 0
+--- !u!114 &1468131949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468131940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f988503246e8b469ae16d22f399cc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1779768497
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +453,7 @@ GameObject:
   - component: {fileID: 1779768500}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

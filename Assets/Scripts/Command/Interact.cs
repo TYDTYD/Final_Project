@@ -14,15 +14,15 @@ public class Interact : MonoBehaviour
         Rope,
         Bomb
     }
-    public static KeyCode Attack;
-    public static KeyCode Left;
-    public static KeyCode Right;
-    public static KeyCode Up;
-    public static KeyCode Down;
-    public static KeyCode Item;
-    public static KeyCode Rope;
-    public static KeyCode Bomb;
-    public static KeyCode Jump;
+    public static KeyCode Attack = KeyCode.A;
+    public static KeyCode Left = KeyCode.LeftArrow;
+    public static KeyCode Right = KeyCode.RightArrow;
+    public static KeyCode Up = KeyCode.UpArrow;
+    public static KeyCode Down = KeyCode.DownArrow;
+    public static KeyCode Item = KeyCode.Z;
+    public static KeyCode Rope = KeyCode.E;
+    public static KeyCode Bomb = KeyCode.B;
+    public static KeyCode Jump = KeyCode.Space;
 
     public static void SetKeyCode(string code, int index)
     {
@@ -88,7 +88,7 @@ public class Interact : MonoBehaviour
     }
 }
 
-public class Jump : ICommand
+public class Jump : ICommand 
 {
     Rigidbody2D Rigidbody2D;
     float JumpForce = 10f;
@@ -101,7 +101,7 @@ public class Jump : ICommand
     }
     public void Execute()
     {
-        Rigidbody2D.AddForce(Direction);
+        Rigidbody2D.AddForce(Direction, ForceMode2D.Impulse);
     }
 }
 

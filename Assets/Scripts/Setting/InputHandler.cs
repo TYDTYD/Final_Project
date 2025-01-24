@@ -3,23 +3,16 @@ using System;
 using System.Collections.Generic;
 public class InputHandler : MonoBehaviour
 {
-    public static List<KeyCode> keyCodes=new List<KeyCode>();
+    public static List<KeyCode> keyCodes = new List<KeyCode>();
+    public static KeyCode JumpKey = KeyCode.Space;
 
-    private void Start()
+    private void Awake()
     {
         foreach (Interact.KeySequence key in Enum.GetValues(typeof(Interact.KeySequence)))
         {
+            if (key == Interact.KeySequence.Jump)
+                JumpKey = Interact.GetKeyCode(key);
             keyCodes.Add(Interact.GetKeyCode(key));
         }
-    }
-    private void FixedUpdate()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
