@@ -24,7 +24,7 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
       # output
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Build
           path: build
