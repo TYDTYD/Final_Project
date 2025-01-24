@@ -9,3 +9,5 @@ Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
 
 ## 키 변경 기능 구현
 ![Final_Project-Setting-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-01-2423-01-05-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8652c26-1047-42bc-988f-3b41ad6610c1)
+
+명령 패턴을 사용하여 키를 변경할 수 있도록 구현하였습니다.
