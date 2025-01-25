@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System;
 public class Player_Input : MonoBehaviour
 {
-    Action Left, Right, Up, Down, Attack, Item, Jump, Rope, Bomb;
     Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
     Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
-    
+
+    Rigidbody2D Rigidbody2D;
+    Idle idle;
+
     class InputState
     {
         // 0 => 트리거 ||  1 => 연속적 트리거  ||  2 => 특수 트리거
@@ -22,8 +24,8 @@ public class Player_Input : MonoBehaviour
     struct InputAction
     {
         public int value;
-        public Action GetDelegate;
-        public InputAction(int v, Action d)
+        public ICommand GetDelegate;
+        public InputAction(int v, ICommand d)
         {
             value = v;
             GetDelegate = d;
@@ -32,12 +34,20 @@ public class Player_Input : MonoBehaviour
 
     void Start()
     {
+
+        Rigidbody2D = GetComponent<Rigidbody2D>();
+
+        idle = new Idle(Rigidbody2D);
         InputAction[] InputActions = {
-            new InputAction(1, Left), new InputAction(1, Right),
-            new InputAction(1, Up), new InputAction(1, Down),
-            new InputAction(0, Attack), new InputAction(0, Item),
-            new InputAction(2, Jump), new InputAction(0, Rope),
-            new InputAction(0, Bomb)
+            new InputAction(1, new Move(Rigidbody2D, 5f, true)), 
+            new InputAction(1, new Move(Rigidbody2D, 5f, false)),
+            new InputAction(1, new Bomb()), // up
+            new InputAction(1, new Bomb()), // down
+            new InputAction(0, new Attack()), 
+            new InputAction(0, new Item()),
+            new InputAction(2, new Bomb()), // jump
+            new InputAction(0, new Rope()),
+            new InputAction(0, new Bomb())
         };
 
         for (int i = 0; i < InputActions.Length; i++)
@@ -53,7 +63,9 @@ public class Player_Input : MonoBehaviour
         foreach (var press in keyValue)
         {
             if (press.Value.isPressed)
-                keyDelegate[press.Key].GetDelegate?.Invoke();
+                keyDelegate[press.Key].GetDelegate.Execute();
+            else
+                idle.Execute();
         }
     }
 

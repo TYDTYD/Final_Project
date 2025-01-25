@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class InputHandler : MonoBehaviour
 {
     public static List<KeyCode> keyCodes = new List<KeyCode>();
-    public static KeyCode JumpKey = KeyCode.Space;
+    public static KeyCode JumpKey;
 
     private void Awake()
     {

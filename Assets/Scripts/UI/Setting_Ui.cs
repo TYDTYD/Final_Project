@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Setting_Ui : MonoBehaviour
 {
@@ -46,13 +47,18 @@ public class Setting_Ui : MonoBehaviour
         int idx = 0;
         foreach(Image image in GetImages)
         {
-            Interact.SetKeyCode(image.name, idx);
+            Interact.SetKeyCode(image.sprite.name, idx++);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Submit();
+            SceneManager.LoadScene("Lobby");
+        }
         if (Input.GetKeyDown(KeyCode.Return))
         {
             isEnter = !isEnter;

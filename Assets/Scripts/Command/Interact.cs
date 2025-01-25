@@ -107,13 +107,48 @@ public class Jump : ICommand
 
 public class Move : ICommand
 {
+    Rigidbody2D Rigidbody2D;
+    float speed = 5f;
+    float Direction;
+
+    public Move(Rigidbody2D rigidbody, float _speed, bool dir)
+    {
+        Rigidbody2D = rigidbody;
+        speed = _speed;
+        Direction = dir ? -1f : 1f;
+    }
+    public void Execute()
+    {
+        Rigidbody2D.linearVelocityX = Direction * speed;
+    }
+}
+
+public class Idle : ICommand
+{
+    Rigidbody2D Rigidbody2D;
+
+    public Idle(Rigidbody2D rigidbody)
+    {
+        Rigidbody2D = rigidbody;
+    }
+    public void Execute()
+    {
+        if (Rigidbody2D.linearVelocityX > 0f)
+            Rigidbody2D.linearVelocityX -= 0.1f;
+        else if (Rigidbody2D.linearVelocityX < 0f)
+            Rigidbody2D.linearVelocityX += 0.1f;
+    }
+}
+
+public class Attack : ICommand
+{
     public void Execute()
     {
 
     }
 }
 
-public class Attack : ICommand
+public class Item : ICommand
 {
     public void Execute()
     {
@@ -136,4 +171,3 @@ public class Rope : ICommand
 
     }
 }
-

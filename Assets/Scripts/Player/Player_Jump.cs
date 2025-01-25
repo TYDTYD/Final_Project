@@ -6,17 +6,16 @@ public class Player_Jump : MonoBehaviour
     Rigidbody2D GetRigidbody2D;
     Player_Rigidbody Player_Rigidbody;
     Jump GetJump;
-    readonly KeyCode JumpKey = InputHandler.JumpKey;
+    KeyCode JumpKey;
     bool isJumping = false;
     float maxholdTime = 0.1f, currentholdTime = 0f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         GetRigidbody2D = GetComponent<Rigidbody2D>();
         Player_Rigidbody = GetComponent<Player_Rigidbody>();
-
-        GetJump = new Jump(GetRigidbody2D, 1f);
+        JumpKey = InputHandler.JumpKey;
+        GetJump = new Jump(GetRigidbody2D, 1.2f);
         
         this.UpdateAsObservable()
             .Where(_ => Player_Rigidbody.isGrounded && Input.GetKey(JumpKey))

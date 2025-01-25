@@ -12,7 +12,7 @@ public class Player_Rigidbody : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Ground"))
+        if (collision.collider.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
         {
             isGrounded = true;
         }
