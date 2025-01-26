@@ -7,6 +7,7 @@ public class Player_Input : MonoBehaviour
     Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
 
     Rigidbody2D Rigidbody2D;
+    Player_Rigidbody player_Rigidbody;
     Idle idle;
 
     class InputState
@@ -34,16 +35,16 @@ public class Player_Input : MonoBehaviour
 
     void Start()
     {
-
+        player_Rigidbody = GetComponent<Player_Rigidbody>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
 
         idle = new Idle(Rigidbody2D);
         InputAction[] InputActions = {
-            new InputAction(1, new Move(Rigidbody2D, 5f, true)), 
-            new InputAction(1, new Move(Rigidbody2D, 5f, false)),
-            new InputAction(1, new Bomb()), // up
-            new InputAction(1, new Bomb()), // down
-            new InputAction(0, new Attack()), 
+            new InputAction(1, new Move(Rigidbody2D, player_Rigidbody, 7f, true)),
+            new InputAction(1, new Move(Rigidbody2D, player_Rigidbody, 7f, false)),
+            new InputAction(1, new Up(transform, player_Rigidbody)),
+            new InputAction(1, new Down(transform, player_Rigidbody)),
+            new InputAction(0, new Attack(Rigidbody2D,player_Rigidbody)),
             new InputAction(0, new Item()),
             new InputAction(2, new Bomb()), // jump
             new InputAction(0, new Rope()),

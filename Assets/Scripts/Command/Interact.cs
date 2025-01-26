@@ -88,40 +88,7 @@ public class Interact : MonoBehaviour
     }
 }
 
-public class Jump : ICommand 
-{
-    Rigidbody2D Rigidbody2D;
-    float JumpForce = 10f;
-    Vector2 Direction;
-    public Jump(Rigidbody2D rigidbody, float force)
-    {
-        Rigidbody2D = rigidbody;
-        JumpForce = force;
-        Direction = new Vector2(0, JumpForce);
-    }
-    public void Execute()
-    {
-        Rigidbody2D.AddForce(Direction, ForceMode2D.Impulse);
-    }
-}
 
-public class Move : ICommand
-{
-    Rigidbody2D Rigidbody2D;
-    float speed = 5f;
-    float Direction;
-
-    public Move(Rigidbody2D rigidbody, float _speed, bool dir)
-    {
-        Rigidbody2D = rigidbody;
-        speed = _speed;
-        Direction = dir ? -1f : 1f;
-    }
-    public void Execute()
-    {
-        Rigidbody2D.linearVelocityX = Direction * speed;
-    }
-}
 
 public class Idle : ICommand
 {
@@ -137,14 +104,6 @@ public class Idle : ICommand
             Rigidbody2D.linearVelocityX -= 0.1f;
         else if (Rigidbody2D.linearVelocityX < 0f)
             Rigidbody2D.linearVelocityX += 0.1f;
-    }
-}
-
-public class Attack : ICommand
-{
-    public void Execute()
-    {
-
     }
 }
 

@@ -15,10 +15,10 @@ public class Player_Jump : MonoBehaviour
         GetRigidbody2D = GetComponent<Rigidbody2D>();
         Player_Rigidbody = GetComponent<Player_Rigidbody>();
         JumpKey = InputHandler.JumpKey;
-        GetJump = new Jump(GetRigidbody2D, 1.2f);
+        GetJump = new Jump(GetRigidbody2D, 3f);
         
         this.UpdateAsObservable()
-            .Where(_ => Player_Rigidbody.isGrounded && Input.GetKey(JumpKey))
+            .Where(_ => (Player_Rigidbody.isGrounded || Player_Rigidbody.isClimbing) && Input.GetKey(JumpKey))
             .Subscribe(_ => StartJump())
             .AddTo(this);
 
@@ -32,6 +32,7 @@ public class Player_Jump : MonoBehaviour
     {
         isJumping = true;
         Player_Rigidbody.isGrounded = false;
+        Player_Rigidbody.isClimbing = false;
         currentholdTime = 0f;
     }
 
