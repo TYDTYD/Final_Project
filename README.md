@@ -11,3 +11,8 @@ Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
 ![Final_Project-Setting-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-01-2423-01-05-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8652c26-1047-42bc-988f-3b41ad6610c1)
 
 명령 패턴을 사용하여 키를 변경할 수 있도록 구현하였습니다.
+
+## 점프 강약 조절
+![Final_Project-Demo-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-01-2523-06-40-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/dd23c803-5378-4149-9083-c2f238a45110)
+
+점프 키 입력 강도에 따라 점프를 다르게 뛰도록 구현하였습니다.
