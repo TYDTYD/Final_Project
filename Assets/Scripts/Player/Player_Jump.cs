@@ -5,15 +5,17 @@ public class Player_Jump : MonoBehaviour
 {
     Rigidbody2D GetRigidbody2D;
     Player_Rigidbody Player_Rigidbody;
+    Player GetPlayer;
     Jump GetJump;
     KeyCode JumpKey;
-    bool isJumping = false;
+    public bool isJumping = false;
     float maxholdTime = 0.1f, currentholdTime = 0f;
 
     void Start()
     {
         GetRigidbody2D = GetComponent<Rigidbody2D>();
         Player_Rigidbody = GetComponent<Player_Rigidbody>();
+        GetPlayer = GetComponent<Player>();
         JumpKey = InputHandler.JumpKey;
         GetJump = new Jump(GetRigidbody2D, 3f);
         
@@ -31,6 +33,7 @@ public class Player_Jump : MonoBehaviour
     void StartJump()
     {
         isJumping = true;
+        GetPlayer.CurrentState = Player.State.Jump_State;
         Player_Rigidbody.isGrounded = false;
         Player_Rigidbody.isClimbing = false;
         currentholdTime = 0f;
@@ -44,7 +47,7 @@ public class Player_Jump : MonoBehaviour
             currentholdTime += Time.fixedDeltaTime;
         }
 
-        if (currentholdTime > maxholdTime)
+        if (currentholdTime > maxholdTime || Player_Rigidbody.isGrounded)
         {
             isJumping = false;
             currentholdTime = 0f;

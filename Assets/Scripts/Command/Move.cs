@@ -5,6 +5,7 @@ public class Move : ICommand
     Rigidbody2D Rigidbody2D;
     float speed = 5f;
     float Direction;
+    Player GetPlayer;
 
     public Move(Rigidbody2D rigidbody, float _speed, bool dir)
     {
@@ -13,10 +14,11 @@ public class Move : ICommand
         Direction = dir ? -1f : 1f;
     }
 
-    public Move(Rigidbody2D rigidbody, Player_Rigidbody _Rigidbody, float _speed, bool dir)
+    public Move(Rigidbody2D rigidbody, Player_Rigidbody _Rigidbody, Player player,float _speed, bool dir)
     {
         Rigidbody2D = rigidbody;
         player_Rigidbody = _Rigidbody;
+        GetPlayer = player;
         speed = _speed;
         Direction = dir ? -1f : 1f;
     }
@@ -27,8 +29,9 @@ public class Move : ICommand
         {
             if (player_Rigidbody.isClimbing)
                 return;
+            if(player_Rigidbody.isGrounded)
+                GetPlayer.CurrentState = Player.State.Move_State;
         }
-
         Rigidbody2D.linearVelocityX = Direction * speed;
     }
 }
