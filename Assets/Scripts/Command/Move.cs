@@ -29,8 +29,6 @@ public class Move : ICommand
         {
             if (player_Rigidbody.isClimbing)
                 return;
-            if(player_Rigidbody.isGrounded)
-                GetPlayer.CurrentState = Player.State.Move_State;
         }
         Rigidbody2D.linearVelocityX = Direction * speed;
     }

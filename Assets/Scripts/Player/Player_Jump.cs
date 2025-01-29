@@ -33,7 +33,6 @@ public class Player_Jump : MonoBehaviour
     void StartJump()
     {
         isJumping = true;
-        GetPlayer.CurrentState = Player.State.Jump_State;
         Player_Rigidbody.isGrounded = false;
         Player_Rigidbody.isClimbing = false;
         currentholdTime = 0f;

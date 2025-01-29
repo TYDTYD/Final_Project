@@ -4,7 +4,8 @@ public class Player_LookDown : MonoBehaviour
 {
     public CinemachineCamera virtualCamera; 
     public Transform playerTransform;           
-    public Transform downViewTransform;        
+    public Transform downViewTransform;
+    Player_Anim GetPlayer_Anim;
     Player_Rigidbody player_Rigidbody;
 
     float keyPressTime = 0f;              
@@ -14,25 +15,21 @@ public class Player_LookDown : MonoBehaviour
     private void Start()
     {
         player_Rigidbody = GetComponent<Player_Rigidbody>();
+        GetPlayer_Anim = GetComponent<Player_Anim>();
     }
 
     void Update()
     {
         if (player_Rigidbody.isLadder)
             return;
-        if (Input.GetKey(InputHandler.DownKey))
-        {
-            keyPressTime += Time.deltaTime;
 
-            if (keyPressTime > holdTime && !isDownView)
-            {
-                SetTopView();
-            }
+        if(GetPlayer_Anim.SittingTime > holdTime && !isDownView)
+        {
+            SetTopView();
         }
         else
         {
             keyPressTime = 0f;
-
 
             if (isDownView)
             {

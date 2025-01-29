@@ -11,6 +11,12 @@ public class Player : MonoBehaviour
         Attack_State,
         Move_State,
         Fall_State,
+        Land_State,
+        LadderStop_State,
+        EdgeDetact_State,
+        SittingStart_State,
+        Sitting_State,
+        Edge_State,
         Death_State
     };
 
@@ -27,10 +33,16 @@ public class Player : MonoBehaviour
             { State.Idle_State, Animator.StringToHash("Idle") },
             { State.Jump_State, Animator.StringToHash("Jump") },
             { State.Ladder_State, Animator.StringToHash("Ladder") },
-            { State.Damage_State, Animator.StringToHash("Damage") },
+            { State.LadderStop_State, Animator.StringToHash("LadderStop") },
+            { State.Damage_State, Animator.StringToHash("Hurt") },
             { State.Attack_State, Animator.StringToHash("Attack") },
             { State.Move_State, Animator.StringToHash("Move") },
             { State.Fall_State, Animator.StringToHash("Fall") },
+            { State.Land_State, Animator.StringToHash("Land") },
+            { State.EdgeDetact_State, Animator.StringToHash("Edge_Detact") },
+            { State.SittingStart_State, Animator.StringToHash("Croush") },
+            { State.Sitting_State, Animator.StringToHash("Sitting") },
+            { State.Edge_State, Animator.StringToHash("Edge_Idle") },
             { State.Death_State, Animator.StringToHash("Death") }
         };
     }

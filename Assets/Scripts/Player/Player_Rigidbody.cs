@@ -34,7 +34,8 @@ public class Player_Rigidbody : MonoBehaviour
         {
             isGrounded = true;
         }
-        
+        else
+            isGrounded = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
