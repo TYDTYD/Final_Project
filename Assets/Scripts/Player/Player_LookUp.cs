@@ -2,9 +2,9 @@ using UnityEngine;
 using Unity.Cinemachine;
 public class Player_LookUp : MonoBehaviour
 {
-    public CinemachineCamera virtualCamera; // Cinemachine 가상 카메라
-    public Transform playerTransform;             // 플레이어 Transform
-    public Transform topViewTransform;            // 위쪽을 바라보는 위치 Transform
+    [SerializeField] CinemachineCamera virtualCamera; // Cinemachine 가상 카메라
+    [SerializeField] Transform playerTransform;             // 플레이어 Transform
+    [SerializeField] Transform topViewTransform;            // 위쪽을 바라보는 위치 Transform
     Player_Rigidbody player_Rigidbody;
 
     float keyPressTime = 0f;              // 키가 눌린 시간

@@ -2,13 +2,12 @@ using UnityEngine;
 using Unity.Cinemachine;
 public class Player_LookDown : MonoBehaviour
 {
-    public CinemachineCamera virtualCamera; 
-    public Transform playerTransform;           
-    public Transform downViewTransform;
+    [SerializeField] CinemachineCamera virtualCamera; 
+    [SerializeField] Transform playerTransform;           
+    [SerializeField] Transform downViewTransform;
     Player_Anim GetPlayer_Anim;
     Player_Rigidbody player_Rigidbody;
-
-    float keyPressTime = 0f;              
+    
     float holdTime = 1f;      
     bool isDownView = false;        
 
@@ -25,12 +24,10 @@ public class Player_LookDown : MonoBehaviour
 
         if(GetPlayer_Anim.SittingTime > holdTime && !isDownView)
         {
-            SetTopView();
+            SetDownView();
         }
-        else
+        else if(GetPlayer_Anim.SittingTime < holdTime)
         {
-            keyPressTime = 0f;
-
             if (isDownView)
             {
                 SetPlayerView();
@@ -38,8 +35,8 @@ public class Player_LookDown : MonoBehaviour
         }
     }
 
-    // 위쪽을 바라보는 뷰로 전환
-    void SetTopView()
+    // 아래쪽을 바라보는 뷰로 전환
+    void SetDownView()
     {
         virtualCamera.Follow = downViewTransform;  
         isDownView = true;

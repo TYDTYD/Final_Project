@@ -14,8 +14,9 @@ public class Player_Anim : MonoBehaviour
 
     float GroggiTime = 0.5f;
     float FallTime = 0f;
+    float LandTime = 0f;
     public float SittingTime = 0f;
-    bool isSittingMoved = false;
+    public bool isSittingMoved = false;
     bool BeforeGrounded = false;
     bool BeforeSitting = false;
     void Start()
@@ -49,14 +50,33 @@ public class Player_Anim : MonoBehaviour
         // 생사 여부
         if (GetHealth.health.Value <= 0)
         {
-            GetPlayer.CurrentState = Player.State.Death_State;
+            GetPlayer.GetState = Player.State.Death_State;
             return;
         }
 
         // 데미지 여부
         if (IsDamaged.Value)
         {
-            GetPlayer.CurrentState = Player.State.Damage_State;
+            GetPlayer.GetState = Player.State.Damage_State;
+            return;
+        }
+
+        // 사다리 여부
+        if (GetRigidbody.isClimbing)
+        {
+            if (Input.GetKey(Interact.Jump))
+            {
+                GetPlayer.GetState = Player.State.Jump_State;
+                return;
+            }
+
+            if (Input.GetKey(Interact.Attack))
+            {
+                GetPlayer.GetState = Player.State.Attack_State;
+                return;
+            }
+
+            GetPlayer.GetState = Player.State.Ladder_State;
             return;
         }
 
@@ -67,10 +87,15 @@ public class Player_Anim : MonoBehaviour
             BeforeGrounded = false;
             if (Input.GetKey(Interact.Attack))
             {
-                GetPlayer.CurrentState = Player.State.Attack_State;
+                GetPlayer.GetState = Player.State.Attack_State;
                 return;
             }
-            GetPlayer.CurrentState = Player.State.Fall_State;
+            if (Input.GetKeyDown(Interact.Jump))
+            {
+                GetPlayer.GetState = Player.State.Jump_State;
+                return;
+            }
+            GetPlayer.GetState = Player.State.Fall_State;
             return;
         }
 
@@ -80,48 +105,45 @@ public class Player_Anim : MonoBehaviour
             BeforeGrounded = true;
             if (FallTime > 2f)
             {
-                GetPlayer.CurrentState = Player.State.Death_State;
+                GetPlayer.GetState = Player.State.Land_State;
+                LandTime = 0.5f;
+                FallTime = 0f;
+                return;
+            }
+            if(FallTime > 3f)
+            {
+                GetPlayer.GetState = Player.State.Death_State;
                 FallTime = 0f;
                 return;
             }
             FallTime = 0f;
-            GetPlayer.CurrentState = Player.State.Land_State;
             return;
         }
 
-        // 사다리 여부
-        if (GetRigidbody.isClimbing)
+        if(GetPlayer.GetState == Player.State.Land_State && LandTime > 0f)
         {
-            if (Input.GetKey(Interact.Up))
-            {
-                GetPlayer.CurrentState = Player.State.Jump_State;
-                return;
-            }
-
-            if (Input.GetKey(Interact.Attack))
-            {
-                GetPlayer.CurrentState = Player.State.Attack_State;
-                return;
-            }
-
-            if(Input.GetKey(Interact.Up) || Input.GetKey(Interact.Down))
-            {
-                GetPlayer.CurrentState = Player.State.Ladder_State;
-                return;
-            }
-            GetPlayer.CurrentState = Player.State.LadderStop_State;
+            LandTime -= Time.deltaTime;
             return;
         }
 
         // 모서리 여부
-        if (GetPlayer.CurrentState == Player.State.EdgeDetact_State)
+        if (GetPlayer.GetState == Player.State.EdgeDetact_State)
         {
-            GetPlayer.CurrentState = Player.State.Edge_State;
+            GetPlayer.GetState = Player.State.Edge_State;
             return;
         }
 
-        if (GetPlayer.CurrentState == Player.State.Edge_State)
+        if (GetPlayer.GetState == Player.State.Edge_State)
         {
+            if (Input.GetKeyDown(Interact.Jump))
+            {
+                GetPlayer.GetState = Player.State.Jump_State;
+                return;
+            }
+            if (Input.GetKeyDown(Interact.Down))
+            {
+                GetPlayer.GetState = Player.State.Fall_State;
+            }
             return;
         }
         // todo 모서리에서 점프, 위로 다시 올라가기 작업 고려 애니메이션 클립 추가
@@ -131,24 +153,31 @@ public class Player_Anim : MonoBehaviour
         {
             if (!BeforeSitting)
             {
-                GetPlayer.CurrentState = Player.State.SittingStart_State;
+                GetPlayer.GetState = Player.State.SittingStart_State;
                 BeforeSitting = true;
                 return;
             }
+
             if (Input.GetKey(Interact.Right) || Input.GetKey(Interact.Left))
-                isSittingMoved = true;
-            else
-                isSittingMoved = false;
-            if (GetPlayer_Edge_Detact.isEdge)
             {
-                GetPlayer.CurrentState = Player.State.EdgeDetact_State;
+                GetPlayer.GetState = Player.State.SittingMove_State;
+                isSittingMoved = true;
+                SittingTime = 0f;
                 return;
             }
-            GetPlayer.CurrentState = Player.State.Sitting_State;
-            if (isSittingMoved)
-                SittingTime = 0f;
             else
+            {
+                isSittingMoved = false;
                 SittingTime += Time.deltaTime;
+                GetPlayer.GetState = Player.State.Sitting_State;
+            }
+
+            if (GetPlayer_Edge_Detact.isEdge)
+            {
+                GetPlayer.GetState = Player.State.EdgeDetact_State;
+                return;
+            }
+            GetPlayer.GetState = Player.State.Sitting_State;
             return;
         }
 
@@ -157,16 +186,16 @@ public class Player_Anim : MonoBehaviour
 
         if (Input.GetKeyDown(Interact.Jump))
         {
-            GetPlayer.CurrentState = Player.State.Jump_State;
+            GetPlayer.GetState = Player.State.Jump_State;
             return;
         }
 
         if(Input.GetKey(Interact.Right) || Input.GetKey(Interact.Left))
         {
-            GetPlayer.CurrentState = Player.State.Move_State;
+            GetPlayer.GetState = Player.State.Move_State;
             return;
         }
 
-        GetPlayer.CurrentState = Player.State.Idle_State;
+        GetPlayer.GetState = Player.State.Idle_State;
     }
 }

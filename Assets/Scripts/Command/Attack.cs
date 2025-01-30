@@ -8,10 +8,10 @@ public class Attack : ICommand
     {
         rigidbody = rigid;
     }
-    public Attack(Rigidbody2D rigid, Player_Rigidbody player)
+    public Attack(Player player)
     {
-        rigidbody = rigid;
-        player_Rigidbody = player;
+        rigidbody = player.GetRigidbody;
+        player_Rigidbody = player.GetPlayer_Rigidbody;
     }
 
     public void Execute()

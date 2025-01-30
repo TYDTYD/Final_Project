@@ -1,11 +1,11 @@
 using UnityEngine;
 public class Move : ICommand
 {
-    Player_Rigidbody player_Rigidbody = null;
+    Player GetPlayer = null;
+    Player_Rigidbody player_Rigidbody;
     Rigidbody2D Rigidbody2D;
-    float speed = 5f;
+    float speed = 6f, RunSpeed = 6f, SittingSpeed = 2f;
     float Direction;
-    Player GetPlayer;
 
     public Move(Rigidbody2D rigidbody, float _speed, bool dir)
     {
@@ -14,21 +14,26 @@ public class Move : ICommand
         Direction = dir ? -1f : 1f;
     }
 
-    public Move(Rigidbody2D rigidbody, Player_Rigidbody _Rigidbody, Player player,float _speed, bool dir)
+    public Move(Player player,float _speed, bool dir)
     {
-        Rigidbody2D = rigidbody;
-        player_Rigidbody = _Rigidbody;
         GetPlayer = player;
+        Rigidbody2D = player.GetRigidbody;
+        player_Rigidbody = player.GetPlayer_Rigidbody;
         speed = _speed;
         Direction = dir ? -1f : 1f;
     }
 
     public void Execute()
     {
-        if (player_Rigidbody)
+        if (GetPlayer)
         {
             if (player_Rigidbody.isClimbing)
                 return;
+            GetPlayer.GetSprite.flipX = (Direction < 0) ? true : false;
+            if (GetPlayer.GetState == Player.State.SittingMove_State)
+                speed = SittingSpeed;
+            else
+                speed = RunSpeed;
         }
         Rigidbody2D.linearVelocityX = Direction * speed;
     }

@@ -43,7 +43,6 @@ public class Player_Rigidbody : MonoBehaviour
         if (collision.CompareTag("Ladder"))
         {
             isLadder = true;
-            GetPlayer.CurrentState = Player.State.Ladder_State;
         }
     }
 
@@ -55,7 +54,7 @@ public class Player_Rigidbody : MonoBehaviour
             {
                 
                 transform.position = new Vector3(
-                    collision.transform.position.x - GetTransform.localPosition.x * 2f, transform.position.y);
+                    collision.transform.position.x - GetTransform.localPosition.x, transform.position.y);
             }
         }
     }

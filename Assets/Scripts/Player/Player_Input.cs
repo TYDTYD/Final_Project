@@ -8,8 +8,6 @@ public class Player_Input : MonoBehaviour
 
     Player GetPlayer;
     Rigidbody2D Rigidbody2D;
-    Player_Rigidbody player_Rigidbody;
-    Animator animator;
     Idle idle;
 
     class InputState
@@ -38,17 +36,15 @@ public class Player_Input : MonoBehaviour
     void Start()
     {
         GetPlayer = GetComponent<Player>();
-        player_Rigidbody = GetComponent<Player_Rigidbody>();
-        Rigidbody2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        Rigidbody2D = GetPlayer.GetRigidbody;
 
         idle = new Idle(Rigidbody2D);
         InputAction[] InputActions = {
-            new InputAction(1, new Move(Rigidbody2D, player_Rigidbody, GetPlayer, 7f, true)),
-            new InputAction(1, new Move(Rigidbody2D, player_Rigidbody, GetPlayer, 7f, false)),
-            new InputAction(1, new Up(transform, player_Rigidbody)),
-            new InputAction(1, new Down(transform, player_Rigidbody)),
-            new InputAction(0, new Attack(Rigidbody2D,player_Rigidbody)),
+            new InputAction(1, new Move(GetPlayer, 7f, true)),
+            new InputAction(1, new Move(GetPlayer, 7f, false)),
+            new InputAction(1, new Up(GetPlayer)),
+            new InputAction(1, new Down(GetPlayer)),
+            new InputAction(0, new Attack(GetPlayer)),
             new InputAction(0, new Item()),
             new InputAction(2, new Bomb()), // jump
             new InputAction(0, new Rope()),

@@ -4,10 +4,10 @@ public class Up : ICommand
     Transform transform;
     Player_Rigidbody rigidbody2D;
     Vector3 up = new Vector3(0, 0.1f);
-    public Up(Transform _transform, Player_Rigidbody rigid)
+    public Up(Player player)
     {
-        transform = _transform;
-        rigidbody2D = rigid;
+        transform = player.transform;
+        rigidbody2D = player.GetPlayer_Rigidbody;
     }
 
     public Up(Transform _transform)
