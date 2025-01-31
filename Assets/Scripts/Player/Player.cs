@@ -21,8 +21,9 @@ public class Player : MonoBehaviour
         Death_State
     };
 
-    Animator GetAnimator;
+    Animator animator;
     SpriteRenderer spriteRenderer;
+    Player_Health player_health;
     Rigidbody2D rigidBody;
     Player_Rigidbody player_Rigidbody;
     Dictionary<State, int> animationHashes;
@@ -31,17 +32,17 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        GetAnimator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         player_Rigidbody = GetComponent<Player_Rigidbody>();
+        player_health = GetComponent<Player_Health>();
 
         animationHashes = new Dictionary<State, int>
         {
             { State.Idle_State, Animator.StringToHash("Idle") },
             { State.Jump_State, Animator.StringToHash("Jump") },
             { State.Ladder_State, Animator.StringToHash("Ladder") },
-            { State.LadderStop_State, Animator.StringToHash("LadderStop") },
             { State.Damage_State, Animator.StringToHash("Hurt") },
             { State.Attack_State, Animator.StringToHash("Attack") },
             { State.Move_State, Animator.StringToHash("Move") },
@@ -100,6 +101,22 @@ public class Player : MonoBehaviour
         get
         {
             return player_Rigidbody;
+        }
+    }
+
+    public Animator GetAnimator
+    {
+        get
+        {
+            return animator;
+        }
+    }
+
+    public Player_Health GetPlayer_Health
+    {
+        get
+        {
+            return player_health;
         }
     }
 

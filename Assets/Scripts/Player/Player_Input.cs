@@ -37,8 +37,8 @@ public class Player_Input : MonoBehaviour
     {
         GetPlayer = GetComponent<Player>();
         Rigidbody2D = GetPlayer.GetRigidbody;
-
         idle = new Idle(Rigidbody2D);
+
         InputAction[] InputActions = {
             new InputAction(1, new Move(GetPlayer, 7f, true)),
             new InputAction(1, new Move(GetPlayer, 7f, false)),
@@ -61,31 +61,33 @@ public class Player_Input : MonoBehaviour
 
     private void FixedUpdate()
     {
+        bool anyKeyPressed = false;
         foreach (var press in keyValue)
         {
-            if (press.Value.isPressed)
+            if (press.Value.isPressed && press.Value.value != 0)
+            {
                 keyDelegate[press.Key].GetDelegate.Execute();
-            else
-                idle.Execute();
+                anyKeyPressed = true;
+            }
         }
+
+        if (!anyKeyPressed)
+            idle.Execute();
     }
 
     void Update()
     {
         foreach (var key in keyDelegate.Keys)
         {
-            switch (keyValue[key].value)
-            {
-                case 0: // 단발 입력
-                    keyValue[key].isPressed = Input.GetKeyDown(key);
-                    break;
-                case 1: // 지속 입력
-                    keyValue[key].isPressed = Input.GetKey(key);
-                    break;
-                case 2: // 특수 입력
-                    keyValue[key].isPressed = Input.GetKey(key);
-                    break;
-            }
+            keyValue[key].isPressed = (keyValue[key].value == 0)
+            ? Input.GetKeyDown(key)  // 단발 입력
+            : Input.GetKey(key);     // 지속 입력
+        }
+
+        foreach (var press in keyValue)
+        {
+            if (press.Value.isPressed && press.Value.value == 0)
+                keyDelegate[press.Key].GetDelegate.Execute();
         }
     }
 }

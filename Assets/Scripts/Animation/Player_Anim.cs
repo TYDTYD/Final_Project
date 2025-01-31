@@ -7,6 +7,7 @@ public class Player_Anim : MonoBehaviour
     Player_Health GetHealth;
     Player_Rigidbody GetRigidbody;
     Player_Edge_Detact GetPlayer_Edge_Detact;
+    Animator animator;
     Player GetPlayer;
 
     ReactiveProperty<bool> IsDamaged = new ReactiveProperty<bool>(false);
@@ -15,16 +16,19 @@ public class Player_Anim : MonoBehaviour
     float GroggiTime = 0.5f;
     float FallTime = 0f;
     float LandTime = 0f;
+    float AttackTime = 0f;
     public float SittingTime = 0f;
     public bool isSittingMoved = false;
     bool BeforeGrounded = false;
     bool BeforeSitting = false;
     void Start()
     {
-        GetHealth = GetComponent<Player_Health>();
-        GetRigidbody = GetComponent<Player_Rigidbody>();
-        GetPlayer_Edge_Detact = GetComponentInChildren<Player_Edge_Detact>();
         GetPlayer = GetComponent<Player>();
+        GetHealth = GetPlayer.GetPlayer_Health;
+        GetRigidbody = GetPlayer.GetPlayer_Rigidbody;
+        animator = GetPlayer.GetAnimator;
+        GetPlayer_Edge_Detact = GetComponentInChildren<Player_Edge_Detact>();
+
         // 체력이 감소했을 때만 IsDamaged를 true로 설정
         GetHealth.health.Pairwise() // 이전 값과 현재 값을 비교
             .Where(pair => pair.Previous > pair.Current) // 체력이 감소할 때만 실행
@@ -64,15 +68,10 @@ public class Player_Anim : MonoBehaviour
         // 사다리 여부
         if (GetRigidbody.isClimbing)
         {
+            FallTime = 0f;
             if (Input.GetKey(Interact.Jump))
             {
                 GetPlayer.GetState = Player.State.Jump_State;
-                return;
-            }
-
-            if (Input.GetKey(Interact.Attack))
-            {
-                GetPlayer.GetState = Player.State.Attack_State;
                 return;
             }
 
@@ -85,11 +84,6 @@ public class Player_Anim : MonoBehaviour
         {
             FallTime += Time.deltaTime;
             BeforeGrounded = false;
-            if (Input.GetKey(Interact.Attack))
-            {
-                GetPlayer.GetState = Player.State.Attack_State;
-                return;
-            }
             if (Input.GetKeyDown(Interact.Jump))
             {
                 GetPlayer.GetState = Player.State.Jump_State;
@@ -103,16 +97,17 @@ public class Player_Anim : MonoBehaviour
         if (!BeforeGrounded)
         {
             BeforeGrounded = true;
-            if (FallTime > 2f)
+            Debug.Log(FallTime);
+            if (FallTime > 1.5f)
             {
-                GetPlayer.GetState = Player.State.Land_State;
-                LandTime = 0.5f;
+                GetPlayer.GetState = Player.State.Death_State;
                 FallTime = 0f;
                 return;
             }
-            if(FallTime > 3f)
+            if (FallTime > 1.2f)
             {
-                GetPlayer.GetState = Player.State.Death_State;
+                GetPlayer.GetState = Player.State.Land_State;
+                LandTime = 1f;
                 FallTime = 0f;
                 return;
             }
@@ -120,11 +115,13 @@ public class Player_Anim : MonoBehaviour
             return;
         }
 
-        if(GetPlayer.GetState == Player.State.Land_State && LandTime > 0f)
+        // 허공 시간
+        if (GetPlayer.GetState == Player.State.Land_State && LandTime > 0f)
         {
             LandTime -= Time.deltaTime;
             return;
         }
+
 
         // 모서리 여부
         if (GetPlayer.GetState == Player.State.EdgeDetact_State)
@@ -146,6 +143,20 @@ public class Player_Anim : MonoBehaviour
             }
             return;
         }
+
+        if (Input.GetKeyDown(Interact.Attack) && AttackTime <= 0f)
+        {
+            GetPlayer.GetState = Player.State.Attack_State;
+            AttackTime = 0.65f;
+            return;
+        }
+
+        if(GetPlayer.GetState == Player.State.Attack_State && AttackTime>0f)
+        {
+            AttackTime -= Time.deltaTime;
+            return;
+        }
+
         // todo 모서리에서 점프, 위로 다시 올라가기 작업 고려 애니메이션 클립 추가
 
         // 앉기 여부

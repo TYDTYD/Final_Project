@@ -29,6 +29,11 @@ public class Move : ICommand
         {
             if (player_Rigidbody.isClimbing)
                 return;
+            if (GetPlayer.GetState == Player.State.Land_State)
+                return;
+            if (GetPlayer.GetState == Player.State.Attack_State)
+                return;
+
             GetPlayer.GetSprite.flipX = (Direction < 0) ? true : false;
             if (GetPlayer.GetState == Player.State.SittingMove_State)
                 speed = SittingSpeed;
