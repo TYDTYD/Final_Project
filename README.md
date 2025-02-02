@@ -16,3 +16,8 @@ Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
 ![Final_Project-Demo-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-01-2523-06-40-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/dd23c803-5378-4149-9083-c2f238a45110)
 
 점프 키 입력 강도에 따라 점프를 다르게 뛰도록 구현하였습니다.
+
+## 마스크 기능 구현
+![Final_Project-MaskTest-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-02-0221-42-32-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/956c9b84-aed6-4cfd-a6f5-bfd7c9160f8d)
+
+마스크 기능을 통해 연출 효과를 넣었습니다.
