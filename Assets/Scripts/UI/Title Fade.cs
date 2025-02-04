@@ -18,7 +18,8 @@ public class TitleFade : MonoBehaviour
             .Select(_ => Input.GetKey(KeyCode.Return))
             .Where(x => x)
             .Subscribe(_ => {
-                SceneManager.LoadScene("Lobby");
+                Panel.SetActive(true);
+                gameObject.SetActive(false);
             });
     }
 

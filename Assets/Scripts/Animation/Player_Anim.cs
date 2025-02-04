@@ -97,7 +97,6 @@ public class Player_Anim : MonoBehaviour
         if (!BeforeGrounded)
         {
             BeforeGrounded = true;
-            Debug.Log(FallTime);
             if (FallTime > 1.5f)
             {
                 GetPlayer.GetState = Player.State.Death_State;
