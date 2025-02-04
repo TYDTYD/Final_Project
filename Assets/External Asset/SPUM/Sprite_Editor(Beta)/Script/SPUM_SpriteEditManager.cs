@@ -161,7 +161,9 @@ public class SPUM_SpriteEditManager : MonoBehaviour
         
 
         TextureImporter ti = (TextureImporter)AssetImporter.GetAtPath(path);
-        if(ti.spritesheet.Length > 1 )
+#pragma warning disable CS0618 // 형식 또는 멤버는 사용되지 않습니다.
+        if (ti.spritesheet.Length > 1 )
+
         {
             ti.isReadable = true;
             List<SpriteMetaData> newData = new List<SpriteMetaData>();
@@ -190,7 +192,7 @@ public class SPUM_SpriteEditManager : MonoBehaviour
 
             ti.spritesheet = newData.ToArray();
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
-            
+#pragma warning restore CS0618 // 형식 또는 멤버는 사용되지 않습니다.
             ti.isReadable = false;
         }
         else

@@ -10,6 +10,6 @@ public class MaskedPosition : MonoBehaviour
     }
     void Update()
     {
-        GetRectTransform.position = pos;
+        //GetRectTransform.position = pos;
     }
 }
