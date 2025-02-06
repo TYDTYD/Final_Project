@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 public class Player_Input : MonoBehaviour
 {
     Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
@@ -45,7 +44,7 @@ public class Player_Input : MonoBehaviour
             new InputAction(1, new Up(GetPlayer)),
             new InputAction(1, new Down(GetPlayer)),
             new InputAction(0, new Attack(GetPlayer)),
-            new InputAction(0, new Item()),
+            new InputAction(0, new Item(GetPlayer)),
             new InputAction(2, new Bomb()), // jump
             new InputAction(0, new Rope()),
             new InputAction(0, new Bomb())

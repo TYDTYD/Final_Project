@@ -14,15 +14,15 @@ public class Interact : MonoBehaviour
         Rope,
         Bomb
     }
-    public static KeyCode Attack = KeyCode.A;
-    public static KeyCode Left = KeyCode.LeftArrow;
-    public static KeyCode Right = KeyCode.RightArrow;
-    public static KeyCode Up = KeyCode.UpArrow;
-    public static KeyCode Down = KeyCode.DownArrow;
-    public static KeyCode Item = KeyCode.Z;
-    public static KeyCode Rope = KeyCode.E;
-    public static KeyCode Bomb = KeyCode.B;
-    public static KeyCode Jump = KeyCode.Space;
+    static KeyCode Attack = KeyCode.A;
+    static KeyCode Left = KeyCode.LeftArrow;
+    static KeyCode Right = KeyCode.RightArrow;
+    static KeyCode Up = KeyCode.UpArrow;
+    static KeyCode Down = KeyCode.DownArrow;
+    static KeyCode Item = KeyCode.Z;
+    static KeyCode Rope = KeyCode.E;
+    static KeyCode Bomb = KeyCode.B;
+    static KeyCode Jump = KeyCode.Space;
 
     public static void SetKeyCode(string code, int index)
     {
@@ -57,6 +57,7 @@ public class Interact : MonoBehaviour
                 Bomb = keyCode;
                 break;
         }
+        InputHandler.AcceptKey();
         return;
     }
 
@@ -85,13 +86,6 @@ public class Interact : MonoBehaviour
         }
         Debug.Log("경고! 키가 설정되어 있지 않습니다");
         return KeyCode.None;
-    }
-}
-public class Item : ICommand
-{
-    public void Execute()
-    {
-
     }
 }
 

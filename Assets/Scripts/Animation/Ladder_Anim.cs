@@ -11,7 +11,7 @@ public class Ladder_Anim : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!Input.GetKey(Interact.Up) && !Input.GetKey(Interact.Down))
+        if (!Input.GetKey(InputHandler.UpKey) && !Input.GetKey(InputHandler.DownKey))
             animator.speed = 0;
         else
             animator.speed = 1f;

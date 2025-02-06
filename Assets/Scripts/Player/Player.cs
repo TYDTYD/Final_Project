@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     Animator animator;
     SpriteRenderer spriteRenderer;
     Player_Health player_health;
+    Player_Item player_Item;
     Rigidbody2D rigidBody;
     Player_Rigidbody player_Rigidbody;
     Dictionary<State, int> animationHashes;
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         player_Rigidbody = GetComponent<Player_Rigidbody>();
         player_health = GetComponent<Player_Health>();
+        player_Item = GetComponent<Player_Item>();
 
         animationHashes = new Dictionary<State, int>
         {
@@ -101,6 +103,14 @@ public class Player : MonoBehaviour
         get
         {
             return player_Rigidbody;
+        }
+    }
+
+    public Player_Item GetPlayer_Item
+    {
+        get
+        {
+            return player_Item;
         }
     }
 

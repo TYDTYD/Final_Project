@@ -17,8 +17,8 @@ public class Player_Anim : MonoBehaviour
     float FallTime = 0f;
     float LandTime = 0f;
     float AttackTime = 0f;
-    public float SittingTime = 0f;
-    public bool isSittingMoved = false;
+    float SittingTime = 0f;
+    bool isSittingMoved = false;
     bool BeforeGrounded = false;
     bool BeforeSitting = false;
     void Start()
@@ -69,7 +69,7 @@ public class Player_Anim : MonoBehaviour
         if (GetRigidbody.isClimbing)
         {
             FallTime = 0f;
-            if (Input.GetKey(Interact.Jump))
+            if (Input.GetKey(InputHandler.JumpKey))
             {
                 GetPlayer.GetState = Player.State.Jump_State;
                 return;
@@ -84,7 +84,7 @@ public class Player_Anim : MonoBehaviour
         {
             FallTime += Time.deltaTime;
             BeforeGrounded = false;
-            if (Input.GetKeyDown(Interact.Jump))
+            if (Input.GetKeyDown(InputHandler.JumpKey))
             {
                 GetPlayer.GetState = Player.State.Jump_State;
                 return;
@@ -131,19 +131,19 @@ public class Player_Anim : MonoBehaviour
 
         if (GetPlayer.GetState == Player.State.Edge_State)
         {
-            if (Input.GetKeyDown(Interact.Jump))
+            if (Input.GetKeyDown(InputHandler.JumpKey))
             {
                 GetPlayer.GetState = Player.State.Jump_State;
                 return;
             }
-            if (Input.GetKeyDown(Interact.Down))
+            if (Input.GetKeyDown(InputHandler.DownKey))
             {
                 GetPlayer.GetState = Player.State.Fall_State;
             }
             return;
         }
 
-        if (Input.GetKeyDown(Interact.Attack) && AttackTime <= 0f)
+        if (Input.GetKeyDown(InputHandler.AttackKey) && AttackTime <= 0f)
         {
             GetPlayer.GetState = Player.State.Attack_State;
             AttackTime = 0.65f;
@@ -159,7 +159,7 @@ public class Player_Anim : MonoBehaviour
         // todo 모서리에서 점프, 위로 다시 올라가기 작업 고려 애니메이션 클립 추가
 
         // 앉기 여부
-        if (Input.GetKey(Interact.Down))
+        if (Input.GetKey(InputHandler.DownKey))
         {
             if (!BeforeSitting)
             {
@@ -168,7 +168,7 @@ public class Player_Anim : MonoBehaviour
                 return;
             }
 
-            if (Input.GetKey(Interact.Right) || Input.GetKey(Interact.Left))
+            if (Input.GetKey(InputHandler.RightKey) || Input.GetKey(InputHandler.LeftKey))
             {
                 GetPlayer.GetState = Player.State.SittingMove_State;
                 isSittingMoved = true;
@@ -194,18 +194,26 @@ public class Player_Anim : MonoBehaviour
         BeforeSitting = false;
         SittingTime = 0f;
 
-        if (Input.GetKeyDown(Interact.Jump))
+        if (Input.GetKeyDown(InputHandler.JumpKey))
         {
             GetPlayer.GetState = Player.State.Jump_State;
             return;
         }
 
-        if(Input.GetKey(Interact.Right) || Input.GetKey(Interact.Left))
+        if(Input.GetKey(InputHandler.RightKey) || Input.GetKey(InputHandler.LeftKey))
         {
             GetPlayer.GetState = Player.State.Move_State;
             return;
         }
 
         GetPlayer.GetState = Player.State.Idle_State;
+    }
+
+    public float GetSittingTime
+    {
+        get
+        {
+            return SittingTime;
+        }
     }
 }

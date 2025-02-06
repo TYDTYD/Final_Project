@@ -28,15 +28,6 @@ public class Player_Rigidbody : MonoBehaviour
             })
             .AddTo(this);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
-        {
-            isGrounded = true;
-        }
-        else
-            isGrounded = false;
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -46,13 +37,20 @@ public class Player_Rigidbody : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
+        {
+            isGrounded = true;
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Ladder"))
         {
             if (isClimbing)
             {
-                
                 transform.position = new Vector3(
                     collision.transform.position.x - GetTransform.localPosition.x, transform.position.y);
             }

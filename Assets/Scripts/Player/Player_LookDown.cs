@@ -22,11 +22,11 @@ public class Player_LookDown : MonoBehaviour
         if (player_Rigidbody.isLadder)
             return;
 
-        if(GetPlayer_Anim.SittingTime > holdTime && !isDownView)
+        if(GetPlayer_Anim.GetSittingTime > holdTime && !isDownView)
         {
             SetDownView();
         }
-        else if(GetPlayer_Anim.SittingTime < holdTime)
+        else if(GetPlayer_Anim.GetSittingTime < holdTime)
         {
             if (isDownView)
             {
