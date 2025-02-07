@@ -10,8 +10,8 @@ public class Idle : ICommand
     public void Execute()
     {
         if (Rigidbody2D.linearVelocityX > 0f)
-            Rigidbody2D.linearVelocityX -= 0.1f;
+            Rigidbody2D.linearVelocityX -= 1f;
         else if (Rigidbody2D.linearVelocityX < 0f)
-            Rigidbody2D.linearVelocityX += 0.1f;
+            Rigidbody2D.linearVelocityX += 1f;
     }
 }

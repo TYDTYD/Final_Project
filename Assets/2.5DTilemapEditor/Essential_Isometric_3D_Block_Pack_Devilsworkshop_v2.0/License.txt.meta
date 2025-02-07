@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3fd46c56eb90fc24d94003ae5db997ba
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 204861
+  packageName: 2.5D Tilemap Editor
+  packageVersion: 1.0.1
+  assetPath: Assets/2.5DTilemapEditor/Essential_Isometric_3D_Block_Pack_Devilsworkshop_v2.0/License.txt
+  uploadId: 483715

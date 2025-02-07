@@ -8,7 +8,9 @@ public class Player_Item : MonoBehaviour
         if(collision.gameObject.TryGetComponent(out IItem item))
         {
             obj = collision.gameObject;
+            return;
         }
+        obj = null;
     }
 
     public GameObject GetObject

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4887c782dd0340049ba06821cfecd0ce
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 204861
+  packageName: 2.5D Tilemap Editor
+  packageVersion: 1.0.1
+  assetPath: Assets/2.5DTilemapEditor/Scripts/TilePalette.cs
+  uploadId: 483715

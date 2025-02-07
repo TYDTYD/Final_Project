@@ -27,7 +27,10 @@ public class Player : MonoBehaviour
     Player_Item player_Item;
     Rigidbody2D rigidBody;
     Player_Rigidbody player_Rigidbody;
+    Player_Input player_Input;
     Dictionary<State, int> animationHashes;
+    Player_Flip player_Flip;
+    Player_Ceiling player_Ceiling;
     State previousState;
     State CurrentState = State.Idle_State;
 
@@ -39,7 +42,9 @@ public class Player : MonoBehaviour
         player_Rigidbody = GetComponent<Player_Rigidbody>();
         player_health = GetComponent<Player_Health>();
         player_Item = GetComponent<Player_Item>();
-
+        player_Flip = GetComponentInChildren<Player_Flip>();
+        player_Ceiling = GetComponentInChildren<Player_Ceiling>();
+        player_Input = GetComponent<Player_Input>();
         animationHashes = new Dictionary<State, int>
         {
             { State.Idle_State, Animator.StringToHash("Idle") },
@@ -106,6 +111,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Player_Input GetPlayer_Input
+    {
+        get
+        {
+            return player_Input;
+        }
+    }
+
     public Player_Item GetPlayer_Item
     {
         get
@@ -127,6 +140,22 @@ public class Player : MonoBehaviour
         get
         {
             return player_health;
+        }
+    }
+
+    public Player_Flip GetPlayer_Flip
+    {
+        get
+        {
+            return player_Flip;
+        }
+    }
+
+    public Player_Ceiling GetPlayer_Ceiling
+    {
+        get
+        {
+            return player_Ceiling;
         }
     }
 

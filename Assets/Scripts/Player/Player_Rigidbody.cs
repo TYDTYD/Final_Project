@@ -6,7 +6,6 @@ public class Player_Rigidbody : MonoBehaviour
 {
     Rigidbody2D GetRigidbody2D;
     [SerializeField] Transform GetTransform;
-    Player GetPlayer;
 
     public bool isGrounded = false;
     public bool isLadder = false;
@@ -15,7 +14,6 @@ public class Player_Rigidbody : MonoBehaviour
     void Start()
     {
         GetRigidbody2D = GetComponent<Rigidbody2D>();
-        GetPlayer = GetComponent<Player>();
         this.ObserveEveryValueChanged(_ => isClimbing)
             .Subscribe(climbing => {
                 if (climbing)
@@ -42,6 +40,11 @@ public class Player_Rigidbody : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
         {
             isGrounded = true;
+            return;
+        }
+        if (collision.contacts[0].normal.y < 0.7f)
+        {
+            GetRigidbody2D.linearVelocityY = 2f;
         }
     }
 
@@ -54,6 +57,7 @@ public class Player_Rigidbody : MonoBehaviour
                 transform.position = new Vector3(
                     collision.transform.position.x - GetTransform.localPosition.x, transform.position.y);
             }
+            return;
         }
     }
 

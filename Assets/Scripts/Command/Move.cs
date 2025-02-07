@@ -33,6 +33,10 @@ public class Move : ICommand
                 return;
             if (GetPlayer.GetState == Player.State.Attack_State)
                 return;
+            if (GetPlayer.GetState == Player.State.Damage_State)
+                return;
+            if (GetPlayer.GetState == Player.State.Death_State)
+                return;
 
             GetPlayer.GetSprite.flipX = (Direction < 0) ? true : false;
             if (GetPlayer.GetState == Player.State.SittingMove_State)

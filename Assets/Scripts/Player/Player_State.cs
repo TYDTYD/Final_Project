@@ -42,6 +42,7 @@ public class Player_State : MonoBehaviour
             case Player.State.Edge_State:
                 break;
             case Player.State.Death_State:
+                GetPlayer.GetPlayer_Input.enabled = false;
                 break;
         }
     }

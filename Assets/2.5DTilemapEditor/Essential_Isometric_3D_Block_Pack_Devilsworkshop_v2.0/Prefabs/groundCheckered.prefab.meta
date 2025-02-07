@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d4b5ec4a92d8ce74f8f3c2fe65ac0313
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 204861
+  packageName: 2.5D Tilemap Editor
+  packageVersion: 1.0.1
+  assetPath: Assets/2.5DTilemapEditor/Essential_Isometric_3D_Block_Pack_Devilsworkshop_v2.0/Prefabs/groundCheckered.prefab
+  uploadId: 483715

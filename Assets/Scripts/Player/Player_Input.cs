@@ -1,4 +1,6 @@
 using UnityEngine;
+using UniRx;
+using UniRx.Triggers;
 using System.Collections.Generic;
 public class Player_Input : MonoBehaviour
 {
@@ -6,8 +8,11 @@ public class Player_Input : MonoBehaviour
     Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
 
     Player GetPlayer;
-    Rigidbody2D Rigidbody2D;
     Idle idle;
+    Jump GetJump;
+    KeyCode JumpKey;
+    bool isJumping = false;
+    float maxholdTime = 0.1f, currentholdTime = 0f;
 
     class InputState
     {
@@ -35,8 +40,19 @@ public class Player_Input : MonoBehaviour
     void Start()
     {
         GetPlayer = GetComponent<Player>();
-        Rigidbody2D = GetPlayer.GetRigidbody;
-        idle = new Idle(Rigidbody2D);
+        idle = new Idle(GetPlayer.GetRigidbody);
+        JumpKey = InputHandler.JumpKey;
+        GetJump = new Jump(GetPlayer.GetRigidbody, 3f);
+
+        this.UpdateAsObservable()
+            .Where(_ => (GetPlayer.GetPlayer_Rigidbody.isGrounded || GetPlayer.GetPlayer_Rigidbody.isClimbing) && Input.GetKey(JumpKey))
+            .Subscribe(_ => StartJump())
+            .AddTo(this);
+
+        this.FixedUpdateAsObservable()
+            .Where(_ => isJumping && Input.GetKey(JumpKey))
+            .Subscribe(_ => ApplyJump())
+            .AddTo(this);
 
         InputAction[] InputActions = {
             new InputAction(1, new Move(GetPlayer, 7f, true)),
@@ -87,6 +103,31 @@ public class Player_Input : MonoBehaviour
         {
             if (press.Value.isPressed && press.Value.value == 0)
                 keyDelegate[press.Key].GetDelegate.Execute();
+        }
+    }
+
+    void StartJump()
+    {
+        if (isJumping)
+            return;
+        isJumping = true;
+        GetPlayer.GetPlayer_Rigidbody.isGrounded = false;
+        GetPlayer.GetPlayer_Rigidbody.isClimbing = false;
+        currentholdTime = 0f;
+    }
+
+    void ApplyJump()
+    {
+        if (isJumping && currentholdTime < maxholdTime)
+        {
+            GetJump.Execute();
+            currentholdTime += Time.fixedDeltaTime;
+        }
+
+        if (currentholdTime > maxholdTime || GetPlayer.GetPlayer_Rigidbody.isGrounded)
+        {
+            isJumping = false;
+            currentholdTime = 0f;
         }
     }
 }

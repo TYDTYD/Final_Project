@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 85475e56d8055f540b8cbe7a0e84f04b
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 204861
+  packageName: 2.5D Tilemap Editor
+  packageVersion: 1.0.1
+  assetPath: Assets/2.5DTilemapEditor/Essential_Isometric_3D_Block_Pack_Devilsworkshop_v2.0/Prefabs/wallBrick04.prefab
+  uploadId: 483715

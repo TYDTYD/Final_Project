@@ -96,6 +96,11 @@ public class Player_Anim : MonoBehaviour
         // 착지 여부
         if (!BeforeGrounded)
         {
+            if (GetPlayer.GetPlayer_Ceiling.GetEdgeDetact1 && GetPlayer.GetPlayer_Flip.GetEdgeDetact2)
+            {
+                GetPlayer.GetState = Player.State.Edge_State;
+                return;
+            }
             BeforeGrounded = true;
             if (FallTime > 1.5f)
             {
@@ -157,7 +162,7 @@ public class Player_Anim : MonoBehaviour
         }
 
         // todo 모서리에서 점프, 위로 다시 올라가기 작업 고려 애니메이션 클립 추가
-
+        
         // 앉기 여부
         if (Input.GetKey(InputHandler.DownKey))
         {

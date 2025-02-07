@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 981c1f101abdfea448e433bb8aa2b6a2
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 204861
+  packageName: 2.5D Tilemap Editor
+  packageVersion: 1.0.1
+  assetPath: Assets/2.5DTilemapEditor/Documentation/2.5D Tilemap Editor Documentation.pdf
+  uploadId: 483715

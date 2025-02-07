@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b52fe917d16bb414d92595c8b05d857a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 204861
+  packageName: 2.5D Tilemap Editor
+  packageVersion: 1.0.1
+  assetPath: Assets/2.5DTilemapEditor/Essential_Isometric_3D_Block_Pack_Devilsworkshop_v2.0/Materials/Stone03.mat
+  uploadId: 483715

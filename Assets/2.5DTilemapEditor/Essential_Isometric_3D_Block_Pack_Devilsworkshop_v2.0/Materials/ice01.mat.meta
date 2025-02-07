@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 40fedc904de04b445aae05502a1c4086
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 204861
+  packageName: 2.5D Tilemap Editor
+  packageVersion: 1.0.1
+  assetPath: Assets/2.5DTilemapEditor/Essential_Isometric_3D_Block_Pack_Devilsworkshop_v2.0/Materials/ice01.mat
+  uploadId: 483715
