@@ -1,12 +1,28 @@
 using UnityEngine;
-
+using Unity.Cinemachine;
 public class Player_State : MonoBehaviour
 {
     Player GetPlayer;
-
+    [SerializeField] MaskAnim GetMaskAnim;
+    [SerializeField] MaskVariation GetMaskVariation;
+    [SerializeField] CinemachineCamera GetStatisticCamera;
+    [SerializeField] Camera GetDeathCam;
+    [SerializeField] CinemachineCamera GetPlayCamera;
     private void Start()
     {
         GetPlayer = GetComponent<Player>();
+    }
+
+    void GotoBook()
+    {
+        GetMaskVariation.Darker(CameraChange);
+    }
+    void CameraChange()
+    {
+        GetPlayCamera.gameObject.SetActive(false);
+        GetDeathCam.gameObject.SetActive(true);
+        GetStatisticCamera.gameObject.SetActive(true);
+        GetMaskVariation.Brighter(null);
     }
     void Update()
     {
@@ -19,7 +35,6 @@ public class Player_State : MonoBehaviour
             case Player.State.Ladder_State:
                 break;
             case Player.State.Damage_State:
-                
                 break;
             case Player.State.Attack_State:
                 break;
@@ -43,6 +58,7 @@ public class Player_State : MonoBehaviour
                 break;
             case Player.State.Death_State:
                 GetPlayer.GetPlayer_Input.enabled = false;
+                Invoke("GotoBook", 2f);
                 break;
         }
     }

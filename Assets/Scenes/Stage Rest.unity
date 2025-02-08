@@ -495,18 +495,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mask
       objectReference: {fileID: 0}
-    - target: {fileID: 4198210365865253592, guid: 8cf8a95cc9c3e0e4a9b004b4e224d4d4, type: 3}
-      propertyPath: EndDoor
-      value: 
-      objectReference: {fileID: 1251864233}
-    - target: {fileID: 4198210365865253592, guid: 8cf8a95cc9c3e0e4a9b004b4e224d4d4, type: 3}
-      propertyPath: endDoor
-      value: 
-      objectReference: {fileID: 1251864233}
-    - target: {fileID: 4198210365865253592, guid: 8cf8a95cc9c3e0e4a9b004b4e224d4d4, type: 3}
-      propertyPath: startDoor
-      value: 
-      objectReference: {fileID: 1639807580}
     - target: {fileID: 4347217853895785252, guid: 8cf8a95cc9c3e0e4a9b004b4e224d4d4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -586,18 +574,6 @@ PrefabInstance:
     - target: {fileID: 4347217853895785252, guid: 8cf8a95cc9c3e0e4a9b004b4e224d4d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696346753144060163, guid: 8cf8a95cc9c3e0e4a9b004b4e224d4d4, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696346753144060163, guid: 8cf8a95cc9c3e0e4a9b004b4e224d4d4, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696346753144060163, guid: 8cf8a95cc9c3e0e4a9b004b4e224d4d4, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1146,6 +1122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GetMaskAnim: {fileID: 1304790518}
+  startDoor: {fileID: 1639807580}
+  endDoor: {fileID: 1251864233}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
