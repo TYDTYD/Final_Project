@@ -10,6 +10,8 @@ public class Player_Input : MonoBehaviour
     Player GetPlayer;
     Idle idle;
     Jump GetJump;
+    Move RightMove;
+    Move LeftMove;
     KeyCode JumpKey;
     bool isJumping = false;
     float maxholdTime = 0.1f, currentholdTime = 0f;
@@ -43,6 +45,8 @@ public class Player_Input : MonoBehaviour
         idle = new Idle(GetPlayer.GetRigidbody);
         JumpKey = InputHandler.JumpKey;
         GetJump = new Jump(GetPlayer.GetRigidbody, 3f);
+        RightMove = new Move(GetPlayer, 7f, true);
+        LeftMove = new Move(GetPlayer, 7f, false);
 
         this.UpdateAsObservable()
             .Where(_ => (GetPlayer.GetPlayer_Rigidbody.isGrounded || GetPlayer.GetPlayer_Rigidbody.isClimbing) && Input.GetKey(JumpKey))
@@ -55,8 +59,8 @@ public class Player_Input : MonoBehaviour
             .AddTo(this);
 
         InputAction[] InputActions = {
-            new InputAction(1, new Move(GetPlayer, 7f, true)),
-            new InputAction(1, new Move(GetPlayer, 7f, false)),
+            new InputAction(1, RightMove),
+            new InputAction(1, LeftMove),
             new InputAction(1, new Up(GetPlayer)),
             new InputAction(1, new Down(GetPlayer)),
             new InputAction(0, new Attack(GetPlayer)),
@@ -128,6 +132,21 @@ public class Player_Input : MonoBehaviour
         {
             isJumping = false;
             currentholdTime = 0f;
+        }
+    }
+
+    public Move GetRightMove{
+        get
+        {
+            return RightMove;
+        }
+    }
+
+    public Move GetLeftMove
+    {
+        get
+        {
+            return LeftMove;
         }
     }
 }

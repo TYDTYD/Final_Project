@@ -14,7 +14,7 @@ public class Move : ICommand
         Direction = dir ? -1f : 1f;
     }
 
-    public Move(Player player,float _speed, bool dir)
+    public Move(Player player, float _speed, bool dir)
     {
         GetPlayer = player;
         Rigidbody2D = player.GetRigidbody;
@@ -37,7 +37,6 @@ public class Move : ICommand
                 return;
             if (GetPlayer.GetState == Player.State.Death_State)
                 return;
-
             GetPlayer.GetSprite.flipX = (Direction < 0) ? true : false;
             if (GetPlayer.GetState == Player.State.SittingMove_State)
                 speed = SittingSpeed;
@@ -45,5 +44,21 @@ public class Move : ICommand
                 speed = RunSpeed;
         }
         Rigidbody2D.linearVelocityX = Direction * speed;
+    }
+
+    public float GetDirection
+    {
+        get
+        {
+            return Direction;
+        }
+    }
+
+    public float GetSpeed
+    {
+        get
+        {
+            return speed;
+        }
     }
 }

@@ -539,8 +539,8 @@
             // Set up the turning page index and handlers
             for (var i = 0; i < pages.Count; i++)
             {
-                pages[i].Index = i;
-                pages[i].pageTurnCompleted = PageTurnCompleted;
+                //pages[i].Index = i;
+                //pages[i].pageTurnCompleted = PageTurnCompleted;
             }
 
             hasInitialized = true;
