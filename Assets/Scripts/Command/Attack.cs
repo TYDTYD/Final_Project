@@ -21,13 +21,10 @@ public class Attack : ICommand
        
         if (GetPlayer)
         {
-            if (GetPlayer.GetState == Player.State.Damage_State)
-                return;
-            if (GetPlayer.GetState == Player.State.Jump_State)
-                return;
-            if (GetPlayer.GetState == Player.State.Land_State)
-                return;
-            if (GetPlayer.GetState == Player.State.EdgeDetact_State)
+            if (GetPlayer.CurrentState == Player.State.Damage_State ||
+                GetPlayer.CurrentState == Player.State.Jump_State ||
+                GetPlayer.CurrentState == Player.State.Land_State ||
+                GetPlayer.CurrentState == Player.State.EdgeDetact_State)
                 return;
             player_Rigidbody.isClimbing = false;
         }

@@ -11,6 +11,12 @@ public class Player_State : MonoBehaviour
     private void Start()
     {
         GetPlayer = GetComponent<Player>();
+        GetPlayer.GetPlayer_Health.DeathEvent += WaitBook;
+    }
+
+    void WaitBook() 
+    {
+        Invoke("GotoBook", 2f);
     }
 
     void GotoBook()
@@ -19,14 +25,14 @@ public class Player_State : MonoBehaviour
     }
     void CameraChange()
     {
-        GetPlayCamera.gameObject.SetActive(false);
         GetDeathCam.gameObject.SetActive(true);
+        GetPlayCamera.gameObject.SetActive(false);
         GetStatisticCamera.gameObject.SetActive(true);
         GetMaskVariation.Brighter(null);
     }
     void Update()
     {
-        switch (GetPlayer.GetState)
+        switch (GetPlayer.CurrentState)
         {
             case Player.State.Idle_State:
                 break;
@@ -57,9 +63,13 @@ public class Player_State : MonoBehaviour
             case Player.State.Edge_State:
                 break;
             case Player.State.Death_State:
-                GetPlayer.GetPlayer_Input.enabled = false;
-                Invoke("GotoBook", 2f);
                 break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (GetPlayer != null)
+            GetPlayer.GetPlayer_Health.DeathEvent -= WaitBook;
     }
 }

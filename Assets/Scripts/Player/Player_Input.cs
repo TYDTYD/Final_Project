@@ -15,6 +15,7 @@ public class Player_Input : MonoBehaviour
     KeyCode JumpKey;
     bool isJumping = false;
     float maxholdTime = 0.1f, currentholdTime = 0f;
+    CompositeDisposable disposables = new CompositeDisposable();
 
     class InputState
     {
@@ -26,6 +27,11 @@ public class Player_Input : MonoBehaviour
             value = v;
             isPressed = p;
         }
+    }
+
+    void EnableInput()
+    {
+        enabled = false;
     }
 
     struct InputAction
@@ -51,12 +57,15 @@ public class Player_Input : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => (GetPlayer.GetPlayer_Rigidbody.isGrounded || GetPlayer.GetPlayer_Rigidbody.isClimbing) && Input.GetKey(JumpKey))
             .Subscribe(_ => StartJump())
-            .AddTo(this);
+            .AddTo(disposables);
 
         this.FixedUpdateAsObservable()
             .Where(_ => isJumping && Input.GetKey(JumpKey))
             .Subscribe(_ => ApplyJump())
-            .AddTo(this);
+            .AddTo(disposables);
+
+        GetPlayer.GetPlayer_Health.DeathEvent += ClearUniRx;
+        GetPlayer.GetPlayer_Health.DeathEvent += EnableInput;
 
         InputAction[] InputActions = {
             new InputAction(1, RightMove),
@@ -133,6 +142,11 @@ public class Player_Input : MonoBehaviour
             isJumping = false;
             currentholdTime = 0f;
         }
+    }
+
+    void ClearUniRx()
+    {
+        disposables.Clear();
     }
 
     public Move GetRightMove{

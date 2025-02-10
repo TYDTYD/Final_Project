@@ -8,6 +8,7 @@ public class Player_Rigidbody : MonoBehaviour
     Player GetPlayer;
     [SerializeField] Transform GetTransform;
 
+    CompositeDisposable disposables = new CompositeDisposable();
     public bool isGrounded = false;
     public bool isLadder = false;
     public bool isClimbing = false;
@@ -18,7 +19,8 @@ public class Player_Rigidbody : MonoBehaviour
         GetPlayer = GetComponent<Player>();
         GetRigidbody2D = GetComponent<Rigidbody2D>();
         this.ObserveEveryValueChanged(_ => isClimbing)
-            .Subscribe(climbing => {
+            .Subscribe(climbing =>
+            {
                 if (climbing)
                 {
                     GetRigidbody2D.gravityScale = 0f;
@@ -27,7 +29,8 @@ public class Player_Rigidbody : MonoBehaviour
                 else
                     GetRigidbody2D.gravityScale = gravity;
             })
-            .AddTo(this);
+            .AddTo(disposables);
+        GetPlayer.GetPlayer_Health.DeathEvent += ClearUniRx;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,17 +41,16 @@ public class Player_Rigidbody : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        wallContacted = false;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
         {
-            
             isGrounded = true;
-            return;
-        }
-        if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y < 0.7f)
-        {
-            bool flip = GetPlayer.GetSprite.flipX;
             return;
         }
     }
@@ -82,5 +84,10 @@ public class Player_Rigidbody : MonoBehaviour
             isLadder = false;
             isClimbing = false;
         }
+    }
+
+    void ClearUniRx()
+    {
+        disposables.Clear();
     }
 }

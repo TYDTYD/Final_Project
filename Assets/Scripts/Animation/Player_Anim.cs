@@ -54,14 +54,14 @@ public class Player_Anim : MonoBehaviour
         // 생사 여부
         if (GetHealth.health.Value <= 0)
         {
-            GetPlayer.GetState = Player.State.Death_State;
+            GetPlayer.CurrentState = Player.State.Death_State;
             return;
         }
 
         // 데미지 여부
         if (IsDamaged.Value)
         {
-            GetPlayer.GetState = Player.State.Damage_State;
+            GetPlayer.CurrentState = Player.State.Damage_State;
             return;
         }
 
@@ -71,11 +71,11 @@ public class Player_Anim : MonoBehaviour
             FallTime = 0f;
             if (Input.GetKey(InputHandler.JumpKey))
             {
-                GetPlayer.GetState = Player.State.Jump_State;
+                GetPlayer.CurrentState = Player.State.Jump_State;
                 return;
             }
 
-            GetPlayer.GetState = Player.State.Ladder_State;
+            GetPlayer.CurrentState = Player.State.Ladder_State;
             return;
         }
 
@@ -86,10 +86,10 @@ public class Player_Anim : MonoBehaviour
             BeforeGrounded = false;
             if (Input.GetKeyDown(InputHandler.JumpKey))
             {
-                GetPlayer.GetState = Player.State.Jump_State;
+                GetPlayer.CurrentState = Player.State.Jump_State;
                 return;
             }
-            GetPlayer.GetState = Player.State.Fall_State;
+            GetPlayer.CurrentState = Player.State.Fall_State;
             return;
         }
 
@@ -98,19 +98,20 @@ public class Player_Anim : MonoBehaviour
         {
             if (GetPlayer.GetPlayer_Ceiling.GetEdgeDetact1 && GetPlayer.GetPlayer_Flip.GetEdgeDetact2)
             {
-                GetPlayer.GetState = Player.State.Edge_State;
+                //GetPlayer.CurrentState = Player.State.Edge_State;
                 return;
             }
             BeforeGrounded = true;
             if (FallTime > 1.5f)
             {
-                GetPlayer.GetState = Player.State.Death_State;
+                GetHealth.health.Value = 0;
+                GetPlayer.CurrentState = Player.State.Death_State;
                 FallTime = 0f;
                 return;
             }
             if (FallTime > 1.2f)
             {
-                GetPlayer.GetState = Player.State.Land_State;
+                GetPlayer.CurrentState = Player.State.Land_State;
                 LandTime = 1f;
                 FallTime = 0f;
                 return;
@@ -120,42 +121,42 @@ public class Player_Anim : MonoBehaviour
         }
 
         // 허공 시간
-        if (GetPlayer.GetState == Player.State.Land_State && LandTime > 0f)
+        if (GetPlayer.CurrentState == Player.State.Land_State && LandTime > 0f)
         {
             LandTime -= Time.deltaTime;
             return;
         }
 
-
+        /*
         // 모서리 여부
-        if (GetPlayer.GetState == Player.State.EdgeDetact_State)
+        if (GetPlayer.CurrentState == Player.State.EdgeDetact_State)
         {
-            GetPlayer.GetState = Player.State.Edge_State;
+            //GetPlayer.CurrentState = Player.State.Edge_State;
             return;
-        }
+        }*/
 
-        if (GetPlayer.GetState == Player.State.Edge_State)
+        if (GetPlayer.CurrentState == Player.State.Edge_State)
         {
             if (Input.GetKeyDown(InputHandler.JumpKey))
             {
-                GetPlayer.GetState = Player.State.Jump_State;
+                GetPlayer.CurrentState = Player.State.Jump_State;
                 return;
             }
             if (Input.GetKeyDown(InputHandler.DownKey))
             {
-                GetPlayer.GetState = Player.State.Fall_State;
+                GetPlayer.CurrentState = Player.State.Fall_State;
             }
             return;
         }
 
         if (Input.GetKeyDown(InputHandler.AttackKey) && AttackTime <= 0f)
         {
-            GetPlayer.GetState = Player.State.Attack_State;
+            GetPlayer.CurrentState = Player.State.Attack_State;
             AttackTime = 0.65f;
             return;
         }
 
-        if(GetPlayer.GetState == Player.State.Attack_State && AttackTime>0f)
+        if(GetPlayer.CurrentState == Player.State.Attack_State && AttackTime>0f)
         {
             AttackTime -= Time.deltaTime;
             return;
@@ -168,14 +169,14 @@ public class Player_Anim : MonoBehaviour
         {
             if (!BeforeSitting)
             {
-                GetPlayer.GetState = Player.State.SittingStart_State;
+                GetPlayer.CurrentState = Player.State.SittingStart_State;
                 BeforeSitting = true;
                 return;
             }
 
             if (Input.GetKey(InputHandler.RightKey) || Input.GetKey(InputHandler.LeftKey))
             {
-                GetPlayer.GetState = Player.State.SittingMove_State;
+                GetPlayer.CurrentState = Player.State.SittingMove_State;
                 isSittingMoved = true;
                 SittingTime = 0f;
                 return;
@@ -184,15 +185,15 @@ public class Player_Anim : MonoBehaviour
             {
                 isSittingMoved = false;
                 SittingTime += Time.deltaTime;
-                GetPlayer.GetState = Player.State.Sitting_State;
+                GetPlayer.CurrentState = Player.State.Sitting_State;
             }
 
             if (GetPlayer_Edge_Detact.isEdge)
             {
-                GetPlayer.GetState = Player.State.EdgeDetact_State;
+                GetPlayer.CurrentState = Player.State.EdgeDetact_State;
                 return;
             }
-            GetPlayer.GetState = Player.State.Sitting_State;
+            GetPlayer.CurrentState = Player.State.Sitting_State;
             return;
         }
 
@@ -201,24 +202,18 @@ public class Player_Anim : MonoBehaviour
 
         if (Input.GetKeyDown(InputHandler.JumpKey))
         {
-            GetPlayer.GetState = Player.State.Jump_State;
+            GetPlayer.CurrentState = Player.State.Jump_State;
             return;
         }
 
         if(Input.GetKey(InputHandler.RightKey) || Input.GetKey(InputHandler.LeftKey))
         {
-            GetPlayer.GetState = Player.State.Move_State;
+            GetPlayer.CurrentState = Player.State.Move_State;
             return;
         }
 
-        GetPlayer.GetState = Player.State.Idle_State;
+        GetPlayer.CurrentState = Player.State.Idle_State;
     }
 
-    public float GetSittingTime
-    {
-        get
-        {
-            return SittingTime;
-        }
-    }
+    public float GetSittingTime => SittingTime;
 }

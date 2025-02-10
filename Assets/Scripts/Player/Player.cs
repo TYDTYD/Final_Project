@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     Player_Flip player_Flip;
     Player_Ceiling player_Ceiling;
     State previousState;
-    State CurrentState = State.Idle_State;
+    State currentState = State.Idle_State;
 
     private void Awake()
     {
@@ -67,107 +67,41 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (CurrentState != previousState)
+        if (currentState != previousState)
         {
-            previousState = CurrentState;
-            TriggerAnimation(CurrentState);
+            TriggerAnimation(currentState,previousState);
+            previousState = currentState;
         }
     }
 
-    void TriggerAnimation(State state)
+    void TriggerAnimation(State state, State before_State)
     {
-        foreach (int hashValue in animationHashes.Values)
-        {
-            GetAnimator.ResetTrigger(hashValue);
-        }
+        if(animationHashes.TryGetValue(before_State, out int hashValue))
+            animator.ResetTrigger(hashValue);
 
         if (animationHashes.TryGetValue(state, out int hash))
-        {
-            GetAnimator.SetTrigger(hash);
-        }
+            animator.SetTrigger(hash);
     }
 
-    public SpriteRenderer GetSprite
+    public SpriteRenderer GetSprite => spriteRenderer;
+    public Rigidbody2D GetRigidbody => rigidBody;
+    public Player_Rigidbody GetPlayer_Rigidbody => player_Rigidbody;
+    public Player_Input GetPlayer_Input => player_Input;
+    public Player_Item GetPlayer_Item => player_Item;
+    public Animator GetAnimator => animator;
+    public Player_Health GetPlayer_Health => player_health;
+    public Player_Flip GetPlayer_Flip => player_Flip;
+    public Player_Ceiling GetPlayer_Ceiling => player_Ceiling;
+
+    public State CurrentState
     {
         get
         {
-            return spriteRenderer;
-        }
-    }
-
-    public Rigidbody2D GetRigidbody
-    {
-        get
-        {
-            return rigidBody;
-        }
-    }
-
-    public Player_Rigidbody GetPlayer_Rigidbody
-    {
-        get
-        {
-            return player_Rigidbody;
-        }
-    }
-
-    public Player_Input GetPlayer_Input
-    {
-        get
-        {
-            return player_Input;
-        }
-    }
-
-    public Player_Item GetPlayer_Item
-    {
-        get
-        {
-            return player_Item;
-        }
-    }
-
-    public Animator GetAnimator
-    {
-        get
-        {
-            return animator;
-        }
-    }
-
-    public Player_Health GetPlayer_Health
-    {
-        get
-        {
-            return player_health;
-        }
-    }
-
-    public Player_Flip GetPlayer_Flip
-    {
-        get
-        {
-            return player_Flip;
-        }
-    }
-
-    public Player_Ceiling GetPlayer_Ceiling
-    {
-        get
-        {
-            return player_Ceiling;
-        }
-    }
-
-    public State GetState
-    {
-        get
-        {
-            return CurrentState;
+            return currentState;
         }
         set
         {
-            CurrentState = value;
+            currentState = value;
         }
     }
 }
