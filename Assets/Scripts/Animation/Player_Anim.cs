@@ -6,7 +6,6 @@ public class Player_Anim : MonoBehaviour
 {
     Player_Health GetHealth;
     Player_Rigidbody GetRigidbody;
-    Player_Edge_Detact GetPlayer_Edge_Detact;
     Animator animator;
     Player GetPlayer;
 
@@ -27,7 +26,6 @@ public class Player_Anim : MonoBehaviour
         GetHealth = GetPlayer.GetPlayer_Health;
         GetRigidbody = GetPlayer.GetPlayer_Rigidbody;
         animator = GetPlayer.GetAnimator;
-        GetPlayer_Edge_Detact = GetComponentInChildren<Player_Edge_Detact>();
 
         // 체력이 감소했을 때만 IsDamaged를 true로 설정
         GetHealth.health.Pairwise() // 이전 값과 현재 값을 비교
@@ -79,11 +77,41 @@ public class Player_Anim : MonoBehaviour
             return;
         }
 
+        if (GetPlayer.CurrentState == Player.State.Edge_State)
+        {
+            if (Input.GetKeyDown(InputHandler.JumpKey))
+            {
+                GetPlayer.CurrentState = Player.State.Jump_State;
+                return;
+            }
+            if (Input.GetKeyDown(InputHandler.DownKey))
+            {
+                GetPlayer.CurrentState = Player.State.Fall_State;
+            }
+            return;
+        }
+
         // 공중 여부
         if (!GetRigidbody.isGrounded)
         {
             FallTime += Time.deltaTime;
             BeforeGrounded = false;
+            if (GetPlayer.GetPlayer_Right_Flip.GetEdgeDetact)
+            {
+                if (!Input.GetKey(InputHandler.RightKey))
+                    return;
+                GetPlayer.CurrentState = Player.State.Edge_State;
+                FallTime = 0f;
+                return;
+            }
+            if (GetPlayer.GetPlayer_Left_Flip.GetEdgeDetact)
+            {
+                if (!Input.GetKey(InputHandler.LeftKey))
+                    return;
+                GetPlayer.CurrentState = Player.State.Edge_State;
+                FallTime = 0f;
+                return;
+            }
             if (Input.GetKeyDown(InputHandler.JumpKey))
             {
                 GetPlayer.CurrentState = Player.State.Jump_State;
@@ -96,16 +124,12 @@ public class Player_Anim : MonoBehaviour
         // 착지 여부
         if (!BeforeGrounded)
         {
-            if (GetPlayer.GetPlayer_Ceiling.GetEdgeDetact1 && GetPlayer.GetPlayer_Flip.GetEdgeDetact2)
-            {
-                //GetPlayer.CurrentState = Player.State.Edge_State;
-                return;
-            }
             BeforeGrounded = true;
+            /*
             if (FallTime > 1.5f)
             {
-                GetHealth.health.Value = 0;
-                GetPlayer.CurrentState = Player.State.Death_State;
+                //GetHealth.health.Value = 0;
+                //GetPlayer.CurrentState = Player.State.Death_State;
                 FallTime = 0f;
                 return;
             }
@@ -115,7 +139,7 @@ public class Player_Anim : MonoBehaviour
                 LandTime = 1f;
                 FallTime = 0f;
                 return;
-            }
+            }*/
             FallTime = 0f;
             return;
         }
@@ -124,28 +148,6 @@ public class Player_Anim : MonoBehaviour
         if (GetPlayer.CurrentState == Player.State.Land_State && LandTime > 0f)
         {
             LandTime -= Time.deltaTime;
-            return;
-        }
-
-        /*
-        // 모서리 여부
-        if (GetPlayer.CurrentState == Player.State.EdgeDetact_State)
-        {
-            //GetPlayer.CurrentState = Player.State.Edge_State;
-            return;
-        }*/
-
-        if (GetPlayer.CurrentState == Player.State.Edge_State)
-        {
-            if (Input.GetKeyDown(InputHandler.JumpKey))
-            {
-                GetPlayer.CurrentState = Player.State.Jump_State;
-                return;
-            }
-            if (Input.GetKeyDown(InputHandler.DownKey))
-            {
-                GetPlayer.CurrentState = Player.State.Fall_State;
-            }
             return;
         }
 
@@ -186,12 +188,6 @@ public class Player_Anim : MonoBehaviour
                 isSittingMoved = false;
                 SittingTime += Time.deltaTime;
                 GetPlayer.CurrentState = Player.State.Sitting_State;
-            }
-
-            if (GetPlayer_Edge_Detact.isEdge)
-            {
-                GetPlayer.CurrentState = Player.State.EdgeDetact_State;
-                return;
             }
             GetPlayer.CurrentState = Player.State.Sitting_State;
             return;

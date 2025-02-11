@@ -89,18 +89,11 @@ public class Player_Input : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool anyKeyPressed = false;
         foreach (var press in keyValue)
         {
             if (press.Value.isPressed && press.Value.value != 0)
-            {
                 keyDelegate[press.Key].GetDelegate.Execute();
-                anyKeyPressed = true;
-            }
         }
-
-        if (!anyKeyPressed)
-            idle.Execute();
     }
 
     void Update()
@@ -137,7 +130,7 @@ public class Player_Input : MonoBehaviour
             currentholdTime += Time.fixedDeltaTime;
         }
 
-        if (currentholdTime > maxholdTime || GetPlayer.GetPlayer_Rigidbody.isGrounded)
+        if (currentholdTime > maxholdTime)
         {
             isJumping = false;
             currentholdTime = 0f;
@@ -149,18 +142,7 @@ public class Player_Input : MonoBehaviour
         disposables.Clear();
     }
 
-    public Move GetRightMove{
-        get
-        {
-            return RightMove;
-        }
-    }
+    public Move GetRightMove => RightMove;
 
-    public Move GetLeftMove
-    {
-        get
-        {
-            return LeftMove;
-        }
-    }
+    public Move GetLeftMove => LeftMove;
 }

@@ -29,8 +29,8 @@ public class Player : MonoBehaviour
     Player_Rigidbody player_Rigidbody;
     Player_Input player_Input;
     Dictionary<State, int> animationHashes;
-    Player_Flip player_Flip;
-    Player_Ceiling player_Ceiling;
+    Player_Right_Flip player_Right_Flip;
+    Player_Left_Flip player_Left_Flip;
     State previousState;
     State currentState = State.Idle_State;
 
@@ -42,8 +42,8 @@ public class Player : MonoBehaviour
         player_Rigidbody = GetComponent<Player_Rigidbody>();
         player_health = GetComponent<Player_Health>();
         player_Item = GetComponent<Player_Item>();
-        player_Flip = GetComponentInChildren<Player_Flip>();
-        player_Ceiling = GetComponentInChildren<Player_Ceiling>();
+        player_Right_Flip = GetComponentInChildren<Player_Right_Flip>();
+        player_Left_Flip = GetComponentInChildren<Player_Left_Flip>();
         player_Input = GetComponent<Player_Input>();
         animationHashes = new Dictionary<State, int>
         {
@@ -55,7 +55,6 @@ public class Player : MonoBehaviour
             { State.Move_State, Animator.StringToHash("Move") },
             { State.Fall_State, Animator.StringToHash("Fall") },
             { State.Land_State, Animator.StringToHash("Land") },
-            { State.EdgeDetact_State, Animator.StringToHash("Edge_Detact") },
             { State.SittingStart_State, Animator.StringToHash("Croush") },
             { State.Sitting_State, Animator.StringToHash("Sitting") },
             { State.SittingMove_State, Animator.StringToHash("SittingMove") },
@@ -90,8 +89,8 @@ public class Player : MonoBehaviour
     public Player_Item GetPlayer_Item => player_Item;
     public Animator GetAnimator => animator;
     public Player_Health GetPlayer_Health => player_health;
-    public Player_Flip GetPlayer_Flip => player_Flip;
-    public Player_Ceiling GetPlayer_Ceiling => player_Ceiling;
+    public Player_Right_Flip GetPlayer_Right_Flip => player_Right_Flip;
+    public Player_Left_Flip GetPlayer_Left_Flip => player_Left_Flip;
 
     public State CurrentState
     {

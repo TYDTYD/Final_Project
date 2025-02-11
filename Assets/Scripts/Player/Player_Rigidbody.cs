@@ -12,7 +12,6 @@ public class Player_Rigidbody : MonoBehaviour
     public bool isGrounded = false;
     public bool isLadder = false;
     public bool isClimbing = false;
-    public bool wallContacted = false;
     float gravity = 5f;
     void Start()
     {
@@ -41,11 +40,6 @@ public class Player_Rigidbody : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        wallContacted = false;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
@@ -57,10 +51,18 @@ public class Player_Rigidbody : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y < 0.7f)
+        if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
         {
-            GetRigidbody2D.linearVelocityX = 0f;
+            isGrounded = true;
             return;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
         }
     }
 

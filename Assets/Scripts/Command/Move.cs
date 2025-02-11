@@ -34,6 +34,7 @@ public class Move : ICommand
                 GetPlayer.CurrentState == Player.State.Land_State ||
                 GetPlayer.CurrentState == Player.State.Attack_State ||
                 GetPlayer.CurrentState == Player.State.Damage_State ||
+                GetPlayer.CurrentState == Player.State.Edge_State ||
                 GetPlayer.CurrentState == Player.State.Death_State)
                 return;
 
