@@ -6,7 +6,7 @@ public class Player_Input : MonoBehaviour
 {
     Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
     Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
-
+    [SerializeField] GameObject obj;
     Player GetPlayer;
     Idle idle;
     Jump GetJump;
@@ -75,7 +75,7 @@ public class Player_Input : MonoBehaviour
             new InputAction(0, new Attack(GetPlayer)),
             new InputAction(0, new Item(GetPlayer)),
             new InputAction(2, new Bomb()), // jump
-            new InputAction(0, new Rope()),
+            new InputAction(0, new Rope(GetPlayer, obj)),
             new InputAction(0, new Bomb())
         };
 

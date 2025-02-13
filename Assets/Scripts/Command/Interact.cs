@@ -97,10 +97,3 @@ public class Bomb : ICommand
     }
 }
 
-public class Rope : ICommand
-{
-    public void Execute()
-    {
-
-    }
-}
