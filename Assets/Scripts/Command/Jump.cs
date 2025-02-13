@@ -3,7 +3,7 @@ using UnityEngine;
 public class Jump : ICommand
 {
     Rigidbody2D Rigidbody2D;
-    float JumpForce = 10f;
+    float JumpForce = 6f;
     Vector2 Direction;
     public Jump(Rigidbody2D rigidbody, float force)
     {
