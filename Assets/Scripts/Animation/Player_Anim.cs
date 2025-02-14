@@ -92,7 +92,7 @@ public class Player_Anim : MonoBehaviour
         }
 
         // 공중 여부
-        if (!GetRigidbody.isGrounded)
+        if (!GetRigidbody.Grounded)
         {
             FallTime += Time.deltaTime;
             BeforeGrounded = false;

@@ -6,7 +6,7 @@ public class Player_Input : MonoBehaviour
 {
     Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
     Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
-    [SerializeField] GameObject obj;
+    [SerializeField] GameObject anchor;
     Player GetPlayer;
     Idle idle;
     Jump GetJump;
@@ -75,7 +75,7 @@ public class Player_Input : MonoBehaviour
             new InputAction(0, new Attack(GetPlayer)),
             new InputAction(0, new Item(GetPlayer)),
             new InputAction(2, new Bomb()), // jump
-            new InputAction(0, new Rope(GetPlayer, obj)),
+            new InputAction(0, new Rope(GetPlayer, anchor)),
             new InputAction(0, new Bomb())
         };
 
@@ -117,7 +117,7 @@ public class Player_Input : MonoBehaviour
         if (isJumping)
             return;
         isJumping = true;
-        GetPlayer.GetPlayer_Rigidbody.isGrounded = false;
+        GetPlayer.GetPlayer_Rigidbody.Grounded = false;
         GetPlayer.GetPlayer_Rigidbody.isClimbing = false;
         currentholdTime = 0f;
     }

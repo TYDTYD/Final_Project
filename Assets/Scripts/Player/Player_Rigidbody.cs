@@ -9,6 +9,7 @@ public class Player_Rigidbody : MonoBehaviour
     [SerializeField] Transform GetTransform;
 
     CompositeDisposable disposables = new CompositeDisposable();
+    public bool Grounded = false;
     public bool isGrounded = false;
     public bool isLadder = false;
     public bool isClimbing = false;
@@ -17,6 +18,13 @@ public class Player_Rigidbody : MonoBehaviour
     {
         GetPlayer = GetComponent<Player>();
         GetRigidbody2D = GetComponent<Rigidbody2D>();
+
+        this.UpdateAsObservable()
+            .Select(_ => isGrounded)
+            .DistinctUntilChanged()
+            .ThrottleFrame(6)
+            .Subscribe(x => Grounded = x);
+
         this.ObserveEveryValueChanged(_ => isClimbing)
             .Subscribe(climbing =>
             {
@@ -70,6 +78,7 @@ public class Player_Rigidbody : MonoBehaviour
     {
         if (collision.CompareTag("Ladder"))
         {
+            isLadder = true;
             if (isClimbing)
             {
                 transform.position = new Vector3(

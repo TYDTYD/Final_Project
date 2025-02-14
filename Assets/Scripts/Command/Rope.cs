@@ -4,8 +4,10 @@ public class Rope : ICommand
 {
     GameObject Anchor;
     GameObject rope;
+
+    Vector3 offset = new Vector3(0, 0.687f);
     Player GetPlayer;
-    Vector3 offset = new Vector3(0, 5.5f);
+    
     public Rope(Player player,GameObject obj)
     {
         GetPlayer = player;
@@ -16,7 +18,6 @@ public class Rope : ICommand
     {
         Vector3 startPosition = start.position;
         float elapsedTime = 0f;
-        Debug.Log(startPosition);
         while (elapsedTime < time)
         {
             float t = Mathf.SmoothStep(0, 1, elapsedTime / time);
@@ -24,9 +25,31 @@ public class Rope : ICommand
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        start.position = destination; // 최종 위치 보정
+        start.position = destination;
+        GameObject parent = start.GetChild(1).gameObject;
+        yield return CreateRope(parent.transform.position, parent, start.GetComponent<BoxCollider2D>());
     }
+
+    IEnumerator CreateRope(Vector3 startPos, GameObject parent, BoxCollider2D anchor)
+    {
+        Vector3 pos = startPos;
+        Vector2 sizeOffset = new Vector2(0, 0.275f);
+        while (pos.y > GetPlayer.transform.position.y)
+        {
+            pos -= offset;
+            GameObject obj = Object.Instantiate(parent, rope.transform);
+            anchor.size += 2 * sizeOffset;
+            anchor.offset -= sizeOffset;
+            obj.transform.position -= offset;
+            HingeJoint2D hinge = obj.GetComponent<HingeJoint2D>();
+            hinge.connectedBody = parent.GetComponent<Rigidbody2D>();
+            hinge.anchor = new Vector2(1.11f, 0);
+            hinge.connectedAnchor = Vector2.zero;
+            parent = obj;
+            yield return null;
+        }
+    }
+
     public void Execute()
     {
         int layerMask = LayerMask.GetMask("Ground");
@@ -37,10 +60,9 @@ public class Rope : ICommand
         if (hit.collider == null)
             return;
 
-        Vector3 pos = new Vector3(Mathf.Round(hit.point.x), hit.point.y) - offset;
+        Vector3 pos = new Vector3(Mathf.Round(hit.point.x), hit.point.y);
         rope = Object.Instantiate(Anchor);
-        rope.transform.position = GetPlayer.transform.position - offset;
-        Debug.Log(GetPlayer.transform.position);
+        rope.transform.position = GetPlayer.transform.position;
         GetPlayer.StartCoroutine(MoveToTarget(rope.transform, pos, 0.2f));
     }
 }

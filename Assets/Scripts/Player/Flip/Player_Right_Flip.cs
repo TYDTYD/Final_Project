@@ -12,7 +12,7 @@ public class Player_Right_Flip : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (GetPlayer.GetPlayer_Rigidbody.isGrounded)
+        if (GetPlayer.GetPlayer_Rigidbody.Grounded)
             return;
         if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y < 0.7f)
         {

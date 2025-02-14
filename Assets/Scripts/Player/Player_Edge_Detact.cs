@@ -12,7 +12,7 @@ public class Player_Edge_Detact : MonoBehaviour
     public bool isEdge = false;
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground") && player_Rigidbody.isGrounded)
+        if (collision.CompareTag("Ground") && player_Rigidbody.Grounded)
             isEdge = true;
         else
             isEdge = false;

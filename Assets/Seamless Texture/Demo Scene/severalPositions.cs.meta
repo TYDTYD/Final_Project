@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: f793aaa064da33d44b6996ee3aa37ca9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13868
+  packageName: Free Seamless Textures
+  packageVersion: 2.0
+  assetPath: Assets/Seamless Texture/Demo Scene/severalPositions.cs
+  uploadId: 33643

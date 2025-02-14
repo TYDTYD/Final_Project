@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: cd1c3f9f3f21a814bb4d90ee023d1f66
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13868
+  packageName: Free Seamless Textures
+  packageVersion: 2.0
+  assetPath: Assets/Seamless Texture/Demo Scene/TextureChanger.cs
+  uploadId: 33643
