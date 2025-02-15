@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 6942771757804216367}
   - component: {fileID: 1873003423460213190}
   - component: {fileID: 8942952520837417298}
+  - component: {fileID: 3779948640941912536}
   m_Layer: 3
   m_Name: Warrior
   m_TagString: Untagged
@@ -172,7 +173,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 5
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -194,7 +195,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 33e09a49656a0514f9447b278b03fa29, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -228,7 +229,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.26, y: 0.32}
+  m_Size: {x: 0.12, y: 0.32}
   m_EdgeRadius: 0
 --- !u!114 &4338109149297527690
 MonoBehaviour:
@@ -255,10 +256,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GetTransform: {fileID: 3274307563212159352}
+  Grounded: 0
   isGrounded: 0
   isLadder: 0
   isClimbing: 0
-  wallContacted: 0
 --- !u!114 &1486312039944480233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21918c7f65b5ab64c98db9b4a4acd339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anchor: {fileID: 8667384254066487314, guid: f3b5ce7eb79e68b4b8365c850fffd257, type: 3}
 --- !u!114 &2416426777593782060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,6 +368,19 @@ MonoBehaviour:
   GetStatisticCamera: {fileID: 0}
   GetDeathCam: {fileID: 0}
   GetPlayCamera: {fileID: 0}
+--- !u!114 &3779948640941912536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3424163994475188283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4db593127c3f7b40b71237f8f6e2b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GetMaskAnim: {fileID: 0}
 --- !u!1 &3793178377111771489
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +458,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.05, y: 0.28}
+  m_Size: {x: 0.05, y: 0.2}
   m_EdgeRadius: 0
 --- !u!114 &4603075839728996474
 MonoBehaviour:
@@ -565,7 +580,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.05, y: 0.28}
+  m_Size: {x: 0.05, y: 0.2}
   m_EdgeRadius: 0
 --- !u!114 &3435168269065166802
 MonoBehaviour:

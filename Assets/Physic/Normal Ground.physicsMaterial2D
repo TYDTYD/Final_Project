@@ -9,6 +9,6 @@ PhysicsMaterial2D:
   m_Name: Normal Ground
   serializedVersion: 2
   friction: 1.07
-  bounciness: 0.1
+  bounciness: 0
   m_FrictionCombine: 0
   m_BounceCombine: 4

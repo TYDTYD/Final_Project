@@ -13,7 +13,7 @@ public class Player_Rigidbody : MonoBehaviour
     public bool isGrounded = false;
     public bool isLadder = false;
     public bool isClimbing = false;
-    float gravity = 5f;
+    float gravity = 6f;
     void Start()
     {
         GetPlayer = GetComponent<Player>();
@@ -22,7 +22,7 @@ public class Player_Rigidbody : MonoBehaviour
         this.UpdateAsObservable()
             .Select(_ => isGrounded)
             .DistinctUntilChanged()
-            .ThrottleFrame(6)
+            .ThrottleFrame(5)
             .Subscribe(x => Grounded = x);
 
         this.ObserveEveryValueChanged(_ => isClimbing)

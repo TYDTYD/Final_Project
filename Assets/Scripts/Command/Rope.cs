@@ -34,7 +34,7 @@ public class Rope : ICommand
     {
         Vector3 pos = startPos;
         Vector2 sizeOffset = new Vector2(0, 0.275f);
-        while (pos.y > GetPlayer.transform.position.y)
+        while (pos.y > GetPlayer.transform.position.y + 1f)
         {
             pos -= offset;
             GameObject obj = Object.Instantiate(parent, rope.transform);
@@ -53,8 +53,6 @@ public class Rope : ICommand
     public void Execute()
     {
         int layerMask = LayerMask.GetMask("Ground");
-
-        Debug.DrawRay(GetPlayer.transform.position, Vector2.up * 100f, Color.red, 1f);
         RaycastHit2D hit = Physics2D.Raycast(GetPlayer.transform.position, Vector2.up, 10f, layerMask);
 
         if (hit.collider == null)

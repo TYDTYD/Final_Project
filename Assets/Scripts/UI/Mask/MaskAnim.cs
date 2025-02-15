@@ -5,10 +5,10 @@ public class MaskAnim : MonoBehaviour
 {
     RectTransform GetRectTransform;
     Transform GetTransform;
-    WaitForSeconds waitForSeconds = new WaitForSeconds(0.001f);
+    WaitForSeconds waitForSeconds = new WaitForSeconds(0.0001f);
     IEnumerator GreaterScale()
     {
-        Vector2 value = new Vector2(40f, 40f);
+        Vector2 value = new Vector2(50f, 50f);
         while (GetRectTransform.sizeDelta.x < 4000)
         {
             GetRectTransform.sizeDelta += value;
@@ -19,7 +19,7 @@ public class MaskAnim : MonoBehaviour
 
     IEnumerator SmallerScale()
     {
-        Vector2 value = new Vector2(20f, 20f);
+        Vector2 value = new Vector2(50f, 50f);
         while (GetRectTransform.sizeDelta.x >= 0)
         {
             GetRectTransform.sizeDelta -= value;
@@ -30,7 +30,7 @@ public class MaskAnim : MonoBehaviour
 
     IEnumerator SmallerScale(Action act)
     {
-        Vector2 value = new Vector2(20f, 20f);
+        Vector2 value = new Vector2(10f, 10f);
         while (GetRectTransform.sizeDelta.x >= 0)
         {
             GetRectTransform.sizeDelta -= value;
@@ -50,14 +50,12 @@ public class MaskAnim : MonoBehaviour
     {
         GetTransform.position = Camera.main.WorldToScreenPoint(pos);
         StartCoroutine(SmallerScale(change));
-        
     }
 
     public void MaskAnimStart_Small(Vector3 pos)
     {
         GetTransform.position = Camera.main.WorldToScreenPoint(pos);
         StartCoroutine(SmallerScale());
-
     }
 
     public void MaskAnimStart_Small()
