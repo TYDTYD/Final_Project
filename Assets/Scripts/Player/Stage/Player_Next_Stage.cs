@@ -3,10 +3,10 @@ using System;
 using UnityEngine.SceneManagement;
 public class Player_Next_Stage : MonoBehaviour
 {
-    [SerializeField] MaskAnim GetMaskAnim;
-    // 다음 씬으로 넘어가는 액션
-    Action Moving_Scene;
+    [SerializeField] MaskVariation GetMaskVariation;
+    public Action Moving_Scene;
     bool trigger = false;
+    bool canInteract = false;
 
     private void Start()
     {
@@ -18,18 +18,30 @@ public class Player_Next_Stage : MonoBehaviour
         GameManager.Instance.CurrentStageNumber++;
         SceneManager.LoadScene("Stage Rest");
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (trigger)
-            return;
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.CompareTag("Finish"))
         {
-            if (Input.GetKeyDown(Interact.GetKeyCode(Interact.KeySequence.Item)))
-            {
-                trigger = true;
-                GetMaskAnim.MaskAnimStart_Small(transform.position, Moving_Scene);
-            }
+            canInteract = true; // 상호작용 가능 상태로 변경
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Finish"))
+        {
+            canInteract = false; // 상호작용 종료
+        }
+    }
+
+    private void Update()
+    {
+        if (canInteract && !trigger && Input.GetKeyDown(Interact.GetKeyCode(Interact.KeySequence.Item)))
+        {
+            Debug.Log("누름");
+            trigger = true;
+            GetMaskVariation.Darker(Moving_Scene);
         }
     }
 }

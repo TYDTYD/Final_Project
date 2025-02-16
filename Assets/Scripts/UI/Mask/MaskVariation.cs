@@ -34,11 +34,11 @@ public class MaskVariation : MonoBehaviour
             image.color = newColor;
             yield return null; // 매 프레임마다 업데이트 (더 부드러운 효과)
         }
-        change?.Invoke();
         // 최종적으로 정확한 값 보정
         Color finalColor = image.color;
         finalColor.a = targetAlpha;
         image.color = finalColor;
+        change?.Invoke();
     }
 
 }

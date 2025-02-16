@@ -3,7 +3,7 @@ using UniRx;
 using System;
 public class Player_Health : MonoBehaviour, IHealth 
 {
-    public IReactiveProperty<int> health = new ReactiveProperty<int>(5);
+    public IReactiveProperty<int> health = new ReactiveProperty<int>(4);
     public Action DeathEvent;
 
     private void Start()

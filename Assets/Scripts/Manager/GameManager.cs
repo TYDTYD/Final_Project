@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using System;
 public class GameManager : MonoBehaviour
 {
     int StageNum = 1;
@@ -9,6 +10,8 @@ public class GameManager : MonoBehaviour
     // 게임 상태 Enum
     public enum GameState { MainMenu, Playing, Paused, GameOver }
     public GameState CurrentState { get; private set; } = GameState.MainMenu;
+
+    public Action SceneLoad;
 
     private void Awake()
     {
@@ -22,11 +25,26 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject); // 중복 방지
         }
+
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+    void Start()
+    {
+        Application.targetFrameRate = 60;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        
     }
 
     public int CurrentStageNumber
     {
         get => StageNum;
         set => StageNum = value;
+    }
+
+    void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        SceneLoad();
     }
 }

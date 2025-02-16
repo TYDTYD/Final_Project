@@ -59,7 +59,7 @@ public class Player_Input : MonoBehaviour
             .Subscribe(_ => StartJump())
             .AddTo(disposables);
 
-        this.FixedUpdateAsObservable()
+        this.UpdateAsObservable()
             .Where(_ => isJumping && Input.GetKey(JumpKey))
             .Subscribe(_ => ApplyJump())
             .AddTo(disposables);
