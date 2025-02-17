@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     Dictionary<State, int> animationHashes;
     Player_Right_Flip player_Right_Flip;
     Player_Left_Flip player_Left_Flip;
+    Player_Tracking player_Tracking;
     State previousState;
     State currentState = State.Idle_State;
 
@@ -91,6 +92,17 @@ public class Player : MonoBehaviour
     public Player_Health GetPlayer_Health => player_health;
     public Player_Right_Flip GetPlayer_Right_Flip => player_Right_Flip;
     public Player_Left_Flip GetPlayer_Left_Flip => player_Left_Flip;
+    public Player_Tracking GetPlayer_Tracking
+    {
+        get
+        {
+            return player_Tracking;
+        }
+        set
+        {
+            player_Tracking = value;
+        }
+    }
 
     public State CurrentState
     {

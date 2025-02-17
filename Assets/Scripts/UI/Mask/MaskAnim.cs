@@ -6,6 +6,7 @@ public class MaskAnim : MonoBehaviour
     RectTransform GetRectTransform;
     Transform GetTransform;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.0001f);
+    [SerializeField] Transform start;
     IEnumerator GreaterScale()
     {
         Vector2 value = new Vector2(50f, 50f);
@@ -44,6 +45,8 @@ public class MaskAnim : MonoBehaviour
     {
         GetRectTransform = GetComponent<RectTransform>();
         GetTransform = GetComponent<Transform>();
+
+        MaskAnimStart_Great(start.position);
     }
 
     public void MaskAnimStart_Small(Vector3 pos, Action change)
@@ -66,12 +69,14 @@ public class MaskAnim : MonoBehaviour
 
     public void MaskAnimStart_Great(Vector3 pos)
     {
+        GetRectTransform.sizeDelta = Vector3.zero;
         GetTransform.position = Camera.main.WorldToScreenPoint(pos);
         StartCoroutine(GreaterScale());
     }
 
     public void MaskAnimStart_Great()
     {
+        GetRectTransform.sizeDelta = Vector3.zero;
         GetTransform.position = Vector3.zero;
         StartCoroutine(GreaterScale());
     }

@@ -25,7 +25,7 @@ public class TitleUI : MonoBehaviour
             switch (pos)
             {
                 case 0:
-                    SceneManager.LoadScene("Demo");
+                    SceneManager.LoadScene(1);
                     break;
                 case 1:
                     SceneManager.LoadScene("Setting");

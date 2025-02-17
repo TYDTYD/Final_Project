@@ -2,19 +2,22 @@ using UnityEngine;
 using Unity.Cinemachine;
 public class Player_LookUp : MonoBehaviour
 {
-    [SerializeField] CinemachineCamera virtualCamera; // Cinemachine 가상 카메라
+    
     [SerializeField] Transform playerTransform;             // 플레이어 Transform
     [SerializeField] Transform topViewTransform;            // 위쪽을 바라보는 위치 Transform
+    Player GetPlayer;
     Player_Rigidbody player_Rigidbody;
+    CinemachineCamera virtualCamera;
 
     float keyPressTime = 0f;              // 키가 눌린 시간
     float holdTime = 1f;                   // 카메라가 전환되는 키 누름 시간
-
     bool isTopView = false;        // 현재 카메라가 위쪽을 보는 상태인지 확인
 
     private void Start()
     {
-        player_Rigidbody = GetComponent<Player_Rigidbody>();
+        GetPlayer = GetComponent<Player>();
+        player_Rigidbody = GetPlayer.GetPlayer_Rigidbody;
+        virtualCamera = GetPlayer.GetPlayer_Tracking.GetPlayerCamera;
     }
 
     void Update()

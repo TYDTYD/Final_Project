@@ -2,9 +2,11 @@ using UnityEngine;
 using Unity.Cinemachine;
 public class Player_LookDown : MonoBehaviour
 {
-    [SerializeField] CinemachineCamera virtualCamera; 
+    CinemachineCamera virtualCamera; 
     [SerializeField] Transform playerTransform;           
     [SerializeField] Transform downViewTransform;
+
+    Player GetPlayer;
     Player_Anim GetPlayer_Anim;
     Player_Rigidbody player_Rigidbody;
     
@@ -13,7 +15,9 @@ public class Player_LookDown : MonoBehaviour
 
     private void Start()
     {
-        player_Rigidbody = GetComponent<Player_Rigidbody>();
+        GetPlayer = GetComponent<Player>();
+        virtualCamera = GetPlayer.GetPlayer_Tracking.GetPlayerCamera;
+        player_Rigidbody = GetPlayer.GetPlayer_Rigidbody;
         GetPlayer_Anim = GetComponent<Player_Anim>();
     }
 
