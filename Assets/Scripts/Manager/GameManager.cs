@@ -58,9 +58,15 @@ public class GameManager : MonoBehaviour
         {
             player = instantiatePlayer(GetStageStartPosition(sceneNum));
             StageLoad?.Invoke();
+            if (Stage_UI_Presenter.Instance != null)
+                Stage_UI_Presenter.Instance.CurrentOnStage = true;
         }
         else
+        {
             player = null;
+            if(Stage_UI_Presenter.Instance!=null)
+                Stage_UI_Presenter.Instance.CurrentOnStage = false;
+        }
     }
     Vector3 GetStageStartPosition(int buildIndex)
     {

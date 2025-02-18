@@ -32,7 +32,6 @@ public class Next_Stage : MonoBehaviour
     {
         if (canInteract && !trigger && Input.GetKeyDown(Interact.GetKeyCode(Interact.KeySequence.Item)))
         {
-            Debug.Log("´©¸§");
             trigger = true;
             GameManager.Instance.GetStageNumber = GameManager.Instance.CurrentStageNumber + 1;
             GetMaskVariation.Darker(Moving_Scene);

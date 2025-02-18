@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     Player_Right_Flip player_Right_Flip;
     Player_Left_Flip player_Left_Flip;
     Player_Tracking player_Tracking;
+    Player_Anim player_Anim;
     State previousState;
     State currentState = State.Idle_State;
 
@@ -43,9 +44,11 @@ public class Player : MonoBehaviour
         player_Rigidbody = GetComponent<Player_Rigidbody>();
         player_health = GetComponent<Player_Health>();
         player_Item = GetComponent<Player_Item>();
+        player_Input = GetComponent<Player_Input>();
+        player_Anim = GetComponent<Player_Anim>();
         player_Right_Flip = GetComponentInChildren<Player_Right_Flip>();
         player_Left_Flip = GetComponentInChildren<Player_Left_Flip>();
-        player_Input = GetComponent<Player_Input>();
+
         animationHashes = new Dictionary<State, int>
         {
             { State.Idle_State, Animator.StringToHash("Idle") },
@@ -92,6 +95,7 @@ public class Player : MonoBehaviour
     public Player_Health GetPlayer_Health => player_health;
     public Player_Right_Flip GetPlayer_Right_Flip => player_Right_Flip;
     public Player_Left_Flip GetPlayer_Left_Flip => player_Left_Flip;
+    public Player_Anim GetPlayer_Anim => player_Anim;
     public Player_Tracking GetPlayer_Tracking
     {
         get

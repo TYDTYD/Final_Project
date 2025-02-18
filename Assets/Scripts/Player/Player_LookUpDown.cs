@@ -1,34 +1,37 @@
 using UnityEngine;
 using Unity.Cinemachine;
-public class Player_LookUp : MonoBehaviour
+public class Player_LookUpDown : MonoBehaviour
 {
-    
-    [SerializeField] Transform playerTransform;             // 플레이어 Transform
-    [SerializeField] Transform topViewTransform;            // 위쪽을 바라보는 위치 Transform
+    [SerializeField] Transform playerTransform;
+    [SerializeField] Transform topViewTransform;
+    [SerializeField] Transform downViewTransform;
+
     Player GetPlayer;
+    Player_Anim GetPlayer_Anim;
     Player_Rigidbody player_Rigidbody;
     CinemachineCamera virtualCamera;
 
     float keyPressTime = 0f;              // 키가 눌린 시간
     float holdTime = 1f;                   // 카메라가 전환되는 키 누름 시간
-    bool isTopView = false;        // 현재 카메라가 위쪽을 보는 상태인지 확인
+    bool isTopView = false;
+    bool isDownView = false;
 
     private void Start()
     {
         GetPlayer = GetComponent<Player>();
         player_Rigidbody = GetPlayer.GetPlayer_Rigidbody;
         virtualCamera = GetPlayer.GetPlayer_Tracking.GetPlayerCamera;
+        GetPlayer_Anim = GetPlayer.GetPlayer_Anim;
     }
 
     void Update()
     {
-        if (player_Rigidbody.isLadder)
+        if (player_Rigidbody.GetLadder)
             return;
         // 위 방향키 입력 체크
         if (Input.GetKey(InputHandler.UpKey))
         {
             keyPressTime += Time.deltaTime;
-
             if (keyPressTime > holdTime && !isTopView)
             {
                 SetTopView();
@@ -37,26 +40,43 @@ public class Player_LookUp : MonoBehaviour
         else
         {
             keyPressTime = 0f;
-
-            // 위쪽 뷰에서 플레이어로 돌아가기
             if (isTopView)
             {
-                SetPlayerView();
+                SetPlayerView(true);
+            }
+        }
+
+        if (GetPlayer_Anim.GetSittingTime > holdTime && !isDownView)
+        {
+            SetDownView();
+        }
+        else if (GetPlayer_Anim.GetSittingTime < holdTime)
+        {
+            if (isDownView)
+            {
+                SetPlayerView(false);
             }
         }
     }
 
-    // 위쪽을 바라보는 뷰로 전환
     void SetTopView()
     {
         virtualCamera.Follow = topViewTransform;  // 위쪽 Transform을 바라보도록 설정
         isTopView = true;
     }
+    void SetDownView()
+    {
+        virtualCamera.Follow = downViewTransform;
+        isDownView = true;
+    }
 
     // 플레이어를 따라가는 뷰로 전환
-    void SetPlayerView()
+    void SetPlayerView(bool Up)
     {
         virtualCamera.Follow = playerTransform;  // Follow를 플레이어로 설정
-        isTopView = false;
+        if (Up)
+            isTopView = false;
+        else
+            isDownView = false;
     }
 }

@@ -30,7 +30,7 @@ public class Move : ICommand
     {
         if (GetPlayer)
         {
-            if (player_Rigidbody.isClimbing ||
+            if (player_Rigidbody.GetClimbing ||
                 GetPlayer.CurrentState == Player.State.Land_State ||
                 GetPlayer.CurrentState == Player.State.Attack_State ||
                 GetPlayer.CurrentState == Player.State.Damage_State ||

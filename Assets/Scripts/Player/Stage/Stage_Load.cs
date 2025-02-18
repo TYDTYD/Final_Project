@@ -23,6 +23,7 @@ public class Stage_Load : MonoBehaviour
         if (collision.CompareTag("Finish"))
         {
             GetMaskAnim.MaskAnimStart_Small(endDoor.position, MovingScene);
+            Stage_UI_Presenter.Instance.stage.Value = GameManager.Instance.GetStageNumber;
         }
     }
 }

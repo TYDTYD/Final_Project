@@ -8,8 +8,4 @@ public class MaskedPosition : MonoBehaviour
     {
         GetRectTransform = GetComponent<RectTransform>();
     }
-    void Update()
-    {
-        //GetRectTransform.position = pos;
-    }
 }

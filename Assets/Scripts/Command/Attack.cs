@@ -26,7 +26,7 @@ public class Attack : ICommand
                 GetPlayer.CurrentState == Player.State.Land_State ||
                 GetPlayer.CurrentState == Player.State.EdgeDetact_State)
                 return;
-            player_Rigidbody.isClimbing = false;
+            player_Rigidbody.GetClimbing = false;
         }
     }
 }

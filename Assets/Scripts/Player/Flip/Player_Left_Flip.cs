@@ -11,11 +11,10 @@ public class Player_Left_Flip : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (GetPlayer.GetPlayer_Rigidbody.Grounded)
+        if (GetPlayer.GetPlayer_Rigidbody.GetGrounded)
             return;
         if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y < 0.7f)
         {
-            Debug.Log("º® °¨Áö");
             edgeDetact = true;
             return;
         }

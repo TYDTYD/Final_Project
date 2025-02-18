@@ -48,7 +48,6 @@ GameObject:
   - component: {fileID: 1187399062659430636}
   - component: {fileID: 1486312039944480233}
   - component: {fileID: 2416426777593782060}
-  - component: {fileID: 7422022247457126533}
   - component: {fileID: 8191800453560184698}
   - component: {fileID: 3223504900952890338}
   - component: {fileID: 6942771757804216367}
@@ -254,10 +253,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GetTransform: {fileID: 3274307563212159352}
-  Grounded: 0
-  isGrounded: 0
-  isLadder: 0
-  isClimbing: 0
 --- !u!114 &1486312039944480233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,19 +280,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 3274307563212159352}
   topViewTransform: {fileID: 4740498680992479831}
---- !u!114 &7422022247457126533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3424163994475188283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8467997904eaec48b25ac6fd74e5c65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 3274307563212159352}
   downViewTransform: {fileID: 2264070288830732118}
 --- !u!114 &8191800453560184698
 MonoBehaviour:

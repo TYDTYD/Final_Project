@@ -64,7 +64,7 @@ public class Player_Anim : MonoBehaviour
         }
 
         // 사다리 여부
-        if (GetRigidbody.isClimbing)
+        if (GetRigidbody.GetClimbing)
         {
             FallTime = 0f;
             if (Input.GetKey(InputHandler.JumpKey))
@@ -92,7 +92,7 @@ public class Player_Anim : MonoBehaviour
         }
 
         // 공중 여부
-        if (!GetRigidbody.Grounded)
+        if (!GetRigidbody.GetGrounded)
         {
             FallTime += Time.deltaTime;
             BeforeGrounded = false;

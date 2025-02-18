@@ -20,10 +20,10 @@ public class Up : ICommand
 
     public void Execute()
     {
-        if (!rigidbody2D.isLadder)
+        if (!rigidbody2D.GetLadder)
             return;
         rigidbody.linearVelocity = Vector2.zero;
         transform.position += up;
-        rigidbody2D.isClimbing = true;
+        rigidbody2D.GetClimbing = true;
     }
 }
