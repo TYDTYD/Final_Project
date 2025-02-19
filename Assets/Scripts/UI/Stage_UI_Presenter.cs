@@ -72,7 +72,7 @@ public class Stage_UI_Presenter : MonoBehaviour
         Get_View.GetDeathCam.gameObject.SetActive(true);
         Get_View.GetPlayCamera.gameObject.SetActive(false);
         Get_View.GetStatisticCamera.gameObject.SetActive(true);
-        Get_View.GetMaskVariation.Brighter(null);
+        Get_View.GetMaskVariation.Brighter();
     }
 
     private void OnDestroy()

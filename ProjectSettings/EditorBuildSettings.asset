@@ -32,9 +32,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Statistic.unity
     guid: 8da7cb9a1eb26cc439f5762066585634
-  - enabled: 1
-    path: Assets/Scenes/Tutorial.unity
-    guid: 87da2e28a5ea6fa499e096b53f0a2785
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 7c5fd9589301f3d4c8df97d5b76d525e, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: e2921241b24194289a2e15ce4bcfefdb, type: 3}

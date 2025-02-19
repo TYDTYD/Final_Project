@@ -21,33 +21,24 @@ public class Player : MonoBehaviour
         Death_State
     };
 
-    Animator animator;
-    SpriteRenderer spriteRenderer;
-    Player_Health player_health;
-    Player_Item player_Item;
-    Rigidbody2D rigidBody;
-    Player_Rigidbody player_Rigidbody;
-    Player_Input player_Input;
-    Dictionary<State, int> animationHashes;
-    Player_Right_Flip player_Right_Flip;
-    Player_Left_Flip player_Left_Flip;
+    [SerializeField] Animator animator;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Player_Health player_health;
+    [SerializeField] Player_Item player_Item;
+    [SerializeField] Rigidbody2D rigidBody;
+    [SerializeField] Player_Rigidbody player_Rigidbody;
+    [SerializeField] Player_Input player_Input;
+    [SerializeField] Player_Right_Flip player_Right_Flip;
+    [SerializeField] Player_Left_Flip player_Left_Flip;
+    [SerializeField] Player_Anim player_Anim;
     Player_Tracking player_Tracking;
-    Player_Anim player_Anim;
+    Dictionary<State, int> animationHashes;
+
     State previousState;
     State currentState = State.Idle_State;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        rigidBody = GetComponent<Rigidbody2D>();
-        player_Rigidbody = GetComponent<Player_Rigidbody>();
-        player_health = GetComponent<Player_Health>();
-        player_Item = GetComponent<Player_Item>();
-        player_Input = GetComponent<Player_Input>();
-        player_Anim = GetComponent<Player_Anim>();
-        player_Right_Flip = GetComponentInChildren<Player_Right_Flip>();
-        player_Left_Flip = GetComponentInChildren<Player_Left_Flip>();
 
         animationHashes = new Dictionary<State, int>
         {

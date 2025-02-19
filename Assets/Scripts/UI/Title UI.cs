@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 public class TitleUI : MonoBehaviour
 {
     [SerializeField] Button[] GetButtons;
-
+    [SerializeField] MaskVariation GetMask;
     int pos = 0;
     ColorBlock colorVar, original, selected;
 
@@ -25,10 +24,10 @@ public class TitleUI : MonoBehaviour
             switch (pos)
             {
                 case 0:
-                    SceneManager.LoadScene(1);
+                    GetMask.Darker(GameManager.Instance.PreloadScene(1));
                     break;
                 case 1:
-                    SceneManager.LoadScene("Setting");
+                    GetMask.Darker(GameManager.Instance.PreloadScene("Setting"));
                     break;
                 case 2:
                     break;

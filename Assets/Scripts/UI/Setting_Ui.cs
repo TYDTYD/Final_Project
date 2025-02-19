@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class Setting_Ui : MonoBehaviour
 {
@@ -57,7 +56,7 @@ public class Setting_Ui : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Submit();
-            SceneManager.LoadScene("Lobby");
+            StartCoroutine(GameManager.Instance.PreloadScene(0));
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {

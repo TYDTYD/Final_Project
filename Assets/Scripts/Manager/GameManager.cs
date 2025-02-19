@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-public class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
     public enum GameState { MainMenu, Playing, Paused, GameOver }
     public GameState CurrentState { get; private set; } = GameState.MainMenu;
 
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
     Vector3 Stage1Start = new Vector3(10f, 5f);
     Vector3 Stage2Start = new Vector3(6f, 6f);
     Vector3 Stage3Start = new Vector3(11f, 5f);
-    Vector3 Stage4Start = new Vector3(11f, 5f);
+    Vector3 Stage4Start = new Vector3(-14f, 5f);
 
     public Action SceneLoad;
     public Action StageLoad;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        CacheScenes(scenesToLoad);
         SceneManager.sceneLoaded += OnSceneLoad;
     }
     void Start()
@@ -42,13 +44,13 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    public int CurrentStageNumber
+    public int CurrentSceneNumber
     {
         get => SceneManager.GetActiveScene().buildIndex;
         private set { }
     }
-    public void OnStageLoad() => SceneManager.LoadScene(stageNumber);
-    public void OnRestPlaceLoad() => SceneManager.LoadScene("Stage Rest");
+    public void OnStageLoad() => StartCoroutine(PreloadScene(stageNumber));
+    public void OnRestPlaceLoad() => StartCoroutine(PreloadScene("Stage Rest"));
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
         SceneLoad?.Invoke();
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviour
         int sceneNum = scene.buildIndex;
         if (IsStageScene(sceneNum))
         {
-            player = instantiatePlayer(GetStageStartPosition(sceneNum));
+            player = InstantiatePlayer(GetStageStartPosition(sceneNum));
             StageLoad?.Invoke();
             if (Stage_UI_Presenter.Instance != null)
                 Stage_UI_Presenter.Instance.CurrentOnStage = true;
@@ -64,10 +66,11 @@ public class GameManager : MonoBehaviour
         else
         {
             player = null;
-            if(Stage_UI_Presenter.Instance!=null)
+            if (Stage_UI_Presenter.Instance!=null)
                 Stage_UI_Presenter.Instance.CurrentOnStage = false;
         }
     }
+
     Vector3 GetStageStartPosition(int buildIndex)
     {
         return buildIndex switch
@@ -79,7 +82,7 @@ public class GameManager : MonoBehaviour
             _ => Vector3.zero
         };
     }
-    GameObject instantiatePlayer(Vector3 pos) => Instantiate(playerPrefab, pos, Quaternion.identity);
+    GameObject InstantiatePlayer(Vector3 pos) => Instantiate(playerPrefab, pos, Quaternion.identity);
     bool IsStageScene(int buildIndex) => buildIndex >= 1 && buildIndex <= 4;
     public GameObject GetPlayer => player;
     public int GetStageNumber
@@ -94,5 +97,4 @@ public class GameManager : MonoBehaviour
                 stageNumber = value;
         }
     }
-        
 }

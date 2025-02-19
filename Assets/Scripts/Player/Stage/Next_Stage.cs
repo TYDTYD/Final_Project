@@ -3,14 +3,8 @@ using System;
 public class Next_Stage : MonoBehaviour
 {
     [SerializeField] MaskVariation GetMaskVariation;
-    event Action Moving_Scene;
     bool trigger = false;
     bool canInteract = false;
-
-    private void Start()
-    {
-        Moving_Scene += GameManager.Instance.OnRestPlaceLoad;
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -33,8 +27,8 @@ public class Next_Stage : MonoBehaviour
         if (canInteract && !trigger && Input.GetKeyDown(Interact.GetKeyCode(Interact.KeySequence.Item)))
         {
             trigger = true;
-            GameManager.Instance.GetStageNumber = GameManager.Instance.CurrentStageNumber + 1;
-            GetMaskVariation.Darker(Moving_Scene);
+            GameManager.Instance.GetStageNumber = GameManager.Instance.CurrentSceneNumber + 1;
+            GetMaskVariation.Darker(GameManager.Instance.PreloadScene("Stage Rest"));
         }
     }
 }
