@@ -5,10 +5,7 @@ using System.Collections.Generic;
 
 public partial class GameManager : MonoBehaviour
 {
-    Dictionary<string, AsyncOperation> LoadCache = new Dictionary<string, AsyncOperation>();
     Dictionary<int, string> SceneIndex = new Dictionary<int, string>();
-
-    [SerializeField] MaskVariation GetMaskVariation;
 
     string[] scenesToLoad = { "Title", "Stage 1", "Stage 2", "Stage 3", "Stage 4", "Stage Rest", "Game Over", "Setting", "Statistic" };
     
@@ -18,25 +15,24 @@ public partial class GameManager : MonoBehaviour
         {
             string sceneName = sceneNames[i];
             SceneIndex.Add(i, sceneName);
-            LoadCache.Add(sceneName, null);
         }
     }
 
-    public IEnumerator PreloadScene(int index)
+    public IEnumerator PreloadScene(int index, IEnumerator coroutine)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneIndex[index]);
-        LoadCache[SceneIndex[index]] = asyncLoad;
         asyncLoad.allowSceneActivation = false;
-        yield return GetMaskVariation.Darker();
+        yield return coroutine;
+        yield return new WaitUntil(() => asyncLoad.progress >= 0.9f);
         asyncLoad.allowSceneActivation = true;
     }
 
-    public IEnumerator PreloadScene(string sceneName)
+    public IEnumerator PreloadScene(string sceneName, IEnumerator coroutine)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        LoadCache[sceneName] = asyncLoad;
         asyncLoad.allowSceneActivation = false;
-        yield return GetMaskVariation.Darker();
+        yield return coroutine;
+        yield return new WaitUntil(() => asyncLoad.progress >= 0.9f);
         asyncLoad.allowSceneActivation = true;
     }
 }

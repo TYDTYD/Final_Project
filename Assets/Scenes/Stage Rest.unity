@@ -1051,6 +1051,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6119546457172278730, guid: fb5740d48f8fcef49b5e471ac758c181, type: 3}
+      propertyPath: endDoor
+      value: 
+      objectReference: {fileID: 1251864233}
+    - target: {fileID: 6119546457172278730, guid: fb5740d48f8fcef49b5e471ac758c181, type: 3}
+      propertyPath: GetMaskAnim
+      value: 
+      objectReference: {fileID: 1304790518}
     - target: {fileID: 7500981819607609728, guid: fb5740d48f8fcef49b5e471ac758c181, type: 3}
       propertyPath: m_Name
       value: Warrior
@@ -1098,30 +1106,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7500981819607609728, guid: fb5740d48f8fcef49b5e471ac758c181, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8584909207624512566}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb5740d48f8fcef49b5e471ac758c181, type: 3}
---- !u!1 &8584909207624512565 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7500981819607609728, guid: fb5740d48f8fcef49b5e471ac758c181, type: 3}
-  m_PrefabInstance: {fileID: 8584909207624512564}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8584909207624512566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8584909207624512565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd1aaa81f18dc4945b35f23a361e5256, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GetMaskAnim: {fileID: 1304790518}
-  endDoor: {fileID: 1251864233}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

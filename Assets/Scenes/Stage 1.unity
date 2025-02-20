@@ -286261,6 +286261,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5060003252770662866, guid: 85882c5bc84314a40914dae667758f42, type: 3}
+      propertyPath: mask
+      value: 
+      objectReference: {fileID: 4500238902579021311}
     - target: {fileID: 5476457192988847279, guid: 85882c5bc84314a40914dae667758f42, type: 3}
       propertyPath: m_Name
       value: Dark Bright Effect
@@ -286270,6 +286274,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85882c5bc84314a40914dae667758f42, type: 3}
+--- !u!114 &4500238902579021311 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5448580168623045505, guid: 85882c5bc84314a40914dae667758f42, type: 3}
+  m_PrefabInstance: {fileID: 4500238902579021310}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using System;
 public partial class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
     public enum GameState { MainMenu, Playing, Paused, GameOver }
     public GameState CurrentState { get; private set; } = GameState.MainMenu;
 
@@ -49,8 +48,6 @@ public partial class GameManager : MonoBehaviour
         get => SceneManager.GetActiveScene().buildIndex;
         private set { }
     }
-    public void OnStageLoad() => StartCoroutine(PreloadScene(stageNumber));
-    public void OnRestPlaceLoad() => StartCoroutine(PreloadScene("Stage Rest"));
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
         SceneLoad?.Invoke();

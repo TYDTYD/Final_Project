@@ -24,10 +24,10 @@ public class TitleUI : MonoBehaviour
             switch (pos)
             {
                 case 0:
-                    StartCoroutine(GameManager.Instance.PreloadScene(1));
+                    StartCoroutine(GameManager.Instance.PreloadScene(1, GetMask.Darker()));
                     break;
                 case 1:
-                    StartCoroutine(GameManager.Instance.PreloadScene("Setting"));
+                    StartCoroutine(GameManager.Instance.PreloadScene("Setting", GetMask.Darker()));
                     break;
                 case 2:
                     break;

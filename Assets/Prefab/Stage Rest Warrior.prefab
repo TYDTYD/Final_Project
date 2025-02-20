@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 2804008328827894652}
   - component: {fileID: 8444478731044432314}
   - component: {fileID: 3281694434696641381}
+  - component: {fileID: 6119546457172278730}
   m_Layer: 0
   m_Name: Stage Rest Warrior
   m_TagString: Player
@@ -282,6 +283,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.26, y: 0.38}
   m_EdgeRadius: 0
+--- !u!114 &6119546457172278730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7500981819607609728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd1aaa81f18dc4945b35f23a361e5256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GetMaskAnim: {fileID: 0}
+  endDoor: {fileID: 0}
 --- !u!1 &7781641155725957919
 GameObject:
   m_ObjectHideFlags: 0

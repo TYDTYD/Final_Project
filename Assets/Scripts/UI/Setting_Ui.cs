@@ -8,6 +8,7 @@ public class Setting_Ui : MonoBehaviour
     [SerializeField] Image[] GetImages;
     [SerializeField] RectTransform group;
     [SerializeField] Keyboard_Input Keyboard_Input;
+    [SerializeField] MaskVariation GetMaskVariation;
     int pos = 0;
     Vector2 CachePosition;
     float initPosition;
@@ -56,7 +57,7 @@ public class Setting_Ui : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Submit();
-            StartCoroutine(GameManager.Instance.PreloadScene(0));
+            StartCoroutine(GameManager.Instance.PreloadScene(0,GetMaskVariation.Darker()));
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {

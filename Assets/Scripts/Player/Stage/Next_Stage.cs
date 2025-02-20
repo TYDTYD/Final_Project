@@ -28,7 +28,7 @@ public class Next_Stage : MonoBehaviour
         {
             trigger = true;
             GameManager.Instance.GetStageNumber = GameManager.Instance.CurrentSceneNumber + 1;
-            StartCoroutine(GameManager.Instance.PreloadScene("Stage Rest"));
+            StartCoroutine(GameManager.Instance.PreloadScene("Stage Rest", GetMaskVariation.Darker()));
         }
     }
 }

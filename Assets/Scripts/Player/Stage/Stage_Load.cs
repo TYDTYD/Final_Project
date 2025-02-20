@@ -1,17 +1,12 @@
 using UnityEngine;
-using System;
+using System.Collections;
 public class Stage_Load : MonoBehaviour
 {
     Vector3 plus = new Vector3(0.06f, 0);
-    event Action MovingScene;
 
     [SerializeField] MaskAnim GetMaskAnim;
     [SerializeField] Transform endDoor;
-
-    private void Start()
-    {
-        MovingScene += GameManager.Instance.OnStageLoad;
-    }
+    bool trigger = false;
 
     void FixedUpdate()
     {
@@ -20,10 +15,12 @@ public class Stage_Load : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Finish"))
+        if (collision.CompareTag("Finish") && !trigger)
         {
-            GetMaskAnim.MaskAnimStart_Small(endDoor.position, MovingScene);
-            Stage_UI_Presenter.Instance.stage.Value = GameManager.Instance.GetStageNumber;
+            int num = GameManager.Instance.GetStageNumber;
+            trigger = true;
+            StartCoroutine(GameManager.Instance.PreloadScene(num, GetMaskAnim.ControlScale(pos: endDoor.position, targetSize: 0f)));
+            Stage_UI_Presenter.Instance.stage.Value = num;
         }
     }
 }
