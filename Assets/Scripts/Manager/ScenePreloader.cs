@@ -8,6 +8,8 @@ public partial class GameManager : MonoBehaviour
     Dictionary<string, AsyncOperation> LoadCache = new Dictionary<string, AsyncOperation>();
     Dictionary<int, string> SceneIndex = new Dictionary<int, string>();
 
+    [SerializeField] MaskVariation GetMaskVariation;
+
     string[] scenesToLoad = { "Title", "Stage 1", "Stage 2", "Stage 3", "Stage 4", "Stage Rest", "Game Over", "Setting", "Statistic" };
     
     void CacheScenes(string[] sceneNames)
@@ -24,19 +26,17 @@ public partial class GameManager : MonoBehaviour
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneIndex[index]);
         LoadCache[SceneIndex[index]] = asyncLoad;
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
+        asyncLoad.allowSceneActivation = false;
+        yield return GetMaskVariation.Darker();
+        asyncLoad.allowSceneActivation = true;
     }
 
     public IEnumerator PreloadScene(string sceneName)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         LoadCache[sceneName] = asyncLoad;
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
+        asyncLoad.allowSceneActivation = false;
+        yield return GetMaskVariation.Darker();
+        asyncLoad.allowSceneActivation = true;
     }
 }

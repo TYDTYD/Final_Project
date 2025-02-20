@@ -10,29 +10,12 @@ public class MaskVariation : MonoBehaviour
         mask = GetComponent<Image>();
     }
 
-    public void Darker(Action change)
-    {
-        StartCoroutine(FadeImageAlpha(mask, 1f, 0.8f,change));
-    }
-
-    public void Darker(IEnumerator coroutine)
-    {
-        StartCoroutine(FadeImageAlpha(mask, 1f, 0.8f, coroutine));
-    }
-
-    public void Brighter(Action change)
-    {
-        StartCoroutine(FadeImageAlpha(mask, 0f, 0.8f,change));
-    }
-
-    public void Brighter()
-    {
-        StartCoroutine(FadeImageAlpha(mask, 0f, 0.8f));
-    }
-    public void Brighter(IEnumerator coroutine)
-    {
-        StartCoroutine(FadeImageAlpha(mask, 0f, 0.8f, coroutine));
-    }
+    public void Darker(Action change) => StartCoroutine(FadeImageAlpha(mask, 1f, 0.8f, change));
+    public void Darker(IEnumerator coroutine) => StartCoroutine(FadeImageAlpha(mask, 1f, 0.8f, coroutine));
+    public IEnumerator Darker() => FadeImageAlpha(mask, 1f, 0.8f);
+    public void Brighter(Action change) => StartCoroutine(FadeImageAlpha(mask, 0f, 0.8f, change));
+    public void Brighter() => StartCoroutine(FadeImageAlpha(mask, 0f, 0.8f));
+    public void Brighter(IEnumerator coroutine) => StartCoroutine(FadeImageAlpha(mask, 0f, 0.8f, coroutine));
 
     IEnumerator FadeImageAlpha(Image image, float targetAlpha, float duration, Action change)
     {
@@ -95,5 +78,4 @@ public class MaskVariation : MonoBehaviour
         image.color = finalColor;
         yield return coroutine;
     }
-
 }
