@@ -8,6 +8,7 @@ public partial class GameManager : MonoBehaviour
     public GameState CurrentState { get; private set; } = GameState.MainMenu;
 
     [SerializeField] GameObject playerPrefab;
+    Model model;
     GameObject player;
     int stageNumber = 0;
 
@@ -41,6 +42,8 @@ public partial class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        model = Model.Instance;
     }
 
     public int CurrentSceneNumber
@@ -57,14 +60,14 @@ public partial class GameManager : MonoBehaviour
         {
             player = InstantiatePlayer(GetStageStartPosition(sceneNum));
             StageLoad?.Invoke();
-            if (Stage_UI_Presenter.Instance != null)
-                Stage_UI_Presenter.Instance.CurrentOnStage = true;
+            if (model != null)
+                model.CurrentOnStage = true;
         }
         else
         {
             player = null;
-            if (Stage_UI_Presenter.Instance!=null)
-                Stage_UI_Presenter.Instance.CurrentOnStage = false;
+            if (model != null)
+                model.CurrentOnStage = false;
         }
     }
 
@@ -84,10 +87,7 @@ public partial class GameManager : MonoBehaviour
     public GameObject GetPlayer => player;
     public int GetStageNumber
     {
-        get
-        {
-            return Stage_UI_Presenter.Instance.stage.Value = stageNumber;
-        }
+        get => model.stage.Value = stageNumber;
         set
         {
             if (value >= 1 && value <= 4)

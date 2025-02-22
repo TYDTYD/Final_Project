@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using player;
 public class Player_Right_Flip : MonoBehaviour
 {
     bool edgeDetact = false;

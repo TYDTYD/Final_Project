@@ -1,122 +1,124 @@
-using UnityEngine;
-
-public class Player_Rigidbody : MonoBehaviour
+namespace player
 {
-    [SerializeField] Transform GetTransform;
-    Rigidbody2D GetRigidbody2D;
-    Player GetPlayer;
-
-    bool Grounded = false;
-    bool Ladder = false;
-    bool Climbing = false;
-    float gravity = 6f;
-    void Start()
+    using UnityEngine;
+    public class Player_Rigidbody : MonoBehaviour
     {
-        GetPlayer = GetComponent<Player>();
-        GetRigidbody2D = GetPlayer.GetRigidbody;
-    }
+        [SerializeField] Transform GetTransform;
+        Rigidbody2D GetRigidbody2D;
+        Player GetPlayer;
 
-    void UpdateClimbingState()
-    {
-        if (GetClimbing)
+        bool Grounded = false;
+        bool Ladder = false;
+        bool Climbing = false;
+        float gravity = 6f;
+        void Start()
         {
-            GetRigidbody2D.gravityScale = 0f;
-            GetRigidbody2D.linearVelocityY = 0f;
+            GetPlayer = GetComponent<Player>();
+            GetRigidbody2D = GetPlayer.GetRigidbody;
         }
-        else
+
+        void UpdateClimbingState()
         {
-            GetRigidbody2D.gravityScale = gravity;
-        }
-    }
-
-    void CheckGrounded(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
-        {
-            Grounded = true;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ladder"))
-        {
-            Ladder = true;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        CheckGrounded(collision);
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        CheckGrounded(collision);
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            Grounded = false;
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ladder"))
-        {
-            Ladder = true;
             if (GetClimbing)
             {
-                transform.position = new Vector3(collision.transform.position.x 
-                    - GetTransform.localPosition.x, transform.position.y);
+                GetRigidbody2D.gravityScale = 0f;
+                GetRigidbody2D.linearVelocityY = 0f;
             }
-            return;
+            else
+            {
+                GetRigidbody2D.gravityScale = gravity;
+            }
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ladder"))
+        void CheckGrounded(Collision2D collision)
         {
-            Ladder = false;
-            GetClimbing = false;
+            if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
+            {
+                Grounded = true;
+            }
         }
-    }
 
-    public bool GetClimbing
-    {
-        get => Climbing;
-        set
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (Climbing != value)
+            if (collision.CompareTag("Ladder"))
             {
-                Climbing = value;
-                UpdateClimbingState();
+                Ladder = true;
             }
         }
-    }
-    public bool GetGrounded
-    {
-        get => Grounded;
-        set
+
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (Grounded != value)
+            CheckGrounded(collision);
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            CheckGrounded(collision);
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("Ground"))
             {
-                Grounded = value;
+                Grounded = false;
             }
         }
-    }
-    public bool GetLadder
-    {
-        get => Ladder;
-        set
+
+        private void OnTriggerStay2D(Collider2D collision)
         {
-            if (Ladder != value)
+            if (collision.CompareTag("Ladder"))
             {
-                Ladder = value;
+                Ladder = true;
+                if (GetClimbing)
+                {
+                    transform.position = new Vector3(collision.transform.position.x
+                        - GetTransform.localPosition.x, transform.position.y);
+                }
+                return;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Ladder"))
+            {
+                Ladder = false;
+                GetClimbing = false;
+            }
+        }
+
+        public bool GetClimbing
+        {
+            get => Climbing;
+            set
+            {
+                if (Climbing != value)
+                {
+                    Climbing = value;
+                    UpdateClimbingState();
+                }
+            }
+        }
+        public bool GetGrounded
+        {
+            get => Grounded;
+            set
+            {
+                if (Grounded != value)
+                {
+                    Grounded = value;
+                }
+            }
+        }
+        public bool GetLadder
+        {
+            get => Ladder;
+            set
+            {
+                if (Ladder != value)
+                {
+                    Ladder = value;
+                }
             }
         }
     }

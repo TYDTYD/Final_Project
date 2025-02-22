@@ -1,23 +1,25 @@
-using UnityEngine;
-
-public class Player_Item : MonoBehaviour
+namespace player
 {
-    GameObject obj = null;
-    private void OnTriggerStay2D(Collider2D collision)
+    using UnityEngine;
+    public class Player_Item : MonoBehaviour
     {
-        if(collision.gameObject.TryGetComponent(out IItem item))
+        GameObject obj = null;
+        private void OnTriggerStay2D(Collider2D collision)
         {
-            obj = collision.gameObject;
-            return;
+            if (collision.gameObject.TryGetComponent(out IItem item))
+            {
+                obj = collision.gameObject;
+                return;
+            }
+            obj = null;
         }
-        obj = null;
-    }
 
-    public GameObject GetObject
-    {
-        get
+        public GameObject GetObject
         {
-            return obj;
+            get
+            {
+                return obj;
+            }
         }
     }
 }

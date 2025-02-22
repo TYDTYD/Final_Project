@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 public class Stage_Load : MonoBehaviour
 {
     Vector3 plus = new Vector3(0.06f, 0);
@@ -20,7 +19,7 @@ public class Stage_Load : MonoBehaviour
             int num = GameManager.Instance.GetStageNumber;
             trigger = true;
             StartCoroutine(GameManager.Instance.PreloadScene(num, GetMaskAnim.ControlScale(pos: endDoor.position, targetSize: 0f)));
-            Stage_UI_Presenter.Instance.stage.Value = num;
+            Model.Instance.stage.Value = num;
         }
     }
 }

@@ -1,47 +1,50 @@
-using UnityEngine;
-using System;
-using System.Collections.Generic;
-public class InputHandler : MonoBehaviour
+namespace player
 {
-    public static List<KeyCode> keyCodes = new List<KeyCode>();
-    public static KeyCode LeftKey;
-    public static KeyCode RightKey;
-    public static KeyCode UpKey;
-    public static KeyCode DownKey;
-    public static KeyCode AttackKey;
-    public static KeyCode ItemKey;
-    public static KeyCode JumpKey;
-    public static KeyCode RopeKey;
-    public static KeyCode BombKey;
-
-    private void Awake()
+    using UnityEngine;
+    using System;
+    using System.Collections.Generic;
+    public class InputHandler : MonoBehaviour
     {
-        AcceptKey();
-    }
+        public static List<KeyCode> keyCodes = new List<KeyCode>();
+        public static KeyCode LeftKey;
+        public static KeyCode RightKey;
+        public static KeyCode UpKey;
+        public static KeyCode DownKey;
+        public static KeyCode AttackKey;
+        public static KeyCode ItemKey;
+        public static KeyCode JumpKey;
+        public static KeyCode RopeKey;
+        public static KeyCode BombKey;
 
-    public static void AcceptKey()
-    {
-        foreach (Interact.KeySequence key in Enum.GetValues(typeof(Interact.KeySequence)))
+        private void Awake()
         {
-            if (key == Interact.KeySequence.Jump)
-                JumpKey = Interact.GetKeyCode(key);
-            if (key == Interact.KeySequence.Up)
-                UpKey = Interact.GetKeyCode(key);
-            if (key == Interact.KeySequence.Down)
-                DownKey = Interact.GetKeyCode(key);
-            if (key == Interact.KeySequence.Attack)
-                AttackKey = Interact.GetKeyCode(key);
-            if (key == Interact.KeySequence.Item)
-                ItemKey = Interact.GetKeyCode(key);
-            if (key == Interact.KeySequence.Rope)
-                RopeKey = Interact.GetKeyCode(key);
-            if (key == Interact.KeySequence.Bomb)
-                BombKey = Interact.GetKeyCode(key);
-            if (key == Interact.KeySequence.Left)
-                LeftKey = Interact.GetKeyCode(key);
-            if (key == Interact.KeySequence.Right)
-                RightKey = Interact.GetKeyCode(key);
-            keyCodes.Add(Interact.GetKeyCode(key));
+            AcceptKey();
+        }
+
+        public static void AcceptKey()
+        {
+            foreach (Interact.KeySequence key in Enum.GetValues(typeof(Interact.KeySequence)))
+            {
+                if (key == Interact.KeySequence.Jump)
+                    JumpKey = Interact.GetKeyCode(key);
+                if (key == Interact.KeySequence.Up)
+                    UpKey = Interact.GetKeyCode(key);
+                if (key == Interact.KeySequence.Down)
+                    DownKey = Interact.GetKeyCode(key);
+                if (key == Interact.KeySequence.Attack)
+                    AttackKey = Interact.GetKeyCode(key);
+                if (key == Interact.KeySequence.Item)
+                    ItemKey = Interact.GetKeyCode(key);
+                if (key == Interact.KeySequence.Rope)
+                    RopeKey = Interact.GetKeyCode(key);
+                if (key == Interact.KeySequence.Bomb)
+                    BombKey = Interact.GetKeyCode(key);
+                if (key == Interact.KeySequence.Left)
+                    LeftKey = Interact.GetKeyCode(key);
+                if (key == Interact.KeySequence.Right)
+                    RightKey = Interact.GetKeyCode(key);
+                keyCodes.Add(Interact.GetKeyCode(key));
+            }
         }
     }
 }

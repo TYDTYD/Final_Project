@@ -1,29 +1,22 @@
-using UnityEngine;
-using UniRx;
-using System;
-public class Player_Health : MonoBehaviour, IHealth 
+namespace player
 {
-    public IReactiveProperty<int> health = new ReactiveProperty<int>(4);
-    public Action DeathEvent;
-
-    private void Start()
+    using UnityEngine;
+    using UniRx;
+    using System;
+    public class Player_Health : MonoBehaviour, IHealth
     {
-        health.Subscribe(_health =>
+        public IReactiveProperty<int> health;
+        public Action DeathEvent;
+        private void Start()
         {
-            if (_health <= 0)
+            health = Model.Instance.health;
+            health.Subscribe(_health =>
             {
-                Debug.Log("Á×À½");
-                DeathEvent();
-            }
-        }).AddTo(this);
-    }
-    public void Heal(int amount)
-    {
-        health.Value += amount;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health.Value -= damage;
+                if (_health <= 0)
+                    DeathEvent();
+            }).AddTo(this);
+        }
+        public void Heal(int amount) => health.Value += amount;
+        public void TakeDamage(int damage) => health.Value -= damage;
     }
 }

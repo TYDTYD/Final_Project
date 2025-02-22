@@ -1,46 +1,48 @@
-using UnityEngine;
-using System.Collections.Generic;
-public class Player : MonoBehaviour
+namespace player
 {
-    public enum State
+    using UnityEngine;
+    using System.Collections.Generic;
+
+    public partial class Player : MonoBehaviour
     {
-        Idle_State,
-        Jump_State,
-        Ladder_State,
-        Damage_State,
-        Attack_State,
-        Move_State,
-        Fall_State,
-        Land_State,
-        LadderStop_State,
-        EdgeDetact_State,
-        SittingStart_State,
-        Sitting_State,
-        SittingMove_State,
-        Edge_State,
-        Death_State
-    };
+        public enum State
+        {
+            Idle_State,
+            Jump_State,
+            Ladder_State,
+            Damage_State,
+            Attack_State,
+            Move_State,
+            Fall_State,
+            Land_State,
+            LadderStop_State,
+            EdgeDetact_State,
+            SittingStart_State,
+            Sitting_State,
+            SittingMove_State,
+            Edge_State,
+            Death_State
+        };
 
-    [SerializeField] Animator animator;
-    [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] Player_Health player_health;
-    [SerializeField] Player_Item player_Item;
-    [SerializeField] Rigidbody2D rigidBody;
-    [SerializeField] Player_Rigidbody player_Rigidbody;
-    [SerializeField] Player_Input player_Input;
-    [SerializeField] Player_Right_Flip player_Right_Flip;
-    [SerializeField] Player_Left_Flip player_Left_Flip;
-    [SerializeField] Player_Anim player_Anim;
-    Player_Tracking player_Tracking;
-    Dictionary<State, int> animationHashes;
+        [SerializeField] Player_Health player_health;
+        [SerializeField] Player_Item player_Item;
+        [SerializeField] Player_Rigidbody player_Rigidbody;
+        [SerializeField] Player_Input player_Input;
+        [SerializeField] Player_Right_Flip player_Right_Flip;
+        [SerializeField] Player_Left_Flip player_Left_Flip;
 
-    State previousState;
-    State currentState = State.Idle_State;
+        Rigidbody2D rigidBody;
+        Animator animator;
+        SpriteRenderer spriteRenderer;
+        Player_Tracking player_Tracking;
+        Dictionary<State, int> animationHashes;
 
-    private void Awake()
-    {
+        State previousState;
+        State currentState = State.Idle_State;
 
-        animationHashes = new Dictionary<State, int>
+        private void Awake()
+        {
+            animationHashes = new Dictionary<State, int>
         {
             { State.Idle_State, Animator.StringToHash("Idle") },
             { State.Jump_State, Animator.StringToHash("Jump") },
@@ -56,58 +58,53 @@ public class Player : MonoBehaviour
             { State.Edge_State, Animator.StringToHash("Edge_Idle") },
             { State.Death_State, Animator.StringToHash("Death") }
         };
-    }
 
-
-    void Update()
-    {
-        if (currentState != previousState)
-        {
-            TriggerAnimation(currentState,previousState);
-            previousState = currentState;
+            rigidBody = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
-    }
 
-    void TriggerAnimation(State state, State before_State)
-    {
-        if(animationHashes.TryGetValue(before_State, out int hashValue))
-            animator.ResetTrigger(hashValue);
+        
 
-        if (animationHashes.TryGetValue(state, out int hash))
-            animator.SetTrigger(hash);
-    }
-
-    public SpriteRenderer GetSprite => spriteRenderer;
-    public Rigidbody2D GetRigidbody => rigidBody;
-    public Player_Rigidbody GetPlayer_Rigidbody => player_Rigidbody;
-    public Player_Input GetPlayer_Input => player_Input;
-    public Player_Item GetPlayer_Item => player_Item;
-    public Animator GetAnimator => animator;
-    public Player_Health GetPlayer_Health => player_health;
-    public Player_Right_Flip GetPlayer_Right_Flip => player_Right_Flip;
-    public Player_Left_Flip GetPlayer_Left_Flip => player_Left_Flip;
-    public Player_Anim GetPlayer_Anim => player_Anim;
-    public Player_Tracking GetPlayer_Tracking
-    {
-        get
+        void TriggerAnimation(State state, State before_State)
         {
-            return player_Tracking;
+            if (animationHashes.TryGetValue(before_State, out int hashValue))
+                animator.ResetTrigger(hashValue);
+
+            if (animationHashes.TryGetValue(state, out int hash))
+                animator.SetTrigger(hash);
         }
-        set
-        {
-            player_Tracking = value;
-        }
-    }
 
-    public State CurrentState
-    {
-        get
+        public SpriteRenderer GetSprite => spriteRenderer;
+        public Rigidbody2D GetRigidbody => rigidBody;
+        public Player_Rigidbody GetPlayer_Rigidbody => player_Rigidbody;
+        public Player_Input GetPlayer_Input => player_Input;
+        public Player_Item GetPlayer_Item => player_Item;
+        public Animator GetAnimator => animator;
+        public Player_Health GetPlayer_Health => player_health;
+        public Player_Right_Flip GetPlayer_Right_Flip => player_Right_Flip;
+        public Player_Left_Flip GetPlayer_Left_Flip => player_Left_Flip;
+        public Player_Tracking GetPlayer_Tracking
         {
-            return currentState;
+            get
+            {
+                return player_Tracking;
+            }
+            set
+            {
+                player_Tracking = value;
+            }
         }
-        set
+        public State CurrentState
         {
-            currentState = value;
+            get
+            {
+                return currentState;
+            }
+            set
+            {
+                currentState = value;
+            }
         }
     }
 }

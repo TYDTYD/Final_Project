@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using player;
 public class Item : ICommand
 {
     //bool isActive = false;

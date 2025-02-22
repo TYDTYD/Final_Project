@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using player;
 public class Run_Anim : StateMachineBehaviour
 {
     Player GetPlayer;

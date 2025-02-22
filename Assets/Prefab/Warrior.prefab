@@ -49,7 +49,6 @@ GameObject:
   - component: {fileID: 1187399062659430636}
   - component: {fileID: 1486312039944480233}
   - component: {fileID: 2416426777593782060}
-  - component: {fileID: 3223504900952890338}
   - component: {fileID: 6942771757804216367}
   - component: {fileID: 1873003423460213190}
   m_Layer: 3
@@ -252,16 +251,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4bf4ab27794f54babdd3e2d71d9087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1896843984584481652}
-  spriteRenderer: {fileID: 6524587174874614599}
   player_health: {fileID: 6942771757804216367}
   player_Item: {fileID: 1873003423460213190}
-  rigidBody: {fileID: 949094434969830326}
   player_Rigidbody: {fileID: 1187399062659430636}
   player_Input: {fileID: 1486312039944480233}
   player_Right_Flip: {fileID: 4603075839728996474}
   player_Left_Flip: {fileID: 3435168269065166802}
-  player_Anim: {fileID: 3223504900952890338}
 --- !u!114 &1187399062659430636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,18 +298,6 @@ MonoBehaviour:
   playerTransform: {fileID: 3274307563212159352}
   topViewTransform: {fileID: 4740498680992479831}
   downViewTransform: {fileID: 2264070288830732118}
---- !u!114 &3223504900952890338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3424163994475188283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cebebee7c28e2643a6affe7ffe54780, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6942771757804216367
 MonoBehaviour:
   m_ObjectHideFlags: 0

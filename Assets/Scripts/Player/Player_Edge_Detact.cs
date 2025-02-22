@@ -1,20 +1,22 @@
-using UnityEngine;
-
-public class Player_Edge_Detact : MonoBehaviour
+namespace player
 {
-    Player_Rigidbody player_Rigidbody;
-
-    private void Start()
+    using UnityEngine;
+    public class Player_Edge_Detact : MonoBehaviour
     {
-        player_Rigidbody = GetComponentInParent<Player_Rigidbody>();
-    }
+        Player_Rigidbody player_Rigidbody;
 
-    public bool isEdge = false;
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ground") && player_Rigidbody.GetGrounded)
-            isEdge = true;
-        else
-            isEdge = false;
+        private void Start()
+        {
+            player_Rigidbody = GetComponentInParent<Player_Rigidbody>();
+        }
+
+        public bool isEdge = false;
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Ground") && player_Rigidbody.GetGrounded)
+                isEdge = true;
+            else
+                isEdge = false;
+        }
     }
 }

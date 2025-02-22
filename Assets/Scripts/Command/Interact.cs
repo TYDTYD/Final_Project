@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using player;
 public class Interact : MonoBehaviour
 {
     public enum KeySequence

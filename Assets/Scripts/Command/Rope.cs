@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using player;
 public class Rope : ICommand
 {
     GameObject Anchor;
@@ -7,7 +8,7 @@ public class Rope : ICommand
 
     Vector3 offset = new Vector3(0, 0.687f);
     Player GetPlayer;
-    
+
     public Rope(Player player,GameObject obj)
     {
         GetPlayer = player;
@@ -58,10 +59,10 @@ public class Rope : ICommand
         if (hit.collider == null)
             return;
 
-        if (Stage_UI_Presenter.Instance.rope.Value <= 0)
+        if (Model.Instance.rope.Value <= 0)
             return;
 
-        Stage_UI_Presenter.Instance.rope.Value--;
+        Model.Instance.rope.Value--;
         Vector3 pos = new Vector3(Mathf.Round(hit.point.x), hit.point.y);
         rope = Object.Instantiate(Anchor);
         rope.transform.position = GetPlayer.transform.position;
