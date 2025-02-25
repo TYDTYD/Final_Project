@@ -1,5 +1,5 @@
 using UnityEngine;
-using System;
+using Steamworks;
 public class NewMonoBehaviourScript : MonoBehaviour
 {
     /*
@@ -32,4 +32,16 @@ public class NewMonoBehaviourScript : MonoBehaviour
         // Call Unity Authentication SDK to sign in or link with Steam.
         Debug.Log("Steam Login success. Session Ticket: " + m_SessionTicket);
     }*/
+
+    void Start()
+    {
+        if (!SteamManager.Initialized)
+        {
+            Debug.LogError("Steam 초기화 실패!");
+            return;
+        }
+
+        string steamUsername = SteamFriends.GetPersonaName();
+        Debug.Log("로그인한 유저: " + steamUsername);
+    }
 }
