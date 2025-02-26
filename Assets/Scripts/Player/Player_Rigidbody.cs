@@ -44,6 +44,7 @@ namespace player
             {
                 Ladder = true;
             }
+            
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

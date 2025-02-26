@@ -17,6 +17,11 @@ namespace player
             }).AddTo(this);
         }
         public void Heal(int amount) => health.Value += amount;
-        public void TakeDamage(int damage) => health.Value -= damage;
+        public void TakeDamage(int damage, int force, Rigidbody2D rb)
+        {
+            health.Value -= damage;
+            Vector3 knockbackDir = (rb.transform.position - transform.position).normalized;
+            rb.AddForce(knockbackDir * 500);
+        }
     }
 }

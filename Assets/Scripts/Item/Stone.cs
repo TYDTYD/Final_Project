@@ -10,7 +10,7 @@ public class Stone : MonoBehaviour, IItem
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.CompareTag("Ground"))
         {
             rb.linearVelocity = Vector2.zero;
             isDamaged = false;
@@ -20,13 +20,13 @@ public class Stone : MonoBehaviour, IItem
             if (collision.gameObject.TryGetComponent(out IHealth health))
             {
                 Debug.Log("µ¥¹ÌÁö");
-                health.TakeDamage(1);
-            }
-            if (collision.gameObject.TryGetComponent(out Rigidbody2D rb))
-            {
-                Vector3 knockbackDir = (collision.transform.position - transform.position).normalized;
-                rb.AddForce(knockbackDir * 500);
+                health.TakeDamage(1, 500, rb);
             }
         }
+    }
+
+    public void Use()
+    {
+        
     }
 }

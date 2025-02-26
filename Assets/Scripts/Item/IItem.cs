@@ -2,8 +2,5 @@ using UnityEngine;
 
 public interface IItem
 {
-    void Use()
-    {
-
-    }
+    public void Use();
 }

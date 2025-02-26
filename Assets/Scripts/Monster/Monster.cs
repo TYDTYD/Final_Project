@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster
 {
+    int health;
     int groggi;
     bool catchable = true;
-    Monster(int _groggi, bool c)
+    public Monster(int h, int _groggi, bool c)
     {
+        health = h;
         groggi = _groggi;
         catchable = c;
     }
