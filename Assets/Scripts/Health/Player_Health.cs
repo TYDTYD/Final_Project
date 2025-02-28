@@ -7,8 +7,12 @@ namespace player
     {
         public IReactiveProperty<int> health;
         public Action DeathEvent;
+        Player GetPlayer;
+        Rigidbody2D GetRigidbody2D;
         private void Start()
         {
+            GetPlayer = GetComponent<Player>();
+            GetRigidbody2D = GetPlayer.GetRigidbody;
             health = Model.Instance.health;
             health.Subscribe(_health =>
             {
@@ -21,7 +25,7 @@ namespace player
         {
             health.Value -= damage;
             Vector3 knockbackDir = (rb.transform.position - transform.position).normalized;
-            rb.AddForce(knockbackDir * 500);
+            GetRigidbody2D.AddForce(knockbackDir * force);
         }
     }
 }
