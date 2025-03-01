@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Monster_Girl : MonoBehaviour, IItem, IHealth
 {
-    Monster GetMonster;
     GameObject player;
     Monster_Anim GetMonster_Anim;
     RectTransform GetRectTransform;
@@ -12,7 +11,6 @@ public class Monster_Girl : MonoBehaviour, IItem, IHealth
     float chaseDist = 4f;
     void Start()
     {
-        GetMonster = new Monster(health, 0, false);
         player = GameManager.Instance.GetPlayer;
         GetMonster_Anim = GetComponent<Monster_Anim>();
         GetRectTransform = GetComponent<RectTransform>();
@@ -55,6 +53,8 @@ public class Monster_Girl : MonoBehaviour, IItem, IHealth
     {
 
     }
+
+    public bool GetCatchable() => true;
 
     public void TakeDamage(int damage, int force, Rigidbody2D rb)
     {

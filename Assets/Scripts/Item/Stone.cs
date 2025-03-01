@@ -29,4 +29,6 @@ public class Stone : MonoBehaviour, IItem
     {
         
     }
+
+    public bool GetCatchable() => false;
 }

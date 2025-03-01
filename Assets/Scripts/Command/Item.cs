@@ -32,19 +32,13 @@ public class Item : ICommand
 
         if (obj is null)
             return;
+        IItem item;
+        if (!obj.TryGetComponent(out item))
+            return;
+
         if (isCatch)
         {
-            if(obj.TryGetComponent(out Monster monster))
-            {
-                if (!monster.GetCatchable)
-                    return;
-                if (monster.GetGroggi <= 0)
-                    return;
-            }
-            if(obj.TryGetComponent(out IItem item))
-            {
-                item.Use();
-            }
+            item.Use();   
             obj.transform.SetParent(null);
             Vector3 dir = (GetPlayer.GetSprite.flipX ? left : right);
             obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
@@ -57,5 +51,14 @@ public class Item : ICommand
             obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         }
         isCatch = !isCatch;
+    }
+
+    bool CatchMonster(Monster monster)
+    {
+        if (!monster.GetCatchable)
+            return false;
+        if (monster.GetGroggi <= 0)
+            return false;
+        return true;
     }
 }
