@@ -3,6 +3,7 @@ using player;
 public class Attack : ICommand
 {
     Player GetPlayer = null;
+    GameObject obj = null;
     Rigidbody2D rigidbody;
     Player_Rigidbody player_Rigidbody;
     public Attack(Rigidbody2D rigid)
@@ -18,15 +19,23 @@ public class Attack : ICommand
 
     public void Execute()
     {
-       
         if (GetPlayer)
         {
             if (GetPlayer.CurrentState == Player.State.Damage_State ||
-                GetPlayer.CurrentState == Player.State.Jump_State ||
                 GetPlayer.CurrentState == Player.State.Land_State ||
                 GetPlayer.CurrentState == Player.State.EdgeDetact_State)
                 return;
+
+            obj = GetPlayer.GetPlayer_Item.GetObject;
             player_Rigidbody.GetClimbing = false;
+
+            if (obj.TryGetComponent(out IItem item))
+            {
+                item.Use();
+                return;
+            }
+            if(GetPlayer.CurrentState != Player.State.Jump_State)
+                GetPlayer.CurrentState = Player.State.Attack_State;
         }
     }
 }

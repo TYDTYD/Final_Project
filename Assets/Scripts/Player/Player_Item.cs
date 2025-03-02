@@ -4,22 +4,30 @@ namespace player
     public class Player_Item : MonoBehaviour
     {
         GameObject obj = null;
-        private void OnTriggerStay2D(Collider2D collision)
+        bool IsCatch = false;
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.TryGetComponent(out IItem item))
+            if (collision.gameObject.TryGetComponent(out ICatchable _))
             {
                 obj = collision.gameObject;
                 return;
             }
-            obj = null;
         }
 
-        public GameObject GetObject
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            get
+            if (obj == null)
+                return;
+            if (collision.gameObject.TryGetComponent(out ICatchable _))
             {
-                return obj;
+                if (collision.gameObject == obj)
+                {
+                    obj = null;
+                }
             }
         }
+
+        public GameObject GetObject => obj;
+        public bool GetCatch { get => IsCatch; set => IsCatch = value; }
     }
 }

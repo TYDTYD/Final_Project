@@ -2,8 +2,6 @@ using UnityEngine;
 using player;
 public class Item : ICommand
 {
-    //bool isActive = false;
-    bool isCatch = false;
     GameObject obj = null;
     Player GetPlayer = null;
     Vector3 right = new Vector3(1, 0.2f, 0);
@@ -32,33 +30,14 @@ public class Item : ICommand
 
         if (obj is null)
             return;
-        IItem item;
-        if (!obj.TryGetComponent(out item))
+        ICatchable Catchable;
+        if (!obj.TryGetComponent(out Catchable))
             return;
 
-        if (isCatch)
-        {
-            item.Use();   
-            obj.transform.SetParent(null);
-            Vector3 dir = (GetPlayer.GetSprite.flipX ? left : right);
-            obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            obj.GetComponent<Rigidbody2D>().AddForce(dir * 50f,ForceMode2D.Impulse);
-        }
+        if (GetPlayer.GetPlayer_Item.GetCatch)
+            Catchable.Throw(GetPlayer.gameObject, left, right);
         else
-        {
-            obj.transform.SetParent(GetPlayer.transform);
-            obj.transform.localPosition = pos;
-            obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-        }
-        isCatch = !isCatch;
-    }
-
-    bool CatchMonster(Monster monster)
-    {
-        if (!monster.GetCatchable)
-            return false;
-        if (monster.GetGroggi <= 0)
-            return false;
-        return true;
+            Catchable.Grap(GetPlayer.gameObject, pos);
+        GetPlayer.GetPlayer_Item.GetCatch = !GetPlayer.GetPlayer_Item.GetCatch;
     }
 }

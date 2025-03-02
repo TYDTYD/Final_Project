@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Monster_Girl : MonoBehaviour, IItem, IHealth
+public class Monster_Girl : MonoBehaviour, IHealth
 {
     GameObject player;
     Monster_Anim GetMonster_Anim;
@@ -48,13 +48,6 @@ public class Monster_Girl : MonoBehaviour, IItem, IHealth
         if (direction.x > 0f) GetRectTransform.localScale = new Vector3(-1, 1, 1);
         else GetRectTransform.localScale = new Vector3(1, 1, 1);
     }
-
-    public void Use()
-    {
-
-    }
-
-    public bool GetCatchable() => true;
 
     public void TakeDamage(int damage, int force, Rigidbody2D rb)
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using player;
 using System.Collections;
-public class Arrow : MonoBehaviour, IItem
+public class Arrow : MonoBehaviour, ICatchable
 {
     float dist = 5f;
     float speed = 20f;
@@ -12,10 +12,6 @@ public class Arrow : MonoBehaviour, IItem
     Rigidbody2D rb;
     Collider2D col;
 
-    public void Use()
-    {
-        return;
-    }
     private IEnumerator EnableCollisionAfterDelay()
     {
         if (col.enabled)
@@ -39,11 +35,11 @@ public class Arrow : MonoBehaviour, IItem
             return;
         }
 
-        RaycastHit2D hit2D = Physics2D.Raycast(transform.position, transform.up, dist, LayerMask.GetMask("Target"));
+        RaycastHit2D hit2D = Physics2D.Raycast(transform.position, transform.up, dist);
         Debug.DrawRay(transform.position, transform.up*dist, Color.green);
         if (hit2D.collider != null)
         {
-            if (hit2D.collider.gameObject.TryGetComponent(out IItem _) || hit2D.collider.gameObject.TryGetComponent(out Player _))
+            if (hit2D.collider.gameObject.TryGetComponent(out ICatchable _) || hit2D.collider.gameObject.TryGetComponent(out Player _))
             {             
                 trigger = true;
                 StartCoroutine(EnableCollisionAfterDelay());
@@ -53,20 +49,15 @@ public class Arrow : MonoBehaviour, IItem
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isDamaged)
-            return;
         if (collision.gameObject.CompareTag("Ground"))
         {
-            trigger = false;
-            if (!fall)
-                GravityApply();
+            GravityApply();
+            rb.linearVelocity = Vector2.zero;
+            col.excludeLayers = LayerMask.GetMask("Target");
         }
         if (collision.gameObject.TryGetComponent(out IHealth health))
         {
-            trigger = false;
-            Debug.Log("플레이어");
-            if (!fall)
-                GravityApply();
+            GravityApply();
             health.TakeDamage(1, 500, rb);
         }
     }
@@ -76,23 +67,35 @@ public class Arrow : MonoBehaviour, IItem
         if (collision.CompareTag("Ground"))
         {
             rb.linearVelocity = Vector2.zero;
+            col.excludeLayers = LayerMask.GetMask("Target");
             isDamaged = false;
         }
-        else if (isDamaged)
+        if (collision.gameObject.TryGetComponent(out IHealth health))
         {
-            if (collision.gameObject.TryGetComponent(out IHealth health))
-            {
-                health.TakeDamage(1, 500, rb);
-            }
+            health.TakeDamage(1, 500, rb);
         }
     }
 
     void GravityApply()
     {
-        fall = true;
-        isDamaged = false;
+        if(!fall)
+            fall = true;
+        trigger = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
     }
-
-    public bool GetCatchable() => false;
+    public void Grap(GameObject obj, Vector3 pos)
+    {
+        transform.SetParent(obj.transform);
+        transform.localPosition = pos;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+    }
+    public void Throw(GameObject obj, Vector3 left, Vector3 right)
+    {
+        transform.SetParent(null);
+        Vector3 dir = (obj.GetComponent<SpriteRenderer>().flipX ? left : right);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.AddForce(dir * 50f, ForceMode2D.Impulse);
+        col.excludeLayers = 0;
+        isDamaged = true;
+    }
 }

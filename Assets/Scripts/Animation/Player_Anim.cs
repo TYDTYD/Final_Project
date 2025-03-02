@@ -148,9 +148,8 @@ namespace player
                 return;
             }
 
-            if (Input.GetKeyDown(InputHandler.AttackKey) && AttackTime <= 0f)
+            if (CurrentState == State.Attack_State && AttackTime <= 0f)
             {
-                CurrentState = State.Attack_State;
                 AttackTime = 0.65f;
                 return;
             }
