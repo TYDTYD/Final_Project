@@ -6,7 +6,7 @@ public class Monster_Girl : MonoBehaviour, IHealth
     Monster_Anim GetMonster_Anim;
     RectTransform GetRectTransform;
 
-    int health = 1;
+    public int health = 1;
     float speed = 3f;
     float chaseDist = 4f;
     void Start()
@@ -18,7 +18,10 @@ public class Monster_Girl : MonoBehaviour, IHealth
     void FixedUpdate()
     {
         if (GetMonster_Anim.GetState == State.DEATH)
+        {
+            gameObject.SetActive(false);
             return;
+        }
         if (isAround())
         {
             GetMonster_Anim.GetState = State.MOVE;

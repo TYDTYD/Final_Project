@@ -3,6 +3,7 @@ using player;
 public class Item : ICommand
 {
     GameObject obj = null;
+    GameObject item = null;
     Player GetPlayer = null;
     Vector3 right = new Vector3(1, 0.2f, 0);
     Vector3 left = new Vector3(-1, 0.2f, 0);
@@ -25,19 +26,22 @@ public class Item : ICommand
     {
         if (GetPlayer != null)
         {
-            obj = GetPlayer.GetPlayer_Item.GetObject;
+            obj = GetPlayer.GetPlayer_Item.GetObj;
+            item = GetPlayer.GetPlayer_Item.CurrentItem;
         }
 
-        if (obj is null)
-            return;
-        ICatchable Catchable;
-        if (!obj.TryGetComponent(out Catchable))
-            return;
-
-        if (GetPlayer.GetPlayer_Item.GetCatch)
-            Catchable.Throw(GetPlayer.gameObject, left, right);
+        if (GetPlayer.GetPlayer_Item.CurrentItem != null)
+        {
+            item.GetComponent<ICatchable>().Throw(GetPlayer.gameObject, left, right);
+            GetPlayer.GetPlayer_Item.GetCatch = false;
+            GetPlayer.GetPlayer_Item.CurrentItem = null;
+        }
         else
-            Catchable.Grap(GetPlayer.gameObject, pos);
-        GetPlayer.GetPlayer_Item.GetCatch = !GetPlayer.GetPlayer_Item.GetCatch;
+        {
+            GetPlayer.GetPlayer_Item.CurrentItem = obj;
+            GetPlayer.GetPlayer_Item.GetCatch = true;
+            if(obj)
+                obj.GetComponent<ICatchable>().Grap(GetPlayer.gameObject, pos);
+        }
     }
 }

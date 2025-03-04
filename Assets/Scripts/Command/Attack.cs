@@ -26,7 +26,7 @@ public class Attack : ICommand
                 GetPlayer.CurrentState == Player.State.EdgeDetact_State)
                 return;
 
-            obj = GetPlayer.GetPlayer_Item.GetObject;
+            obj = GetPlayer.GetPlayer_Item.CurrentItem;
             player_Rigidbody.GetClimbing = false;
 
             if (obj.TryGetComponent(out IItem item))

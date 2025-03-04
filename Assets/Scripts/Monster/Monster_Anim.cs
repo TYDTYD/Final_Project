@@ -33,7 +33,7 @@ public class Monster_Anim : MonoBehaviour
                 break;
             case State.DEATH:
                 GetAnimator.SetBool(Animator.StringToHash("1_Move"), false);
-                GetAnimator.SetBool(Animator.StringToHash("isDeath"), true);
+                GetAnimator.SetTrigger(Animator.StringToHash("isDeath"));
                 break;
         }
     }
