@@ -9,7 +9,6 @@ namespace player
         IDisposable damageResetSubscription;
 
         float GroggiTime = 0.5f;
-        float FallTime = 0f;
         float LandTime = 0f;
         float AttackTime = 0f;
         float SittingTime = 0f;
@@ -19,7 +18,7 @@ namespace player
         void Start()
         {
             // 체력이 감소했을 때만 IsDamaged를 true로 설정
-            Model.Instance.health.Pairwise() // 이전 값과 현재 값을 비교
+            Stage_UI_View.Instance.Health.Pairwise() // 이전 값과 현재 값을 비교
                 .Where(pair => pair.Previous > pair.Current) // 체력이 감소할 때만 실행
                 .Subscribe(_ =>
                 {
@@ -63,7 +62,6 @@ namespace player
             // 사다리 여부
             if (GetPlayer_Rigidbody.GetClimbing)
             {
-                FallTime = 0f;
                 if (Input.GetKey(InputHandler.JumpKey))
                 {
                     CurrentState = Player.State.Jump_State;
@@ -91,14 +89,12 @@ namespace player
             // 공중 여부
             if (!GetPlayer_Rigidbody.GetGrounded)
             {
-                FallTime += Time.deltaTime;
                 BeforeGrounded = false;
                 if (GetPlayer_Right_Flip.GetEdgeDetact)
                 {
                     if (!Input.GetKey(InputHandler.RightKey))
                         return;
                     CurrentState = State.Edge_State;
-                    FallTime = 0f;
                     return;
                 }
                 if (GetPlayer_Left_Flip.GetEdgeDetact)
@@ -106,7 +102,6 @@ namespace player
                     if (!Input.GetKey(InputHandler.LeftKey))
                         return;
                     CurrentState = State.Edge_State;
-                    FallTime = 0f;
                     return;
                 }
                 if (Input.GetKeyDown(InputHandler.JumpKey))
@@ -137,7 +132,6 @@ namespace player
                     FallTime = 0f;
                     return;
                 }*/
-                FallTime = 0f;
                 return;
             }
 

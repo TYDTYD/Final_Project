@@ -59,10 +59,10 @@ public class Rope : ICommand
         if (hit.collider == null)
             return;
 
-        if (Model.Instance.rope.Value <= 0)
+        if (Stage_UI_View.Instance.Rope.Value <= 0)
             return;
 
-        Model.Instance.rope.Value--;
+        Stage_UI_View.Instance.DecreaseRope(1);
         Vector3 pos = new Vector3(Mathf.Round(hit.point.x), hit.point.y);
         rope = Object.Instantiate(Anchor);
         rope.transform.position = GetPlayer.transform.position;

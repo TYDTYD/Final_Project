@@ -19,7 +19,7 @@ public class Stage_Load : MonoBehaviour
             int num = GameManager.Instance.GetStageNumber;
             trigger = true;
             StartCoroutine(GameManager.Instance.PreloadScene(num, GetMaskAnim.ControlScale(pos: endDoor.position, targetSize: 0f)));
-            Model.Instance.stage.Value = num;
+            Stage_UI_View.Instance.IncreaseStage();
         }
     }
 }

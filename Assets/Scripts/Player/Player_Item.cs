@@ -16,10 +16,6 @@ namespace player
                 return;
             }
         }
-        private void Update()
-        {
-            Debug.Log((item, obj));
-        }
         private void OnTriggerExit2D(Collider2D collision)
         {
             if (collision.gameObject.TryGetComponent(out ICatchable _))

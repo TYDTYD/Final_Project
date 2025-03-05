@@ -13,7 +13,7 @@ namespace player
         {
             GetPlayer = GetComponent<Player>();
             GetRigidbody2D = GetPlayer.GetRigidbody;
-            health = Model.Instance.health;
+            health = Stage_UI_View.Instance.Health;
             health.Subscribe(_health =>
             {
                 if (_health <= 0)
@@ -23,7 +23,7 @@ namespace player
         public void Heal(int amount) => health.Value += amount;
         public void TakeDamage(int damage, int force, Rigidbody2D rb)
         {
-            health.Value -= damage;
+            Stage_UI_View.Instance.DecreaseHealth(damage);
             Vector3 knockbackDir = (rb.transform.position - transform.position).normalized;
             GetRigidbody2D.AddForce(knockbackDir * force);
         }
