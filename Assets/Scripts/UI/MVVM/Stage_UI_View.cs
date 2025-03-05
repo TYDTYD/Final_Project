@@ -4,7 +4,6 @@ using TMPro;
 public class Stage_UI_View : MonoBehaviour
 {
     public static Stage_UI_View Instance { get; private set; }
-
     Stage_View_Model View_Model;
     public IReactiveProperty<int> Health { get; private set; }
     public IReactiveProperty<int> Bomb { get; private set; }
@@ -22,7 +21,6 @@ public class Stage_UI_View : MonoBehaviour
 
     float second = 0f;
     int beforeSecond = 0;
-    bool OnStage = true;
     private void Awake()
     {
         if (Instance == null)
@@ -77,5 +75,4 @@ public class Stage_UI_View : MonoBehaviour
     public void IncreaseStage() => View_Model.UpdateStageUI(1);
     public void IncreaseTime() => View_Model.UpdateTimeUI(1);
     string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
-    public bool CurrentOnStage { get => OnStage; set => OnStage = value; }
 }
