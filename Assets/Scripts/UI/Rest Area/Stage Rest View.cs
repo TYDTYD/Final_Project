@@ -20,7 +20,7 @@ public class StageRestView : MonoBehaviour
     void UpdateUI()
     {
         ThisLevelTime.text = ChangeIntToString(view.Time.Value);
-        ThisLevelMoney.text = view.Money.Value.ToString();
+        ThisLevelMoney.text = "+" + view.Money.Value.ToString();
         TotalTime.text = ChangeIntToString(view.TotalTime.Value);
         TotalMoney.text = view.Money.Value.ToString();
         hp_text.text = view.Health.Value.ToString();
