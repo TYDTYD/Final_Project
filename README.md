@@ -28,6 +28,7 @@ Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
 로프 기능을 통해 밧줄을 타고 다닐 수 있도록 하였습니다.
 
 ## 통계창 구현
+![Final_Project-Stage1-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-03-0619-46-20-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/499a337b-f5cf-4cb0-9524-38b3ef09fa6b)
 
 스테이지 중간마다 플레이 기록에 따른 통계창을 볼 수 있도록 구현하였습니다.
 
