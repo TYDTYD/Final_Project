@@ -18,6 +18,7 @@ public partial class GameManager : MonoBehaviour
 
     public Action SceneLoad;
     public Action StageLoad;
+    public Action RestAreaLoad;
 
     private void Awake()
     {
@@ -58,12 +59,12 @@ public partial class GameManager : MonoBehaviour
             player = InstantiatePlayer(GetStageStartPosition(sceneNum));
             StageLoad?.Invoke();
             if (Stage_UI_View.Instance)
-            {
                 Stage_UI_View.Instance.gameObject.SetActive(true);
-            }
         }
         else
         {
+            if (sceneNum == 5)
+                RestAreaLoad?.Invoke();
             player = null;
             if (Stage_UI_View.Instance)
                 Stage_UI_View.Instance.gameObject.SetActive(false);

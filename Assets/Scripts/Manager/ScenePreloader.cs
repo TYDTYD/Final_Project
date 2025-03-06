@@ -17,7 +17,6 @@ public partial class GameManager : MonoBehaviour
             SceneIndex.Add(i, sceneName);
         }
     }
-
     public IEnumerator PreloadScene(int index, IEnumerator coroutine)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneIndex[index]);
@@ -26,7 +25,6 @@ public partial class GameManager : MonoBehaviour
         yield return new WaitUntil(() => asyncLoad.progress >= 0.9f);
         asyncLoad.allowSceneActivation = true;
     }
-
     public IEnumerator PreloadScene(string sceneName, IEnumerator coroutine)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);

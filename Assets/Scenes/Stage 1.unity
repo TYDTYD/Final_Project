@@ -155045,7 +155045,7 @@ GameObject:
   - component: {fileID: 1240348407}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: View
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -262217,6 +262217,10 @@ PrefabInstance:
     - target: {fileID: 8923437763948441866, guid: 579df7dc557a7aa45b1af8a9c6bacbe6, type: 3}
       propertyPath: m_Name
       value: Game View
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923437763948441866, guid: 579df7dc557a7aa45b1af8a9c6bacbe6, type: 3}
+      propertyPath: m_TagString
+      value: View
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

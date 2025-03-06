@@ -11,6 +11,7 @@ public class Stage_UI_View : MonoBehaviour
     public IReactiveProperty<int> Money { get; private set; }
     public IReactiveProperty<int> Stage { get; private set; }
     public IReactiveProperty<int> Time { get; private set; }
+    public IReactiveProperty<int> TotalTime { get; private set; }
 
     [SerializeField] TextMeshProUGUI hp_text;
     [SerializeField] TextMeshProUGUI bomb_text;
@@ -44,6 +45,7 @@ public class Stage_UI_View : MonoBehaviour
         Rope = View_Model.Rope;
         Money = View_Model.Money;
         Time = View_Model.Time;
+        TotalTime = View_Model.TotalTime;
         Stage = View_Model.Stage;
 
         Health.Subscribe(hp => hp_text.text = hp.ToString()).AddTo(this);
@@ -52,6 +54,9 @@ public class Stage_UI_View : MonoBehaviour
         Money.Subscribe(money => money_text.text = money.ToString()).AddTo(this);
         Time.Subscribe(time => time_text.text = ChangeIntToString(time)).AddTo(this);
         Stage.Subscribe(stage => stage_text.text = stage.ToString()).AddTo(this);
+
+        GameManager.Instance.RestAreaLoad += UpdateTotalTime;
+        GameManager.Instance.StageLoad += InitTime;
     }
 
     private void Update()
@@ -74,5 +79,7 @@ public class Stage_UI_View : MonoBehaviour
     public void DecreaseMoney(int amount) => View_Model.UpdateMoneyUI(-amount);
     public void IncreaseStage() => View_Model.UpdateStageUI(1);
     public void IncreaseTime() => View_Model.UpdateTimeUI(1);
+    public void InitTime() => View_Model.InitTimeUI();
+    public void UpdateTotalTime() => View_Model.UpdateTotalTimeUI(Time.Value);
     string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
 }

@@ -7,7 +7,7 @@ public class Model
     public IReactiveProperty<int> Money { get; private set; } = new ReactiveProperty<int>(0);
     public IReactiveProperty<int> Stage { get; private set; } = new ReactiveProperty<int>(1);
     public IReactiveProperty<int> Time { get; private set; } = new ReactiveProperty<int>(0);
-
+    public IReactiveProperty<int> TotalTime { get; private set; } = new ReactiveProperty<int>(0);
     public void UpdateHealth(int amount)
     {
         if (Health.Value <= 0)
@@ -64,7 +64,8 @@ public class Model
         Stage.Value += amount;
     }
     public void UpdateTime(int amount) => Time.Value += amount;
-
+    public void UpdateTotalTime(int time) => TotalTime.Value += time;
+    public void InitTime() => Time.Value = 0;
     public void InitData()
     {
         Health.Value = 4;
@@ -73,5 +74,6 @@ public class Model
         Money.Value = 0;
         Stage.Value = 1;
         Time.Value = 0;
+        TotalTime.Value = 0;
     }
 }
