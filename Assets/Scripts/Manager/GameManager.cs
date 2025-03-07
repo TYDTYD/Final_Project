@@ -4,11 +4,12 @@ using System;
 public partial class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public enum GameState { MainMenu, Playing, Paused, GameOver }
+    public enum GameState { MainMenu, Playing, Paused, GameOver, NotPlaying }
     public GameState CurrentState { get; private set; } = GameState.MainMenu;
 
     [SerializeField] GameObject playerPrefab;
     GameObject player;
+    PausedUI PauseMenu;
     int stageNumber = 0;
 
     Vector3 Stage1Start = new Vector3(10f, 5f);
@@ -56,6 +57,7 @@ public partial class GameManager : MonoBehaviour
         int sceneNum = scene.buildIndex;
         if (IsStageScene(sceneNum))
         {
+            CurrentState = GameState.Playing;
             player = InstantiatePlayer(GetStageStartPosition(sceneNum));
             StageLoad?.Invoke();
             if (Stage_UI_View.Instance)
@@ -63,11 +65,14 @@ public partial class GameManager : MonoBehaviour
         }
         else
         {
+            CurrentState = GameState.NotPlaying;
             if (sceneNum == 5)
                 RestAreaLoad?.Invoke();
             player = null;
             if (Stage_UI_View.Instance)
+            {
                 Stage_UI_View.Instance.gameObject.SetActive(false);
+            }
         }
     }
 

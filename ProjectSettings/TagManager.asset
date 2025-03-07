@@ -9,6 +9,7 @@ TagManager:
   - View
   - Item
   - Monster
+  - Pause
   layers:
   - Default
   - TransparentFX

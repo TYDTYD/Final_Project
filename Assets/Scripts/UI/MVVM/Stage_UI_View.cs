@@ -31,7 +31,7 @@ public class Stage_UI_View : MonoBehaviour
         }
         else
         {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
     }

@@ -42,7 +42,6 @@ public class TitleUI : MonoBehaviour
             pos = pos < GetButtons.Length - 1 ? pos + 1 : pos;
             GetButtons[pos].colors = colorVar;
             GetButtons[pos - 1].colors = original;
-
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
