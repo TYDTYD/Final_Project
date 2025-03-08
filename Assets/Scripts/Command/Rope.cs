@@ -59,7 +59,7 @@ public class Rope : ICommand
         if (hit.collider == null)
             return;
 
-        if (Stage_UI_View.Instance.Rope.Value <= 0)
+        if (Stage_UI_View.Instance.View_Model.Rope.Value <= 0)
             return;
 
         Stage_UI_View.Instance.DecreaseRope(1);

@@ -4,14 +4,7 @@ using TMPro;
 public class Stage_UI_View : MonoBehaviour
 {
     public static Stage_UI_View Instance { get; private set; }
-    Stage_View_Model View_Model;
-    public IReactiveProperty<int> Health { get; private set; }
-    public IReactiveProperty<int> Bomb { get; private set; }
-    public IReactiveProperty<int> Rope { get; private set; }
-    public IReactiveProperty<int> Money { get; private set; }
-    public IReactiveProperty<int> Stage { get; private set; }
-    public IReactiveProperty<int> Time { get; private set; }
-    public IReactiveProperty<int> TotalTime { get; private set; }
+    public Stage_View_Model View_Model;
 
     [SerializeField] TextMeshProUGUI hp_text;
     [SerializeField] TextMeshProUGUI bomb_text;
@@ -40,28 +33,21 @@ public class Stage_UI_View : MonoBehaviour
         var model = new Model();
         View_Model = new Stage_View_Model(model);
 
-        Health = View_Model.Health;
-        Bomb = View_Model.Bomb;
-        Rope = View_Model.Rope;
-        Money = View_Model.Money;
-        Time = View_Model.Time;
-        TotalTime = View_Model.TotalTime;
-        Stage = View_Model.Stage;
+        View_Model.Health.Subscribe(hp => hp_text.text = hp.ToString()).AddTo(this);
+        View_Model.Bomb.Subscribe(bomb => bomb_text.text = bomb.ToString()).AddTo(this);
+        View_Model.Rope.Subscribe(rope => rope_text.text = rope.ToString()).AddTo(this);
+        View_Model.Money.Subscribe(money => money_text.text = money.ToString()).AddTo(this);
+        View_Model.Time.Subscribe(time => time_text.text = ChangeIntToString(time)).AddTo(this);
+        View_Model.Stage.Subscribe(stage => stage_text.text = stage.ToString()).AddTo(this);
 
-        Health.Subscribe(hp => hp_text.text = hp.ToString()).AddTo(this);
-        Bomb.Subscribe(bomb => bomb_text.text = bomb.ToString()).AddTo(this);
-        Rope.Subscribe(rope => rope_text.text = rope.ToString()).AddTo(this);
-        Money.Subscribe(money => money_text.text = money.ToString()).AddTo(this);
-        Time.Subscribe(time => time_text.text = ChangeIntToString(time)).AddTo(this);
-        Stage.Subscribe(stage => stage_text.text = stage.ToString()).AddTo(this);
-
+        GameManager.Instance.FirstStageLoad += InitData;
         GameManager.Instance.RestAreaLoad += UpdateTotalTime;
         GameManager.Instance.StageLoad += InitTime;
     }
 
     private void Update()
     {
-        second += UnityEngine.Time.deltaTime;
+        second += Time.deltaTime;
         int newSecond = Mathf.FloorToInt(second);
         if (newSecond != beforeSecond)
         {
@@ -80,6 +66,7 @@ public class Stage_UI_View : MonoBehaviour
     public void IncreaseStage() => View_Model.UpdateStageUI(1);
     public void IncreaseTime() => View_Model.UpdateTimeUI(1);
     public void InitTime() => View_Model.InitTimeUI();
-    public void UpdateTotalTime() => View_Model.UpdateTotalTimeUI(Time.Value);
+    public void InitData() => View_Model.InitData();
+    public void UpdateTotalTime() => View_Model.UpdateTotalTimeUI(View_Model.Time.Value);
     string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
 }

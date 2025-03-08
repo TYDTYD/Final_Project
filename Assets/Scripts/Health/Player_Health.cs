@@ -13,7 +13,7 @@ namespace player
         {
             GetPlayer = GetComponent<Player>();
             GetRigidbody2D = GetPlayer.GetRigidbody;
-            health = Stage_UI_View.Instance.Health;
+            health = Stage_UI_View.Instance.View_Model.Health;
             health.Subscribe(_health =>
             {
                 if (_health <= 0)

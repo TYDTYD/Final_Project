@@ -19,14 +19,14 @@ public class StageRestView : MonoBehaviour
     }
     void UpdateUI()
     {
-        ThisLevelTime.text = ChangeIntToString(view.Time.Value);
-        ThisLevelMoney.text = "+" + view.Money.Value.ToString();
-        TotalTime.text = ChangeIntToString(view.TotalTime.Value);
-        TotalMoney.text = view.Money.Value.ToString();
-        hp_text.text = view.Health.Value.ToString();
-        bomb_text.text = view.Bomb.Value.ToString();
-        rope_text.text = view.Rope.Value.ToString();
-        stage_text.text = view.Stage.Value.ToString() + " Completed!";
+        ThisLevelTime.text = ChangeIntToString(view.View_Model.Time.Value);
+        ThisLevelMoney.text = "+" + view.View_Model.Money.Value.ToString();
+        TotalTime.text = ChangeIntToString(view.View_Model.TotalTime.Value);
+        TotalMoney.text = view.View_Model.Money.Value.ToString();
+        hp_text.text = view.View_Model.Health.Value.ToString();
+        bomb_text.text = view.View_Model.Bomb.Value.ToString();
+        rope_text.text = view.View_Model.Rope.Value.ToString();
+        stage_text.text = view.View_Model.Stage.Value.ToString() + " Completed!";
     }
     string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
 }

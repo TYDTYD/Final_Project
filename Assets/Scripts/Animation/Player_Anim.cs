@@ -18,7 +18,7 @@ namespace player
         void Start()
         {
             // 체력이 감소했을 때만 IsDamaged를 true로 설정
-            Stage_UI_View.Instance.Health.Pairwise() // 이전 값과 현재 값을 비교
+            Stage_UI_View.Instance.View_Model.Health.Pairwise() // 이전 값과 현재 값을 비교
                 .Where(pair => pair.Previous > pair.Current) // 체력이 감소할 때만 실행
                 .Subscribe(_ =>
                 {
