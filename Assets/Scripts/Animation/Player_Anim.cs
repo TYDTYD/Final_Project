@@ -64,7 +64,7 @@ namespace player
             {
                 if (Input.GetKey(InputHandler.JumpKey))
                 {
-                    CurrentState = Player.State.Jump_State;
+                    CurrentState = State.Jump_State;
                     return;
                 }
 

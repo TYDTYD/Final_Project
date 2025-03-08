@@ -283,6 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchor: {fileID: 8667384254066487314, guid: f3b5ce7eb79e68b4b8365c850fffd257, type: 3}
+  bomb: {fileID: 2437859553753178604, guid: 7135e8ffa8e101b4dbce8869496518c8, type: 3}
 --- !u!114 &2416426777593782060
 MonoBehaviour:
   m_ObjectHideFlags: 0

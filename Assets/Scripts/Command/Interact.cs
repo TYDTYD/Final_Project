@@ -89,12 +89,3 @@ public class Interact : MonoBehaviour
         return KeyCode.None;
     }
 }
-
-public class Bomb : ICommand
-{
-    public void Execute()
-    {
-
-    }
-}
-

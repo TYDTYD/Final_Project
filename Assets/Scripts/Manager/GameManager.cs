@@ -4,12 +4,9 @@ using System;
 public partial class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public enum GameState { MainMenu, Playing, Paused, GameOver, NotPlaying }
-    public GameState CurrentState { get; private set; } = GameState.MainMenu;
 
     [SerializeField] GameObject playerPrefab;
     GameObject player;
-    PausedUI PauseMenu;
     int stageNumber = 0;
 
     Vector3 Stage1Start = new Vector3(10f, 5f);
@@ -60,7 +57,6 @@ public partial class GameManager : MonoBehaviour
         {
             if (sceneNum == 1)
                 FirstStageLoad?.Invoke();
-            CurrentState = GameState.Playing;
             player = InstantiatePlayer(GetStageStartPosition(sceneNum));
             StageLoad?.Invoke();
             if (Stage_UI_View.Instance)
@@ -68,7 +64,6 @@ public partial class GameManager : MonoBehaviour
         }
         else
         {
-            CurrentState = GameState.NotPlaying;
             if (sceneNum == 5)
                 RestAreaLoad?.Invoke();
             player = null;

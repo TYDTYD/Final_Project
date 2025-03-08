@@ -1,6 +1,4 @@
 using UnityEngine;
-using UniRx;
-using UniRx.Triggers;
 using System.Collections.Generic;
 
 namespace player
@@ -10,19 +8,14 @@ namespace player
         Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
         Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
         [SerializeField] GameObject anchor;
+        [SerializeField] GameObject bomb;
 
         Player GetPlayer;
-        Jump GetJump;
         Move RightMove;
         Move LeftMove;
-        KeyCode JumpKey;
-
-        bool isJumping = false;
-        float maxholdTime = 0.1f, currentholdTime = 0f;
-
         class InputState
         {
-            // 0 => 트리거 ||  1 => 연속적 트리거  ||  2 => 특수 트리거
+            // 0 => 트리거 ||  1 => 연속적 트리거
             public int value;
             public bool isPressed;
             public InputState(int v, bool p)
@@ -49,20 +42,8 @@ namespace player
         void Start()
         {
             GetPlayer = GetComponent<Player>();
-            JumpKey = InputHandler.JumpKey;
-            GetJump = new Jump(GetPlayer.GetRigidbody, 3f);
             RightMove = new Move(GetPlayer, 7f, true);
             LeftMove = new Move(GetPlayer, 7f, false);
-
-            this.UpdateAsObservable()
-                .Where(_ => (GetPlayer.GetPlayer_Rigidbody.GetGrounded || GetPlayer.GetPlayer_Rigidbody.GetClimbing) && Input.GetKey(JumpKey))
-                .Subscribe(_ => StartJump())
-                .AddTo(this);
-
-            this.UpdateAsObservable()
-                .Where(_ => isJumping && Input.GetKey(JumpKey))
-                .Subscribe(_ => ApplyJump())
-                .AddTo(this);
 
             GetPlayer.GetPlayer_Health.DeathEvent += DisableInput;
 
@@ -73,9 +54,9 @@ namespace player
             new InputAction(1, new Down(GetPlayer)),
             new InputAction(0, new Attack(GetPlayer)),
             new InputAction(0, new Item(GetPlayer)),
-            new InputAction(2, new Bomb()), // jump
+            new InputAction(0, new Jump(GetPlayer,GetPlayer.GetRigidbody,15f)),
             new InputAction(0, new Rope(GetPlayer, anchor)),
-            new InputAction(0, new Bomb())
+            new InputAction(0, new Bomb(bomb))
         };
 
             for (int i = 0; i < InputActions.Length; i++)
@@ -110,32 +91,6 @@ namespace player
                     keyDelegate[press.Key].GetDelegate.Execute();
             }
         }
-
-        void StartJump()
-        {
-            if (isJumping)
-                return;
-            isJumping = true;
-            GetPlayer.GetPlayer_Rigidbody.GetGrounded = false;
-            GetPlayer.GetPlayer_Rigidbody.GetClimbing = false;
-            currentholdTime = 0f;
-        }
-
-        void ApplyJump()
-        {
-            if (isJumping && currentholdTime < maxholdTime)
-            {
-                GetJump.Execute();
-                currentholdTime += Time.fixedDeltaTime;
-            }
-
-            if (currentholdTime > maxholdTime)
-            {
-                isJumping = false;
-                currentholdTime = 0f;
-            }
-        }
-
         public Move GetRightMove => RightMove;
         public Move GetLeftMove => LeftMove;
     }
