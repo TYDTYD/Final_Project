@@ -3,6 +3,7 @@ using System.Collections;
 public class Explosion : MonoBehaviour
 {
     WaitForSeconds timer = new WaitForSeconds(3f);
+    [SerializeField] ParticleSystem ExplosionEffect;
     float radius = 2f;
     void Start()
     {
@@ -12,6 +13,7 @@ public class Explosion : MonoBehaviour
     IEnumerator Explode()
     {
         yield return timer;
+        ExplosionEffect.Play();
         DestroyObjectsInRadius();
         Destroy(gameObject);
     }
@@ -23,7 +25,11 @@ public class Explosion : MonoBehaviour
 
         foreach (Collider2D col in colliders)
         {
-            if (col.gameObject != gameObject)
+            if (col.TryGetComponent(out IHealth health))
+            {
+                health.TakeDamage(10, 50, gameObject);
+            }
+            else if (col.gameObject != gameObject)
             {
                 Destroy(col.gameObject);
             }

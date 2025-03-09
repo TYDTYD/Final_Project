@@ -29,5 +29,4 @@ public class Stage_View_Model
     public void UpdateTimeUI(int time) => GetModel.UpdateTime(time);
     public void UpdateTotalTimeUI(int time) => GetModel.UpdateTotalTime(time);
     public void InitTimeUI() => GetModel.InitTime();
-    public void InitData() => GetModel.InitData();
 }

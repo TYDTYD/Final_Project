@@ -66,14 +66,4 @@ public class Model
     public void UpdateTime(int amount) => Time.Value += amount;
     public void UpdateTotalTime(int time) => TotalTime.Value += time;
     public void InitTime() => Time.Value = 0;
-    public void InitData()
-    {
-        Health.Value = 4;
-        Bomb.Value = 4;
-        Rope.Value = 4;
-        Money.Value = 0;
-        Stage.Value = 1;
-        Time.Value = 0;
-        TotalTime.Value = 0;
-    }
 }

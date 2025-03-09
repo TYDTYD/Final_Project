@@ -33,7 +33,7 @@ public class Stone : MonoBehaviour, ICatchable
                 return;
 
             Debug.Log($"АјАн : " + collision.gameObject);
-            health.TakeDamage(1, 100, rb);
+            health.TakeDamage(1, 100, gameObject);
         }
     }
     public void Grap(GameObject obj, Vector3 pos)

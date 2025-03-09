@@ -14,7 +14,6 @@ public partial class GameManager : MonoBehaviour
     Vector3 Stage3Start = new Vector3(11f, 5f);
     Vector3 Stage4Start = new Vector3(-14f, 5f);
 
-    public Action FirstStageLoad;
     public Action SceneLoad;
     public Action StageLoad;
     public Action RestAreaLoad;
@@ -55,8 +54,6 @@ public partial class GameManager : MonoBehaviour
         int sceneNum = scene.buildIndex;
         if (IsStageScene(sceneNum))
         {
-            if (sceneNum == 1)
-                FirstStageLoad?.Invoke();
             player = InstantiatePlayer(GetStageStartPosition(sceneNum));
             StageLoad?.Invoke();
             if (Stage_UI_View.Instance)

@@ -19,12 +19,14 @@ public class Stage_UI_View : MonoBehaviour
     {
         if (Instance == null)
         {
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
             Instance = this;
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(Instance.gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
             return;
         }
     }
@@ -40,7 +42,6 @@ public class Stage_UI_View : MonoBehaviour
         View_Model.Time.Subscribe(time => time_text.text = ChangeIntToString(time)).AddTo(this);
         View_Model.Stage.Subscribe(stage => stage_text.text = stage.ToString()).AddTo(this);
 
-        GameManager.Instance.FirstStageLoad += InitData;
         GameManager.Instance.RestAreaLoad += UpdateTotalTime;
         GameManager.Instance.StageLoad += InitTime;
     }
@@ -66,7 +67,6 @@ public class Stage_UI_View : MonoBehaviour
     public void IncreaseStage() => View_Model.UpdateStageUI(1);
     public void IncreaseTime() => View_Model.UpdateTimeUI(1);
     public void InitTime() => View_Model.InitTimeUI();
-    public void InitData() => View_Model.InitData();
     public void UpdateTotalTime() => View_Model.UpdateTotalTimeUI(View_Model.Time.Value);
     string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
 }

@@ -21,10 +21,10 @@ namespace player
             }).AddTo(this);
         }
         public void Heal(int amount) => health.Value += amount;
-        public void TakeDamage(int damage, int force, Rigidbody2D rb)
+        public void TakeDamage(int damage, int force, GameObject obj)
         {
             Stage_UI_View.Instance.DecreaseHealth(damage);
-            Vector3 knockbackDir = (rb.transform.position - transform.position).normalized;
+            Vector3 knockbackDir = (obj.transform.position - transform.position).normalized;
             GetRigidbody2D.AddForce(knockbackDir * force);
         }
     }

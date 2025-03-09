@@ -52,7 +52,7 @@ public class Monster_Girl : MonoBehaviour, IHealth
         else GetRectTransform.localScale = new Vector3(1, 1, 1);
     }
 
-    public void TakeDamage(int damage, int force, Rigidbody2D rb)
+    public void TakeDamage(int damage, int force, GameObject obj)
     {
         health -= damage;
         GetMonster_Anim.GetState = State.DEATH;

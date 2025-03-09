@@ -25,7 +25,7 @@ public class Arrow : MonoBehaviour, ICatchable
             if (!fall)
             {
                 if (collision.gameObject.TryGetComponent(out IHealth _health))
-                    _health.TakeDamage(2, 500, rb);
+                    _health.TakeDamage(2, 500, gameObject);
             }
             return;
         }
@@ -34,7 +34,7 @@ public class Arrow : MonoBehaviour, ICatchable
             if (Owner != null && Owner == collision.gameObject)
                 return;
             Debug.Log($"АјАн : " + collision.gameObject);
-            health.TakeDamage(1, 100, rb);
+            health.TakeDamage(1, 100, gameObject);
         }
     }
 

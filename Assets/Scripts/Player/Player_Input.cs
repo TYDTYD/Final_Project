@@ -56,7 +56,7 @@ namespace player
             new InputAction(0, new Item(GetPlayer)),
             new InputAction(0, new Jump(GetPlayer,GetPlayer.GetRigidbody,15f)),
             new InputAction(0, new Rope(GetPlayer, anchor)),
-            new InputAction(0, new Bomb(bomb))
+            new InputAction(0, new Bomb(GetPlayer,bomb))
         };
 
             for (int i = 0; i < InputActions.Length; i++)
