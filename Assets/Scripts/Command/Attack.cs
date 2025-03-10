@@ -2,40 +2,32 @@ using UnityEngine;
 using player;
 public class Attack : ICommand
 {
-    Player GetPlayer = null;
     GameObject obj = null;
     Rigidbody2D rigidbody;
-    Player_Rigidbody player_Rigidbody;
     public Attack(Rigidbody2D rigid)
     {
         rigidbody = rigid;
     }
-    public Attack(Player player)
-    {
-        GetPlayer = player;
-        rigidbody = player.GetRigidbody;
-        player_Rigidbody = player.GetPlayer_Rigidbody;
-    }
-
     public void Execute()
     {
-        if (GetPlayer)
+
+    }
+    public void Execute(Player player)
+    {
+        if (player.CurrentState == Player.State.Damage_State ||
+            player.CurrentState == Player.State.Land_State ||
+            player.CurrentState == Player.State.EdgeDetact_State)
+            return;
+
+        obj = player.GetPlayer_Item.CurrentItem;
+        player.GetPlayer_Rigidbody.GetClimbing = false;
+
+        if (obj.TryGetComponent(out IItem item))
         {
-            if (GetPlayer.CurrentState == Player.State.Damage_State ||
-                GetPlayer.CurrentState == Player.State.Land_State ||
-                GetPlayer.CurrentState == Player.State.EdgeDetact_State)
-                return;
-
-            obj = GetPlayer.GetPlayer_Item.CurrentItem;
-            player_Rigidbody.GetClimbing = false;
-
-            if (obj.TryGetComponent(out IItem item))
-            {
-                item.Use();
-                return;
-            }
-            if(GetPlayer.CurrentState != Player.State.Jump_State)
-                GetPlayer.CurrentState = Player.State.Attack_State;
+            item.Use();
+            return;
         }
+        if (player.CurrentState != Player.State.Jump_State)
+            player.CurrentState = Player.State.Attack_State;
     }
 }

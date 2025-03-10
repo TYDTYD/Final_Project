@@ -4,7 +4,8 @@ using System;
 public partial class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    public float startTime = 0f;
+    public float endTime = 0f;
     [SerializeField] GameObject playerPrefab;
     GameObject player;
     int stageNumber = 0;
@@ -41,7 +42,6 @@ public partial class GameManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-
     public int CurrentSceneNumber
     {
         get => SceneManager.GetActiveScene().buildIndex;
@@ -50,7 +50,9 @@ public partial class GameManager : MonoBehaviour
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
         SceneLoad?.Invoke();
-
+        endTime = Time.realtimeSinceStartup;
+        Debug.Log($"비동기적 씬 로드 완료! 걸린 시간 : {endTime - startTime} 초");
+        Debug.Log($"비동기 씬 로드 완료! 실제 체감 시간: {endTime - realStartTime} 초");
         int sceneNum = scene.buildIndex;
         if (IsStageScene(sceneNum))
         {

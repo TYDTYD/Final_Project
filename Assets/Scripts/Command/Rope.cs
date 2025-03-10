@@ -7,15 +7,12 @@ public class Rope : ICommand
     GameObject rope;
 
     Vector3 offset = new Vector3(0, 0.687f);
-    Player GetPlayer;
 
-    public Rope(Player player,GameObject obj)
+    public Rope(GameObject obj)
     {
-        GetPlayer = player;
         Anchor = obj;
     }
-
-    IEnumerator MoveToTarget(Transform start, Vector3 destination, float time)
+    IEnumerator MoveToTarget(GameObject obj,Transform start, Vector3 destination, float time)
     {
         Vector3 startPosition = start.position;
         float elapsedTime = 0f;
@@ -28,14 +25,13 @@ public class Rope : ICommand
         }
         start.position = destination;
         GameObject parent = start.GetChild(1).gameObject;
-        yield return CreateRope(parent.transform.position, parent, start.GetComponent<BoxCollider2D>());
+        yield return CreateRope(obj, parent.transform.position, parent, start.GetComponent<BoxCollider2D>());
     }
-
-    IEnumerator CreateRope(Vector3 startPos, GameObject parent, BoxCollider2D anchor)
+    IEnumerator CreateRope(GameObject owner, Vector3 startPos, GameObject parent, BoxCollider2D anchor)
     {
         Vector3 pos = startPos;
         Vector2 sizeOffset = new Vector2(0, 0.275f);
-        while (pos.y > GetPlayer.transform.position.y + 1f)
+        while (pos.y > owner.transform.position.y + 1f)
         {
             pos -= offset;
             GameObject obj = Object.Instantiate(parent, rope.transform);
@@ -50,11 +46,14 @@ public class Rope : ICommand
             yield return null;
         }
     }
-
     public void Execute()
     {
+
+    }
+    public void Execute(Player player)
+    {
         int layerMask = LayerMask.GetMask("Ground");
-        RaycastHit2D hit = Physics2D.Raycast(GetPlayer.transform.position, Vector2.up, 10f, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, Vector2.up, 10f, layerMask);
 
         if (hit.collider == null)
             return;
@@ -65,7 +64,7 @@ public class Rope : ICommand
         Stage_UI_View.Instance.DecreaseRope(1);
         Vector3 pos = new Vector3(Mathf.Round(hit.point.x), hit.point.y);
         rope = Object.Instantiate(Anchor);
-        rope.transform.position = GetPlayer.transform.position;
-        GetPlayer.StartCoroutine(MoveToTarget(rope.transform, pos, 0.2f));
+        rope.transform.position = player.transform.position;
+        player.StartCoroutine(MoveToTarget(player.gameObject, rope.transform, pos, 0.2f));
     }
 }

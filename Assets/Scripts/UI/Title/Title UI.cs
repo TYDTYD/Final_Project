@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class TitleUI : MonoBehaviour
 {
     [SerializeField] Button[] GetButtons;
@@ -17,6 +18,12 @@ public class TitleUI : MonoBehaviour
         GetButtons[pos].colors = colorVar;
     }
 
+    void SceneLoad()
+    {
+        GameManager.Instance.startTime = Time.realtimeSinceStartup;
+        SceneManager.LoadScene(1);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
@@ -24,6 +31,7 @@ public class TitleUI : MonoBehaviour
             switch (pos)
             {
                 case 0:
+                    //SceneLoad();
                     StartCoroutine(GameManager.Instance.PreloadScene(1, GetMask.Darker()));
                     break;
                 case 1:

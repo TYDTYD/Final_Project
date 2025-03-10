@@ -9,7 +9,6 @@ namespace player
         Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
         [SerializeField] GameObject anchor;
         [SerializeField] GameObject bomb;
-
         Player GetPlayer;
         Move RightMove;
         Move LeftMove;
@@ -24,39 +23,36 @@ namespace player
                 isPressed = p;
             }
         }
-
         void EnableInput() => enabled = true;
         void DisableInput() => enabled = false;
-
         struct InputAction
         {
             public int value;
-            public ICommand GetDelegate;
-            public InputAction(int v, ICommand d)
+            public ICommand Command;
+            public InputAction(int v, ICommand c)
             {
                 value = v;
-                GetDelegate = d;
+                Command = c;
             }
         }
-
         void Start()
         {
             GetPlayer = GetComponent<Player>();
-            RightMove = new Move(GetPlayer, 7f, true);
-            LeftMove = new Move(GetPlayer, 7f, false);
+            RightMove = new Move(GetPlayer.GetRigidbody, 7f, true);
+            LeftMove = new Move(GetPlayer.GetRigidbody, 7f, false);
 
             GetPlayer.GetPlayer_Health.DeathEvent += DisableInput;
 
             InputAction[] InputActions = {
             new InputAction(1, RightMove),
             new InputAction(1, LeftMove),
-            new InputAction(1, new Up(GetPlayer)),
-            new InputAction(1, new Down(GetPlayer)),
-            new InputAction(0, new Attack(GetPlayer)),
-            new InputAction(0, new Item(GetPlayer)),
-            new InputAction(0, new Jump(GetPlayer,GetPlayer.GetRigidbody,15f)),
-            new InputAction(0, new Rope(GetPlayer, anchor)),
-            new InputAction(0, new Bomb(GetPlayer,bomb))
+            new InputAction(1, new Up(transform,GetPlayer.GetRigidbody)),
+            new InputAction(1, new Down(transform,GetPlayer.GetRigidbody)),
+            new InputAction(0, new Attack(GetPlayer.GetRigidbody)),
+            new InputAction(0, new Item(GetPlayer.GetPlayer_Item.CurrentItem)),
+            new InputAction(0, new Jump(GetPlayer.GetRigidbody,15f)),
+            new InputAction(0, new Rope(anchor)),
+            new InputAction(0, new Bomb(bomb))
         };
 
             for (int i = 0; i < InputActions.Length; i++)
@@ -66,16 +62,14 @@ namespace player
                 keyDelegate[key] = InputActions[i];
             }
         }
-
         private void FixedUpdate()
         {
             foreach (var press in keyValue)
             {
                 if (press.Value.isPressed && press.Value.value != 0)
-                    keyDelegate[press.Key].GetDelegate.Execute();
+                    keyDelegate[press.Key].Command.Execute(GetPlayer);
             }
         }
-
         void Update()
         {
             foreach (var key in keyDelegate.Keys)
@@ -88,7 +82,7 @@ namespace player
             foreach (var press in keyValue)
             {
                 if (press.Value.isPressed && press.Value.value == 0)
-                    keyDelegate[press.Key].GetDelegate.Execute();
+                    keyDelegate[press.Key].Command.Execute(GetPlayer);
             }
         }
         public Move GetRightMove => RightMove;

@@ -5,7 +5,7 @@ namespace player
     using System;
     public class Player_Health : MonoBehaviour, IHealth
     {
-        public IReactiveProperty<int> health;
+        public IReadOnlyReactiveProperty<int> health;
         public Action DeathEvent;
         Player GetPlayer;
         Rigidbody2D GetRigidbody2D;
@@ -20,7 +20,7 @@ namespace player
                     DeathEvent();
             }).AddTo(this);
         }
-        public void Heal(int amount) => health.Value += amount;
+        public void Heal(int amount) => Stage_UI_View.Instance.IncreaseHealth(amount);
         public void TakeDamage(int damage, int force, GameObject obj)
         {
             Stage_UI_View.Instance.DecreaseHealth(damage);

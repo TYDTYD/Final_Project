@@ -1,23 +1,30 @@
 using UniRx;
 public class Model
 {
-    public IReactiveProperty<int> Health { get; private set; } = new ReactiveProperty<int>(4);
-    public IReactiveProperty<int> Bomb { get; private set; } = new ReactiveProperty<int>(4);
-    public IReactiveProperty<int> Rope { get; private set; } = new ReactiveProperty<int>(4);
-    public IReactiveProperty<int> Money { get; private set; } = new ReactiveProperty<int>(0);
-    public IReactiveProperty<int> Stage { get; private set; } = new ReactiveProperty<int>(1);
-    public IReactiveProperty<int> Time { get; private set; } = new ReactiveProperty<int>(0);
-    public IReactiveProperty<int> TotalTime { get; private set; } = new ReactiveProperty<int>(0);
+    IReactiveProperty<int> health = new ReactiveProperty<int>(4);
+    IReactiveProperty<int> bomb = new ReactiveProperty<int>(4);
+    IReactiveProperty<int> rope = new ReactiveProperty<int>(4);
+    IReactiveProperty<int> money = new ReactiveProperty<int>(0);
+    IReactiveProperty<int> stage = new ReactiveProperty<int>(1);
+    IReactiveProperty<int> time = new ReactiveProperty<int>(0);
+    IReactiveProperty<int> totalTime = new ReactiveProperty<int>(0);
+    public IReadOnlyReactiveProperty<int> Health => health;
+    public IReadOnlyReactiveProperty<int> Bomb => bomb;
+    public IReadOnlyReactiveProperty<int> Rope => rope;
+    public IReadOnlyReactiveProperty<int> Money => money;
+    public IReadOnlyReactiveProperty<int> Stage => stage;
+    public IReadOnlyReactiveProperty<int> Time => time;
+    public IReadOnlyReactiveProperty<int> TotalTime => totalTime;
     public void UpdateHealth(int amount)
     {
         if (Health.Value <= 0)
             return;
         if (Health.Value + amount < 0)
         {
-            Health.Value = 0;
+            health.Value = 0;
             return;
         }
-        Health.Value += amount;
+        health.Value += amount;
     }
     public void UpdateBomb(int amount)
     {
@@ -25,10 +32,10 @@ public class Model
             return;
         if (Bomb.Value + amount < 0)
         {
-            Bomb.Value = 0;
+            bomb.Value = 0;
             return;
         }
-        Bomb.Value += amount;
+        bomb.Value += amount;
     }
     public void UpdateRope(int amount)
     {
@@ -36,10 +43,10 @@ public class Model
             return;
         if (Rope.Value + amount < 0)
         {
-            Rope.Value = 0;
+            rope.Value = 0;
             return;
         }
-        Rope.Value += amount;
+        rope.Value += amount;
     }
     public void UpdateMoney(int amount)
     {
@@ -47,10 +54,10 @@ public class Model
             return;
         if (Money.Value + amount < 0)
         {
-            Money.Value = 0;
+            money.Value = 0;
             return;
         }
-        Money.Value += amount;
+        money.Value += amount;
     }
     public void UpdateStage(int amount)
     {
@@ -58,12 +65,12 @@ public class Model
             return;
         if (Stage.Value + amount < 0)
         {
-            Stage.Value = 0;
+            stage.Value = 0;
             return;
         }
-        Stage.Value += amount;
+        stage.Value += amount;
     }
-    public void UpdateTime(int amount) => Time.Value += amount;
-    public void UpdateTotalTime(int time) => TotalTime.Value += time;
-    public void InitTime() => Time.Value = 0;
+    public void UpdateTime(int amount) => time.Value += amount;
+    public void UpdateTotalTime(int time) => totalTime.Value += time;
+    public void InitTime() => time.Value = 0;
 }

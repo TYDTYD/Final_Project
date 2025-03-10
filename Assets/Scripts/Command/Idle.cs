@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using player;
 public class Idle : ICommand
 {
     Rigidbody2D Rigidbody2D;
@@ -8,6 +8,13 @@ public class Idle : ICommand
         Rigidbody2D = rigidbody;
     }
     public void Execute()
+    {
+        if (Rigidbody2D.linearVelocityX > 0f)
+            Rigidbody2D.linearVelocityX -= 1f;
+        else if (Rigidbody2D.linearVelocityX < 0f)
+            Rigidbody2D.linearVelocityX += 1f;
+    }
+    public void Execute(Player player)
     {
         if (Rigidbody2D.linearVelocityX > 0f)
             Rigidbody2D.linearVelocityX -= 1f;
