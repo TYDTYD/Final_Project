@@ -193,7 +193,52 @@ public class UpdateManager : MonoBehaviour
 스테이지 중간마다 플레이 기록에 따른 통계창을 볼 수 있도록 구현하였습니다.
 
 ## 비동기 씬 로드 구현
+<details>
+  <summary>
+    코루틴을 통한 비동기 씬 로드
+  </summary>
+ <pre>
+   
+```cs
+public partial class GameManager : MonoBehaviour
+{
+    Dictionary<int, string> SceneIndex = new Dictionary<int, string>(); 
+    float realStartTime = 0f;
 
+    string[] scenesToLoad = { "Title", "Stage 1", "Stage 2", "Stage 3", "Stage 4", "Stage Rest", "Game Over", "Setting", "Statistic" };
+    
+    void CacheScenes(string[] sceneNames)
+    {
+        for (int i = 0; i < sceneNames.Length; i++)
+        {
+            string sceneName = sceneNames[i];
+            SceneIndex.Add(i, sceneName);
+        }
+    }
+    public IEnumerator PreloadScene(int index, IEnumerator coroutine)
+    {
+        startTime = Time.realtimeSinceStartup;
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneIndex[index]);
+        asyncLoad.allowSceneActivation = false;
+        yield return coroutine;
+        realStartTime = Time.realtimeSinceStartup;
+        yield return new WaitUntil(() => asyncLoad.progress >= 0.9f);
+        asyncLoad.allowSceneActivation = true;
+    }
+    public IEnumerator PreloadScene(string sceneName, IEnumerator coroutine)
+    {
+        startTime = Time.realtimeSinceStartup;
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+        yield return coroutine;
+        realStartTime = Time.realtimeSinceStartup;
+        yield return new WaitUntil(() => asyncLoad.progress >= 0.9f);
+        asyncLoad.allowSceneActivation = true;
+    }
+}
+```
+ </pre>
+</details>
 비동기적으로 씬을 로드하여 딜레이를 없앴습니다.
 
 ## UniRx를 활용한 MVVM 패턴 구현
