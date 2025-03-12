@@ -197,5 +197,208 @@ public class UpdateManager : MonoBehaviour
 비동기적으로 씬을 로드하여 딜레이를 없앴습니다.
 
 ## UniRx를 활용한 MVVM 패턴 구현
+<details>
+  <summary>
+    Model
+  </summary>
+ <pre>
+   
+```cs
+public class Model
+{
+    IReactiveProperty<int> health = new ReactiveProperty<int>(4);
+    IReactiveProperty<int> bomb = new ReactiveProperty<int>(4);
+    IReactiveProperty<int> rope = new ReactiveProperty<int>(4);
+    IReactiveProperty<int> money = new ReactiveProperty<int>(0);
+    IReactiveProperty<int> stage = new ReactiveProperty<int>(1);
+    IReactiveProperty<int> time = new ReactiveProperty<int>(0);
+    IReactiveProperty<int> totalTime = new ReactiveProperty<int>(0);
+    public IReadOnlyReactiveProperty<int> Health => health;
+    public IReadOnlyReactiveProperty<int> Bomb => bomb;
+    public IReadOnlyReactiveProperty<int> Rope => rope;
+    public IReadOnlyReactiveProperty<int> Money => money;
+    public IReadOnlyReactiveProperty<int> Stage => stage;
+    public IReadOnlyReactiveProperty<int> Time => time;
+    public IReadOnlyReactiveProperty<int> TotalTime => totalTime;
+    public void UpdateHealth(int amount)
+    {
+        if (Health.Value <= 0)
+            return;
+        if (Health.Value + amount < 0)
+        {
+            health.Value = 0;
+            return;
+        }
+        health.Value += amount;
+    }
+    public void UpdateBomb(int amount)
+    {
+        if (Bomb.Value <= 0)
+            return;
+        if (Bomb.Value + amount < 0)
+        {
+            bomb.Value = 0;
+            return;
+        }
+        bomb.Value += amount;
+    }
+    public void UpdateRope(int amount)
+    {
+        if (Rope.Value <= 0)
+            return;
+        if (Rope.Value + amount < 0)
+        {
+            rope.Value = 0;
+            return;
+        }
+        rope.Value += amount;
+    }
+    public void UpdateMoney(int amount)
+    {
+        if (Money.Value <= 0)
+            return;
+        if (Money.Value + amount < 0)
+        {
+            money.Value = 0;
+            return;
+        }
+        money.Value += amount;
+    }
+    public void UpdateStage(int amount)
+    {
+        if (Stage.Value <= 0)
+            return;
+        if (Stage.Value + amount < 0)
+        {
+            stage.Value = 0;
+            return;
+        }
+        stage.Value += amount;
+    }
+    public void UpdateTime(int amount) => time.Value += amount;
+    public void UpdateTotalTime(int time) => totalTime.Value += time;
+    public void InitTime() => time.Value = 0;
+}
+```
+ </pre>
+</details>
+<details>
+  <summary>
+    View
+  </summary>
+ <pre>
+   
+```cs
+public class Stage_UI_View : MonoBehaviour
+{
+    public static Stage_UI_View Instance { get; private set; }
+    public Stage_View_Model View_Model;
 
+    [SerializeField] TextMeshProUGUI hp_text;
+    [SerializeField] TextMeshProUGUI bomb_text;
+    [SerializeField] TextMeshProUGUI rope_text;
+    [SerializeField] TextMeshProUGUI money_text;
+    [SerializeField] TextMeshProUGUI time_text;
+    [SerializeField] TextMeshProUGUI stage_text;
+
+    float second = 0f;
+    int beforeSecond = 0;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(Instance.gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            return;
+        }
+    }
+    private void Start()
+    {
+        var model = new Model();
+        View_Model = new Stage_View_Model(model);
+
+        View_Model.Health.Subscribe(hp => hp_text.text = hp.ToString()).AddTo(this);
+        View_Model.Bomb.Subscribe(bomb => bomb_text.text = bomb.ToString()).AddTo(this);
+        View_Model.Rope.Subscribe(rope => rope_text.text = rope.ToString()).AddTo(this);
+        View_Model.Money.Subscribe(money => money_text.text = money.ToString()).AddTo(this);
+        View_Model.Time.Subscribe(time => time_text.text = ChangeIntToString(time)).AddTo(this);
+        View_Model.Stage.Subscribe(stage => stage_text.text = stage.ToString()).AddTo(this);
+
+        GameManager.Instance.RestAreaLoad += UpdateTotalTime;
+        GameManager.Instance.StageLoad += InitTime;
+    }
+
+    private void Update()
+    {
+        second += Time.deltaTime;
+        int newSecond = Mathf.FloorToInt(second);
+        if (newSecond != beforeSecond)
+        {
+            beforeSecond = newSecond;
+            IncreaseTime();
+        }
+    }
+    public void IncreaseHealth(int amount) => View_Model.UpdateHealthUI(amount);
+    public void DecreaseHealth(int amount) => View_Model.UpdateHealthUI(-amount);
+    public void IncreaseBomb(int amount) => View_Model.UpdateBombUI(amount);
+    public void DecreaseBomb(int amount) => View_Model.UpdateBombUI(-amount);
+    public void IncreaseRope(int amount) => View_Model.UpdateRopeUI(amount);
+    public void DecreaseRope(int amount) => View_Model.UpdateRopeUI(-amount);
+    public void IncreaseMoney(int amount) => View_Model.UpdateMoneyUI(amount);
+    public void DecreaseMoney(int amount) => View_Model.UpdateMoneyUI(-amount);
+    public void IncreaseStage() => View_Model.UpdateStageUI(1);
+    public void IncreaseTime() => View_Model.UpdateTimeUI(1);
+    public void InitTime() => View_Model.InitTimeUI();
+    public void UpdateTotalTime() => View_Model.UpdateTotalTimeUI(View_Model.Time.Value);
+    string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
+}
+```
+ </pre>
+</details>
+<details>
+  <summary>
+    View Model
+  </summary>
+ <pre>
+   
+```cs
+public class Stage_View_Model
+{
+    Model GetModel;
+    public IReadOnlyReactiveProperty<int> Health;
+    public IReadOnlyReactiveProperty<int> Bomb;
+    public IReadOnlyReactiveProperty<int> Rope;
+    public IReadOnlyReactiveProperty<int> Money;
+    public IReadOnlyReactiveProperty<int> Stage;
+    public IReadOnlyReactiveProperty<int> Time;
+    public IReadOnlyReactiveProperty<int> TotalTime;
+    public Stage_View_Model(Model model)
+    {
+        GetModel = model;
+        Health = GetModel.Health;
+        Bomb = GetModel.Bomb;
+        Rope = GetModel.Rope;
+        Money = GetModel.Money;
+        Stage = GetModel.Stage;
+        Time = GetModel.Time;
+        TotalTime = GetModel.TotalTime;
+    }
+    public void UpdateHealthUI(int amount) => GetModel.UpdateHealth(amount);
+    public void UpdateBombUI(int amount) => GetModel.UpdateBomb(amount);
+    public void UpdateRopeUI(int amount) => GetModel.UpdateRope(amount);
+    public void UpdateMoneyUI(int amount) => GetModel.UpdateMoney(amount);
+    public void UpdateStageUI(int amount) => GetModel.UpdateStage(amount);
+    public void UpdateTimeUI(int time) => GetModel.UpdateTime(time);
+    public void UpdateTotalTimeUI(int time) => GetModel.UpdateTotalTime(time);
+    public void InitTimeUI() => GetModel.InitTime();
+}
+```
+ </pre>
+</details>
 UniRx를 활용하여 UI를 쉽게 관리할 수 있게끔 Model - View - View Model 패턴을 구성하였습니다.
