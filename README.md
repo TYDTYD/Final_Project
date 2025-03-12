@@ -241,7 +241,46 @@ public class MaskAnim : MonoBehaviour
 
 ## 통계창 구현
 ![Final_Project-Stage1-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-03-0619-46-20-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/499a337b-f5cf-4cb0-9524-38b3ef09fa6b)
+<details>
+  <summary>
+    통계 UI
+  </summary>
+ <pre>
+   
+```cs
+public class StageRestView : MonoBehaviour
+{
+    Stage_UI_View view;
 
+    [SerializeField] TextMeshProUGUI ThisLevelTime;
+    [SerializeField] TextMeshProUGUI ThisLevelMoney;
+    [SerializeField] TextMeshProUGUI TotalTime;
+    [SerializeField] TextMeshProUGUI TotalMoney;
+    [SerializeField] TextMeshProUGUI hp_text;
+    [SerializeField] TextMeshProUGUI bomb_text;
+    [SerializeField] TextMeshProUGUI rope_text;
+    [SerializeField] TextMeshProUGUI stage_text;
+    void Start()
+    {
+        view = Stage_UI_View.Instance;
+        UpdateUI();
+    }
+    void UpdateUI()
+    {
+        ThisLevelTime.text = ChangeIntToString(view.View_Model.Time.Value);
+        ThisLevelMoney.text = "+" + view.View_Model.Money.Value.ToString();
+        TotalTime.text = ChangeIntToString(view.View_Model.TotalTime.Value);
+        TotalMoney.text = view.View_Model.Money.Value.ToString();
+        hp_text.text = view.View_Model.Health.Value.ToString();
+        bomb_text.text = view.View_Model.Bomb.Value.ToString();
+        rope_text.text = view.View_Model.Rope.Value.ToString();
+        stage_text.text = view.View_Model.Stage.Value.ToString() + " Completed!";
+    }
+    string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
+}
+```
+ </pre>
+</details>
 스테이지 중간마다 플레이 기록에 따른 통계창을 볼 수 있도록 구현하였습니다.
 
 ## 비동기 씬 로드 구현
