@@ -9,7 +9,118 @@ Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
 
 ## 키 변경 기능 구현
 ![Final_Project-Setting-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-01-2423-01-05-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8652c26-1047-42bc-988f-3b41ad6610c1)
+<details>
+  <summary>
+    명령 패턴 인터페이스를 활용한 입력 분리
+  </summary>
+  <pre>
+    
+```cs
+public class Player_Input : MonoBehaviour
+    {
+        Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
+        Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
+        [SerializeField] GameObject anchor;
+        [SerializeField] GameObject bomb;
+        Player GetPlayer;
+        Move RightMove;
+        Move LeftMove;
+        class InputState
+        {
+            // 0 => 트리거 ||  1 => 연속적 트리거
+            public int value;
+            public bool isPressed;
+            public InputState(int v, bool p)
+            {
+                value = v;
+                isPressed = p;
+            }
+        }
+        void EnableInput() => enabled = true;
+        void DisableInput() => enabled = false;
+        struct InputAction
+        {
+            public int value;
+            public ICommand Command;
+            public InputAction(int v, ICommand c)
+            {
+                value = v;
+                Command = c;
+            }
+        }
+        void Start()
+        {
+            GetPlayer = GetComponent<Player>();
+            RightMove = new Move(GetPlayer.GetRigidbody, 7f, true);
+            LeftMove = new Move(GetPlayer.GetRigidbody, 7f, false);
 
+            GetPlayer.GetPlayer_Health.DeathEvent += DisableInput;
+
+            InputAction[] InputActions = {
+            new InputAction(1, RightMove),
+            new InputAction(1, LeftMove),
+            new InputAction(1, new Up(transform,GetPlayer.GetRigidbody)),
+            new InputAction(1, new Down(transform,GetPlayer.GetRigidbody)),
+            new InputAction(0, new Attack(GetPlayer.GetRigidbody)),
+            new InputAction(0, new Item(GetPlayer.GetPlayer_Item.CurrentItem)),
+            new InputAction(0, new Jump(GetPlayer.GetRigidbody,15f)),
+            new InputAction(0, new Rope(anchor)),
+            new InputAction(0, new Bomb(bomb))
+        };
+
+            for (int i = 0; i < InputActions.Length; i++)
+            {
+                var key = InputHandler.keyCodes[i];
+                keyValue[key] = new InputState(InputActions[i].value, false);
+                keyDelegate[key] = InputActions[i];
+            }
+            // 업데이트 매니저의 Instance를 통해 함수를 추가합니다
+            UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+        }
+        private void FixedUpdate()
+        {
+            foreach (var press in keyValue)
+            {
+                if (press.Value.isPressed && press.Value.value != 0)
+                    keyDelegate[press.Key].Command.Execute(GetPlayer);
+            }
+        }
+        void UpdateMethod()
+        {
+            foreach (var key in keyDelegate.Keys)
+            {
+                keyValue[key].isPressed = (keyValue[key].value == 0)
+                ? Input.GetKeyDown(key)  // 단발 입력
+                : Input.GetKey(key);     // 지속 입력
+            }
+
+            foreach (var press in keyValue)
+            {
+                if (press.Value.isPressed && press.Value.value == 0)
+                    keyDelegate[press.Key].Command.Execute(GetPlayer);
+            }
+        }
+        public Move GetRightMove => RightMove;
+        public Move GetLeftMove => LeftMove;
+    }
+```
+  </pre>
+</details>
+<details>
+  <summary>
+    명령 패턴 인터페이스
+  </summary>
+ <pre>
+   
+```cs
+public interface ICommand
+{
+    void Execute();
+    void Execute(Player player);
+}
+```
+ </pre>
+</details>
 명령 패턴을 사용하여 키를 변경할 수 있도록 구현하였습니다.
 
 ## 업데이트 매니저 구현
