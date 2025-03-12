@@ -236,7 +236,83 @@ public class MaskAnim : MonoBehaviour
 
 ## 로프 기능 구현
 ![Final_Project-Demo-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-02-1518-10-13-ezgif com-video-to-gif-converter-min](https://github.com/user-attachments/assets/2bda6b15-8168-43f5-9f70-f30bb94ccdb9)
+<details>
+  <summary>
+    로프 기능
+  </summary>
+ <pre>
+   
+```cs
+public class Rope : ICommand
+{
+    GameObject Anchor;
+    GameObject rope;
 
+    Vector3 offset = new Vector3(0, 0.687f);
+
+    public Rope(GameObject obj)
+    {
+        Anchor = obj;
+    }
+    IEnumerator MoveToTarget(GameObject obj,Transform start, Vector3 destination, float time)
+    {
+        Vector3 startPosition = start.position;
+        float elapsedTime = 0f;
+        while (elapsedTime < time)
+        {
+            float t = Mathf.SmoothStep(0, 1, elapsedTime / time);
+            start.position = Vector3.Lerp(startPosition, destination, t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        start.position = destination;
+        GameObject parent = start.GetChild(1).gameObject;
+        yield return CreateRope(obj, parent.transform.position, parent, start.GetComponent<BoxCollider2D>());
+    }
+    IEnumerator CreateRope(GameObject owner, Vector3 startPos, GameObject parent, BoxCollider2D anchor)
+    {
+        Vector3 pos = startPos;
+        Vector2 sizeOffset = new Vector2(0, 0.275f);
+        while (pos.y > owner.transform.position.y + 1f)
+        {
+            pos -= offset;
+            GameObject obj = Object.Instantiate(parent, rope.transform);
+            anchor.size += 2 * sizeOffset;
+            anchor.offset -= sizeOffset;
+            obj.transform.position -= offset;
+            HingeJoint2D hinge = obj.GetComponent<HingeJoint2D>();
+            hinge.connectedBody = parent.GetComponent<Rigidbody2D>();
+            hinge.anchor = new Vector2(1.11f, 0);
+            hinge.connectedAnchor = Vector2.zero;
+            parent = obj;
+            yield return null;
+        }
+    }
+    public void Execute()
+    {
+
+    }
+    public void Execute(Player player)
+    {
+        int layerMask = LayerMask.GetMask("Ground");
+        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, Vector2.up, 10f, layerMask);
+
+        if (hit.collider == null)
+            return;
+
+        if (Stage_UI_View.Instance.View_Model.Rope.Value <= 0)
+            return;
+
+        Stage_UI_View.Instance.DecreaseRope(1);
+        Vector3 pos = new Vector3(Mathf.Round(hit.point.x), hit.point.y);
+        rope = Object.Instantiate(Anchor);
+        rope.transform.position = player.transform.position;
+        player.StartCoroutine(MoveToTarget(player.gameObject, rope.transform, pos, 0.2f));
+    }
+}
+```
+ </pre>
+</details>
 로프 기능을 통해 밧줄을 타고 다닐 수 있도록 하였습니다.
 
 ## 통계창 구현
