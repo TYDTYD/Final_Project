@@ -615,3 +615,6 @@ public class Stage_View_Model
  </pre>
 </details>
 UniRx를 활용하여 UI를 쉽게 관리할 수 있게끔 Model - View - View Model 패턴을 구성하였습니다.
+
+## Sprite Atlas를 활용하여 드로우 콜 감소
+Sprite Atlas를 활용하여 Batches 수를 줄였습니다.
