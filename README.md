@@ -1,5 +1,6 @@
-# Final_Project
-마지막 프로젝트
+# SHADOW OF THE VALKYRIE
+![Main Capsule](https://github.com/user-attachments/assets/40bd850d-9d49-406a-a737-22bfdf0791c9)
+
 
 
 ## Github CI 구축
