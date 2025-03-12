@@ -12,6 +12,60 @@ Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
 
 명령 패턴을 사용하여 키를 변경할 수 있도록 구현하였습니다.
 
+## 업데이트 매니저 구현
+<details>
+  <summary>
+    업데이트 매니저
+  </summary>
+  <pre>
+    
+```cs
+public class UpdateManager : MonoBehaviour
+{
+    public static UpdateManager Instance { get; private set; }
+    Action UpdateMethod;
+    Action FixedUpdateMethod;
+    Action LateUpdateMethod;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    void Update()
+    {
+        UpdateMethod?.Invoke();
+    }
+
+    void FixedUpdate()
+    {
+        FixedUpdateMethod?.Invoke();
+    }
+
+    private void LateUpdate()
+    {
+        LateUpdateMethod?.Invoke();
+    }
+    // 구독하고자 하는 함수를 UpdateMethod에 추가합니다
+    public void SubscribeUpdate(Action method) => UpdateMethod += method;
+    // 구독 해제하고자 하는 함수를 UpdateMethod에서 제거합니다
+    public void UnSubscribeUpdate(Action method) => UpdateMethod -= method;
+    public void SubscribeFixedUpdate(Action method) => FixedUpdateMethod += method;
+    public void UnSubscribeFixedUpdate(Action method) => FixedUpdateMethod -= method;
+    public void SubscribeLateUpdate(Action method) => LateUpdateMethod += method;
+    public void UnSubscribeLateUpdate(Action method) => LateUpdateMethod -= method;
+}
+```
+  </pre>
+</details>
+
 ## 마스크 기능 구현
 ![Final_Project-MaskTest-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-02-0221-42-32-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/956c9b84-aed6-4cfd-a6f5-bfd7c9160f8d)
 
