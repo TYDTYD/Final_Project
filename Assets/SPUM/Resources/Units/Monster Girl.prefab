@@ -3292,9 +3292,9 @@ GameObject:
   - component: {fileID: 8319769192821616998}
   - component: {fileID: 9193668187134696098}
   - component: {fileID: 2250062110891534118}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Monster Girl
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3404,6 +3404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8eae65c56dc454bb104b22af286e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 1
 --- !u!114 &9193668187134696098
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ public class Monster_Girl : MonoBehaviour, IHealth
     GameObject player;
     Monster_Anim GetMonster_Anim;
     RectTransform GetRectTransform;
-
+    Rigidbody2D GetRigidbody2D;
     public int health = 1;
     float speed = 3f;
     float chaseDist = 4f;
@@ -14,6 +14,8 @@ public class Monster_Girl : MonoBehaviour, IHealth
         player = GameManager.Instance.GetPlayer;
         GetMonster_Anim = GetComponent<Monster_Anim>();
         GetRectTransform = GetComponent<RectTransform>();
+        GetRigidbody2D = GetComponent<Rigidbody2D>();
+        ICommand MoveCommand = new Move(GetRigidbody2D, speed, false);
     }
     void FixedUpdate()
     {

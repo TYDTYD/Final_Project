@@ -4,7 +4,6 @@ using System;
 using player;
 public class CameraManager : MonoBehaviour
 {
-    GameManager gameManager;
     Player GetPlayer;
     Action UIActive;
 
@@ -16,26 +15,15 @@ public class CameraManager : MonoBehaviour
     [SerializeField] GameObject UI;
     private void Start()
     {
-        gameManager = GameManager.Instance;
-        gameManager.StageLoad += OnStageStart;
-        UIActive += UISetActive;
-        if (GetPlayer == null)
-            OnStageStart();
+        if (GameManager.Instance.GetPlayer.TryGetComponent(out Player player))
+            GetPlayer = player;
+        GetPlayer.GetPlayer_Health.DeathEvent += WaitBook;
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
-        if (GetPlayer != null)
+        if(GetPlayer)
             GetPlayer.GetPlayer_Health.DeathEvent -= WaitBook;
     }
-    void OnStageStart()
-    {
-        if (gameManager.GetPlayer.TryGetComponent(out Player player))
-            GetPlayer = player;
-
-        if (GetPlayer)
-            GetPlayer.GetPlayer_Health.DeathEvent += WaitBook;
-    }
-    void UISetActive() => UI.SetActive(true);
     void WaitBook() => Invoke(nameof(GotoBook), 2f);
     void GotoBook() => StartCoroutine(GetMaskVariation.Darker(CameraChange));
     void CameraChange()
@@ -43,7 +31,7 @@ public class CameraManager : MonoBehaviour
         GetDeathCamera.gameObject.SetActive(true);
         GetPlayCamera.gameObject.SetActive(false);
         GetStatisticCamera.gameObject.SetActive(true);
-        UIActive();
+        UI.SetActive(true);
         StartCoroutine(GetMaskVariation.Brighter());
     }
 }

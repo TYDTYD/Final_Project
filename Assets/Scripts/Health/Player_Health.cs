@@ -24,7 +24,12 @@ namespace player
         public void TakeDamage(int damage, int force, GameObject obj)
         {
             Stage_UI_View.Instance.DecreaseHealth(damage);
-            Vector3 knockbackDir = (obj.transform.position - transform.position).normalized;
+            Vector3 dir = (transform.position - obj.transform.position).normalized;
+            Vector3 knockbackDir;
+            if (dir.x > 0)
+                knockbackDir = Vector3.right + Vector3.up;
+            else
+                knockbackDir = Vector3.left + Vector3.up;
             GetRigidbody2D.AddForce(knockbackDir * force);
         }
     }

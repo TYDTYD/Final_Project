@@ -233952,9 +233952,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1020886767152590289, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 0
+    - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2262962286168878745, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -234007,14 +234035,6 @@ PrefabInstance:
     - target: {fileID: 4518576479850661615, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
       propertyPath: m_Name
       value: Monster Girl
-      objectReference: {fileID: 0}
-    - target: {fileID: 4518576479850661615, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4518576479850661615, guid: 8b1a5e376a06f834fb3a90009a1c26f2, type: 3}
-      propertyPath: m_TagString
-      value: Monster
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

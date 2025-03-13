@@ -22,7 +22,7 @@ public class Attack : ICommand
         obj = player.GetPlayer_Item.CurrentItem;
         player.GetPlayer_Rigidbody.GetClimbing = false;
 
-        if (obj.TryGetComponent(out IItem item))
+        if (obj!=null && obj.TryGetComponent(out IItem item))
         {
             item.Use();
             return;

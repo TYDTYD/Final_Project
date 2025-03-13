@@ -35,6 +35,11 @@ namespace player
                 Command = c;
             }
         }
+        private void OnEnable()
+        {
+            // 업데이트 매니저의 Instance를 통해 함수를 추가합니다
+            UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+        }
         void Start()
         {
             GetPlayer = GetComponent<Player>();
@@ -70,7 +75,15 @@ namespace player
                     keyDelegate[press.Key].Command.Execute(GetPlayer);
             }
         }
-        void Update()
+
+
+        private void OnDisable()
+        {
+            // 업데이트 매니저의 Instance를 통해 함수를 제거합니다
+            UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+        }
+        
+        void UpdateMethod()
         {
             foreach (var key in keyDelegate.Keys)
             {

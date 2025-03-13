@@ -51,8 +51,6 @@ public partial class GameManager : MonoBehaviour
     {
         SceneLoad?.Invoke();
         endTime = Time.realtimeSinceStartup;
-        Debug.Log($"비동기적 씬 로드 완료! 걸린 시간 : {endTime - startTime} 초");
-        Debug.Log($"비동기 씬 로드 완료! 실제 체감 시간: {endTime - realStartTime} 초");
         int sceneNum = scene.buildIndex;
         if (IsStageScene(sceneNum))
         {

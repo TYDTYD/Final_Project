@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class Monster_Rigidbody : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Player"))
+        Debug.Log(collision.gameObject);
+        if (collision.gameObject.TryGetComponent(out IHealth health))
         {
-            if(collision.TryGetComponent(out IHealth health))
-            {
-                health.TakeDamage(1, 500, gameObject);
-            }
+            health.TakeDamage(1, 300, gameObject);
         }
     }
 }
