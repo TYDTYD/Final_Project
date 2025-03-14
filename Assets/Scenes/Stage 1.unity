@@ -119599,7 +119599,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c6124dc932f80f64d81731a58fe2460b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -119619,7 +119619,7 @@ Transform:
   m_GameObject: {fileID: 1099756718}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.39, y: -7.92, z: 0}
+  m_LocalPosition: {x: 5.39, y: -7.72, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -119638,6 +119638,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GetMaskVariation: {fileID: 734820039}
+  openDoor: {fileID: 21300000, guid: baa6471d303228543bf8be389d1b8037, type: 3}
+  closeDoor: {fileID: 21300000, guid: c6124dc932f80f64d81731a58fe2460b, type: 3}
 --- !u!4 &1100036402 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 833438916157595456, guid: 237e4bf65ac41804c9d6a816d2dc188e, type: 3}
@@ -125058,8 +125060,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c6124dc932f80f64d81731a58fe2460b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -125078,7 +125080,7 @@ Transform:
   m_GameObject: {fileID: 1151595308}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 4.83, z: 0}
+  m_LocalPosition: {x: 10, y: 5.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -233882,6 +233884,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game View
       objectReference: {fileID: 0}
+    - target: {fileID: 8923437763948441866, guid: 579df7dc557a7aa45b1af8a9c6bacbe6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -234051,10 +234057,10 @@ SceneRoots:
   - {fileID: 269022370}
   - {fileID: 1786631965}
   - {fileID: 1859660557}
-  - {fileID: 1151595310}
-  - {fileID: 1099756721}
   - {fileID: 1527533919}
   - {fileID: 305481503}
+  - {fileID: 1151595310}
+  - {fileID: 1099756721}
   - {fileID: 1810604421}
   - {fileID: 5399163620570314130}
   - {fileID: 5266086558334167388}

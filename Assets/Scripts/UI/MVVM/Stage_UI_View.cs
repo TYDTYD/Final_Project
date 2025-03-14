@@ -1,6 +1,7 @@
 using UnityEngine;
 using UniRx;
 using TMPro;
+using player;
 public class Stage_UI_View : MonoBehaviour
 {
     public static Stage_UI_View Instance { get; private set; }
@@ -44,6 +45,7 @@ public class Stage_UI_View : MonoBehaviour
 
         GameManager.Instance.RestAreaLoad += UpdateTotalTime;
         GameManager.Instance.StageLoad += InitTime;
+        GameManager.Instance.GetPlayer.GetComponent<Player_Health>().DeathEvent += () => gameObject.SetActive(false);
     }
 
     private void Update()

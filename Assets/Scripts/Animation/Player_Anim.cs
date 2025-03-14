@@ -15,6 +15,7 @@ namespace player
         bool isSittingMoved = false;
         bool BeforeGrounded = false;
         bool BeforeSitting = false;
+        bool isAttack = false;
         void Start()
         {
             // 체력이 감소했을 때만 IsDamaged를 true로 설정
@@ -37,6 +38,12 @@ namespace player
                 .AddTo(this);
         }
 
+        void SetState(State newState)
+        {
+            if (CurrentState == newState) return;
+            currentState = newState;
+        }
+
         void Update()
         {
             if (currentState != previousState)
@@ -45,43 +52,42 @@ namespace player
                 previousState = currentState;
             }
 
+            bool isJumpPressed = Input.GetKey(InputHandler.JumpKey);
+            bool isRightPressed = Input.GetKey(InputHandler.RightKey);
+            bool isLeftPressed = Input.GetKey(InputHandler.LeftKey);
+            bool isDownPressed = Input.GetKey(InputHandler.DownKey);
+
             // 생사 여부
             if (GetPlayer_Health.health.Value <= 0)
             {
-                CurrentState = State.Death_State;
+                SetState(State.Death_State);
                 return;
             }
 
             // 데미지 여부
             if (IsDamaged.Value)
             {
-                CurrentState = Player.State.Damage_State;
+                SetState(State.Damage_State);
                 return;
             }
 
             // 사다리 여부
             if (GetPlayer_Rigidbody.GetClimbing)
             {
-                if (Input.GetKey(InputHandler.JumpKey))
+                SetState(isJumpPressed ? State.Jump_State : State.Ladder_State);
+                return;
+            }
+
+            if (CurrentState == State.Edge_State)
+            {
+                if (isJumpPressed)
                 {
                     CurrentState = State.Jump_State;
                     return;
                 }
-
-                CurrentState = Player.State.Ladder_State;
-                return;
-            }
-
-            if (CurrentState == Player.State.Edge_State)
-            {
-                if (Input.GetKeyDown(InputHandler.JumpKey))
+                if (isDownPressed)
                 {
-                    CurrentState = Player.State.Jump_State;
-                    return;
-                }
-                if (Input.GetKeyDown(InputHandler.DownKey))
-                {
-                    CurrentState = Player.State.Fall_State;
+                    CurrentState = State.Fall_State;
                 }
                 return;
             }
@@ -92,19 +98,19 @@ namespace player
                 BeforeGrounded = false;
                 if (GetPlayer_Right_Flip.GetEdgeDetact)
                 {
-                    if (!Input.GetKey(InputHandler.RightKey))
+                    if (!isRightPressed)
                         return;
                     CurrentState = State.Edge_State;
                     return;
                 }
                 if (GetPlayer_Left_Flip.GetEdgeDetact)
                 {
-                    if (!Input.GetKey(InputHandler.LeftKey))
+                    if (!isLeftPressed)
                         return;
                     CurrentState = State.Edge_State;
                     return;
                 }
-                if (Input.GetKeyDown(InputHandler.JumpKey))
+                if (isJumpPressed)
                 {
                     CurrentState = State.Jump_State;
                     return;
@@ -142,63 +148,73 @@ namespace player
                 return;
             }
 
-            if (CurrentState == State.Attack_State && AttackTime <= 0f)
+            // 공격 여부
+            if (isAttack)
             {
-                AttackTime = 0.65f;
+                GetPlayer_Attack.GetBox.enabled = true;
+                AttackTime -= Time.deltaTime;
+                if (AttackTime <= 0f)
+                {
+                    GetPlayer_Attack.GetBox.enabled = false;
+                    isAttack = false;
+                    AttackTime = 0f;
+                    SetState(State.Idle_State);
+                }
                 return;
             }
 
-            if (CurrentState == State.Attack_State && AttackTime > 0f)
+            if (CurrentState == State.Attack_State)
             {
-                AttackTime -= Time.deltaTime;
+                
+                isAttack = true;
+                AttackTime = 0.2f;
                 return;
             }
 
             // todo 모서리에서 점프, 위로 다시 올라가기 작업 고려 애니메이션 클립 추가
 
             // 앉기 여부
-            if (Input.GetKey(InputHandler.DownKey))
+            if (isDownPressed)
             {
                 if (!BeforeSitting)
                 {
-                    CurrentState = State.SittingStart_State;
+                    SetState(State.SittingStart_State);
                     BeforeSitting = true;
                     return;
                 }
 
-                if (Input.GetKey(InputHandler.RightKey) || Input.GetKey(InputHandler.LeftKey))
+                if (isRightPressed || isLeftPressed)
                 {
-                    CurrentState = State.SittingMove_State;
+                    SetState(State.SittingMove_State);
                     isSittingMoved = true;
                     SittingTime = 0f;
                     return;
                 }
                 else
                 {
+                    SetState(State.Sitting_State);
                     isSittingMoved = false;
                     SittingTime += Time.deltaTime;
-                    CurrentState = State.Sitting_State;
                 }
-                CurrentState = State.Sitting_State;
                 return;
             }
 
             BeforeSitting = false;
             SittingTime = 0f;
 
-            if (Input.GetKeyDown(InputHandler.JumpKey))
+            if (isJumpPressed)
             {
-                CurrentState = State.Jump_State;
+                SetState(State.Jump_State);
                 return;
             }
 
-            if (Input.GetKey(InputHandler.RightKey) || Input.GetKey(InputHandler.LeftKey))
+            if (isRightPressed || isLeftPressed)
             {
-                CurrentState = State.Move_State;
+                SetState(State.Move_State);
                 return;
             }
 
-            CurrentState = State.Idle_State;
+            SetState(State.Idle_State);
         }
 
         public float GetSittingTime => SittingTime;

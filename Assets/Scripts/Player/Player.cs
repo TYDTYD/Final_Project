@@ -30,6 +30,7 @@ namespace player
         [SerializeField] Player_Input player_Input;
         [SerializeField] Player_Right_Flip player_Right_Flip;
         [SerializeField] Player_Left_Flip player_Left_Flip;
+        [SerializeField] Player_Attack player_Attack;
 
         Rigidbody2D rigidBody;
         Animator animator;
@@ -75,6 +76,7 @@ namespace player
                 animator.SetTrigger(hash);
         }
 
+        public Player_Attack GetPlayer_Attack => player_Attack;
         public SpriteRenderer GetSprite => spriteRenderer;
         public Rigidbody2D GetRigidbody => rigidBody;
         public Player_Rigidbody GetPlayer_Rigidbody => player_Rigidbody;

@@ -3,14 +3,23 @@ using System;
 public class Next_Stage : MonoBehaviour
 {
     [SerializeField] MaskVariation GetMaskVariation;
+    [SerializeField] Sprite openDoor;
+    [SerializeField] Sprite closeDoor;
     bool trigger = false;
     bool canInteract = false;
+    SpriteRenderer GetSprite;
+
+    private void Start()
+    {
+        GetSprite = GetComponent<SpriteRenderer>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             canInteract = true; // 상호작용 가능 상태로 변경
+            GetSprite.sprite = openDoor;
         }
     }
 
@@ -19,6 +28,7 @@ public class Next_Stage : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             canInteract = false; // 상호작용 종료
+            GetSprite.sprite = closeDoor;
         }
     }
 

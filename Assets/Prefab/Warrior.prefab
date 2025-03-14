@@ -257,6 +257,7 @@ MonoBehaviour:
   player_Input: {fileID: 1486312039944480233}
   player_Right_Flip: {fileID: 4603075839728996474}
   player_Left_Flip: {fileID: 3435168269065166802}
+  player_Attack: {fileID: 6262101829630349127}
 --- !u!114 &1187399062659430636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,6 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7225755037777806258}
   - component: {fileID: 7343395313182758137}
+  - component: {fileID: 6262101829630349127}
   m_Layer: 0
   m_Name: Attack Range
   m_TagString: Untagged
@@ -608,7 +610,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7717850155653588754}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -645,5 +647,19 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.4, y: 0.31}
+  m_Size: {x: 0.2, y: 0.31}
   m_EdgeRadius: 0
+--- !u!114 &6262101829630349127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7717850155653588754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15400062646acc14b9dcd54096913c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 8191800453560184698}
+  GetBox: {fileID: 7343395313182758137}
