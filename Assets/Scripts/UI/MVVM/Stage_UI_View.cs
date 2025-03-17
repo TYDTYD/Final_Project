@@ -1,11 +1,13 @@
 using UnityEngine;
 using UniRx;
+using UniRx.Triggers;
+using System;
 using TMPro;
 using player;
 public class Stage_UI_View : MonoBehaviour
 {
     public static Stage_UI_View Instance { get; private set; }
-    public Stage_View_Model View_Model;
+    Stage_View_Model View_Model;
 
     [SerializeField] TextMeshProUGUI hp_text;
     [SerializeField] TextMeshProUGUI bomb_text;
@@ -16,6 +18,7 @@ public class Stage_UI_View : MonoBehaviour
 
     float second = 0f;
     int beforeSecond = 0;
+    Action onPlayerDeath;
     private void Awake()
     {
         if (Instance == null)
@@ -31,6 +34,13 @@ public class Stage_UI_View : MonoBehaviour
             return;
         }
     }
+    private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+    private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+    private void OnDestroy()
+    {
+        GameManager.Instance.StageLoad -= InitTime;
+        GameManager.Instance.StageLoad -= InitMoney;
+    }
     private void Start()
     {
         var model = new Model();
@@ -43,12 +53,11 @@ public class Stage_UI_View : MonoBehaviour
         View_Model.Time.Subscribe(time => time_text.text = ChangeIntToString(time)).AddTo(this);
         View_Model.Stage.Subscribe(stage => stage_text.text = stage.ToString()).AddTo(this);
 
-        GameManager.Instance.RestAreaLoad += UpdateTotalTime;
         GameManager.Instance.StageLoad += InitTime;
+        GameManager.Instance.StageLoad += InitMoney;
         GameManager.Instance.GetPlayer.GetComponent<Player_Health>().DeathEvent += () => gameObject.SetActive(false);
     }
-
-    private void Update()
+    private void UpdateMethod()
     {
         second += Time.deltaTime;
         int newSecond = Mathf.FloorToInt(second);
@@ -58,6 +67,14 @@ public class Stage_UI_View : MonoBehaviour
             IncreaseTime();
         }
     }
+    public int GetHp => View_Model.Health.Value;
+    public int GetBomb => View_Model.Bomb.Value;
+    public int GetRope => View_Model.Rope.Value;
+    public int GetMoney => View_Model.Money.Value;
+    public int GetStageMoney => View_Model.CurrentMoney.Value;
+    public int GetTime => View_Model.Time.Value;
+    public int GetStage => View_Model.Stage.Value;
+    public int GetTotalTime => View_Model.TotalTime.Value;
     public void IncreaseHealth(int amount) => View_Model.UpdateHealthUI(amount);
     public void DecreaseHealth(int amount) => View_Model.UpdateHealthUI(-amount);
     public void IncreaseBomb(int amount) => View_Model.UpdateBombUI(amount);
@@ -69,6 +86,10 @@ public class Stage_UI_View : MonoBehaviour
     public void IncreaseStage() => View_Model.UpdateStageUI(1);
     public void IncreaseTime() => View_Model.UpdateTimeUI(1);
     public void InitTime() => View_Model.InitTimeUI();
-    public void UpdateTotalTime() => View_Model.UpdateTotalTimeUI(View_Model.Time.Value);
-    string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
+    public void InitMoney() => View_Model.InitMoney();
+    string ChangeIntToString(int t)
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(t);
+        return timeSpan.ToString(@"mm\:ss");
+    }
 }

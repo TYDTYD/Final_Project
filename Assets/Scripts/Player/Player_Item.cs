@@ -5,7 +5,15 @@ namespace player
     {
         GameObject obj = null;
         GameObject item = null;
+        Vector2 rightPos = new Vector2(0.25f, -0.05f);
+        Vector2 leftPos = new Vector2(-0.25f, -0.05f);
+        [SerializeField] Player parent;
+        [SerializeField] BoxCollider2D GetBox;
         bool IsCatch = false;
+
+        private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+        private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+        private void UpdateMethod() => GetBox.offset = parent.GetSprite.flipX ? leftPos : rightPos;
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (obj != null)

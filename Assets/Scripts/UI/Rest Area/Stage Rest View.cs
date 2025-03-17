@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using System;
+
 public class StageRestView : MonoBehaviour
 {
     Stage_UI_View view;
@@ -19,14 +21,18 @@ public class StageRestView : MonoBehaviour
     }
     void UpdateUI()
     {
-        ThisLevelTime.text = ChangeIntToString(view.View_Model.Time.Value);
-        ThisLevelMoney.text = "+" + view.View_Model.Money.Value.ToString();
-        TotalTime.text = ChangeIntToString(view.View_Model.TotalTime.Value);
-        TotalMoney.text = view.View_Model.Money.Value.ToString();
-        hp_text.text = view.View_Model.Health.Value.ToString();
-        bomb_text.text = view.View_Model.Bomb.Value.ToString();
-        rope_text.text = view.View_Model.Rope.Value.ToString();
-        stage_text.text = view.View_Model.Stage.Value.ToString() + " Completed!";
+        ThisLevelTime.text = ChangeIntToString(view.GetTime);
+        ThisLevelMoney.text = "+" + view.GetStageMoney.ToString();
+        TotalTime.text = ChangeIntToString(view.GetTotalTime);
+        TotalMoney.text = view.GetMoney.ToString();
+        hp_text.text = view.GetHp.ToString();
+        bomb_text.text = view.GetBomb.ToString();
+        rope_text.text = view.GetRope.ToString();
+        stage_text.text = view.GetStage.ToString() + " Completed!";
     }
-    string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
+    string ChangeIntToString(int t)
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(t);
+        return timeSpan.ToString(@"mm\:ss");
+    }
 }

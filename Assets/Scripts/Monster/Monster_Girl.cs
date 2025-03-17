@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using player;
 public class Monster_Girl : MonoBehaviour, IHealth
 {
     GameObject player;
@@ -8,6 +8,7 @@ public class Monster_Girl : MonoBehaviour, IHealth
     Rigidbody2D GetRigidbody2D;
     ICommand RightMoveCommand;
     ICommand LeftMoveCommand;
+    Stage_UI_View UI_View;
 
     int health = 1;
     float speed = 3f;
@@ -20,15 +21,18 @@ public class Monster_Girl : MonoBehaviour, IHealth
         GetRigidbody2D = GetComponent<Rigidbody2D>();
         RightMoveCommand = new Move(GetRigidbody2D, speed, false);
         LeftMoveCommand = new Move(GetRigidbody2D, speed, true);
+        UI_View = Stage_UI_View.Instance;
     }
-    void FixedUpdate()
+    private void OnEnable() => UpdateManager.Instance.SubscribeFixedUpdate(FixedUpdateMethod);
+    private void OnDisable() => UpdateManager.Instance.UnSubscribeFixedUpdate(FixedUpdateMethod);
+    void FixedUpdateMethod()
     {
         if (GetMonster_Anim.GetState == State.DEATH)
         {
             gameObject.SetActive(false);
             return;
         }
-        if (isPlayerNearby())
+        if (IsPlayerNearby())
         {
             GetMonster_Anim.GetState = State.MOVE;
             ChasePlayer();
@@ -38,7 +42,7 @@ public class Monster_Girl : MonoBehaviour, IHealth
             GetMonster_Anim.GetState = State.IDLE;
         }
     }
-    bool isPlayerNearby() => player != null && Vector2.Distance(transform.position, player.transform.position) < chaseDist;
+    bool IsPlayerNearby() => player != null && Vector2.Distance(transform.position, player.transform.position) < chaseDist;
     void ChasePlayer()
     {
         bool isRight = player.transform.position.x > transform.position.x;

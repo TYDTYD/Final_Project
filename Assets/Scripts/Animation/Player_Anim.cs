@@ -9,24 +9,13 @@ namespace player
         IDisposable damageResetSubscription;
 
         float GroggiTime = 0.5f;
-        float LandTime = 0f;
         float AttackTime = 0f;
         float SittingTime = 0f;
+        int preHealth = 0;
         bool isSittingMoved = false;
         bool BeforeGrounded = false;
         bool BeforeSitting = false;
         bool isAttack = false;
-        void Start()
-        {
-            // 체력이 감소했을 때만 IsDamaged를 true로 설정
-            Stage_UI_View.Instance.View_Model.Health.Pairwise() // 이전 값과 현재 값을 비교
-                .Where(pair => pair.Previous > pair.Current) // 체력이 감소할 때만 실행
-                .Subscribe(_ =>
-                {
-                    IsDamaged.Value = true;
-                    ResetDamageState();
-                }).AddTo(this);
-        }
         private void ResetDamageState()
         {
             // 기존 타이머가 있으면 초기화
@@ -34,17 +23,17 @@ namespace player
 
             // 0.5초 후 IsDamaged를 다시 false로 설정
             damageResetSubscription = Observable.Timer(TimeSpan.FromSeconds(GroggiTime))
-                .Subscribe(_ => IsDamaged.Value = false)
-                .AddTo(this);
+                .Subscribe(_ => IsDamaged.Value = false);
         }
-
         void SetState(State newState)
         {
             if (CurrentState == newState) return;
             currentState = newState;
         }
-
-        void Update()
+        private void Start() => preHealth = Stage_UI_View.Instance.GetHp;
+        private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+        private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+        void UpdateMethod()
         {
             if (currentState != previousState)
             {
@@ -58,16 +47,16 @@ namespace player
             bool isDownPressed = Input.GetKey(InputHandler.DownKey);
 
             // 생사 여부
-            if (GetPlayer_Health.health.Value <= 0)
+            if (Stage_UI_View.Instance.GetHp <= 0)
             {
                 SetState(State.Death_State);
                 return;
             }
 
-            // 데미지 여부
-            if (IsDamaged.Value)
+            if (Stage_UI_View.Instance.GetHp != preHealth)
             {
                 SetState(State.Damage_State);
+                preHealth = Stage_UI_View.Instance.GetHp;
                 return;
             }
 
@@ -82,12 +71,12 @@ namespace player
             {
                 if (isJumpPressed)
                 {
-                    CurrentState = State.Jump_State;
+                    SetState(State.Jump_State);
                     return;
                 }
                 if (isDownPressed)
                 {
-                    CurrentState = State.Fall_State;
+                    SetState(State.Fall_State);
                 }
                 return;
             }
@@ -123,28 +112,6 @@ namespace player
             if (!BeforeGrounded)
             {
                 BeforeGrounded = true;
-                /*
-                if (FallTime > 1.5f)
-                {
-                    //GetHealth.health.Value = 0;
-                    //GetPlayer.CurrentState = Player.State.Death_State;
-                    FallTime = 0f;
-                    return;
-                }
-                if (FallTime > 1.2f)
-                {
-                    GetPlayer.CurrentState = Player.State.Land_State;
-                    LandTime = 1f;
-                    FallTime = 0f;
-                    return;
-                }*/
-                return;
-            }
-
-            // 허공 시간
-            if (CurrentState == State.Land_State && LandTime > 0f)
-            {
-                LandTime -= Time.deltaTime;
                 return;
             }
 
@@ -165,7 +132,6 @@ namespace player
 
             if (CurrentState == State.Attack_State)
             {
-                
                 isAttack = true;
                 AttackTime = 0.2f;
                 return;
@@ -216,8 +182,76 @@ namespace player
 
             SetState(State.Idle_State);
         }
-
         public float GetSittingTime => SittingTime;
-    }
+        void CheckState()
+        {
+            bool isJumpPressed = Input.GetKey(InputHandler.JumpKey);
+            bool isRightPressed = Input.GetKey(InputHandler.RightKey);
+            bool isLeftPressed = Input.GetKey(InputHandler.LeftKey);
+            bool isDownPressed = Input.GetKey(InputHandler.DownKey);
 
+            if (Stage_UI_View.Instance.GetHp <= 0)
+            {
+                SetState(State.Death_State);
+                return;
+            }
+
+            if (IsDamaged.Value)
+            {
+                SetState(State.Damage_State);
+                return;
+            }
+
+            if (GetPlayer_Rigidbody.GetClimbing)
+            {
+                SetState(isJumpPressed ? State.Jump_State : State.Ladder_State);
+                return;
+            }
+
+            if (!GetPlayer_Rigidbody.GetGrounded)
+            {
+                HandleAirState(isJumpPressed, isRightPressed, isLeftPressed);
+                return;
+            }
+
+            HandleGroundState(isJumpPressed, isRightPressed, isLeftPressed, isDownPressed);
+        }
+        void HandleAirState(bool isJumpPressed, bool isRightPressed, bool isLeftPressed)
+        {
+            if (GetPlayer_Right_Flip.GetEdgeDetact && !isRightPressed ||
+                GetPlayer_Left_Flip.GetEdgeDetact && !isLeftPressed)
+            {
+                SetState(State.Edge_State);
+                return;
+            }
+
+            SetState(isJumpPressed ? State.Jump_State : State.Fall_State);
+        }
+        void HandleGroundState(bool isJumpPressed, bool isRightPressed, bool isLeftPressed, bool isDownPressed)
+        {
+            if (isDownPressed)
+            {
+                HandleSittingState(isRightPressed, isLeftPressed);
+                return;
+            }
+
+            if (isJumpPressed)
+            {
+                SetState(State.Jump_State);
+                return;
+            }
+
+            if (isRightPressed || isLeftPressed)
+            {
+                SetState(State.Move_State);
+                return;
+            }
+
+            SetState(State.Idle_State);
+        }
+        void HandleSittingState(bool isRightPressed, bool isLeftPressed)
+        {
+
+        }  
+    }
 }

@@ -6,6 +6,7 @@ public class Stage_View_Model
     public IReadOnlyReactiveProperty<int> Bomb;
     public IReadOnlyReactiveProperty<int> Rope;
     public IReadOnlyReactiveProperty<int> Money;
+    public IReadOnlyReactiveProperty<int> CurrentMoney;
     public IReadOnlyReactiveProperty<int> Stage;
     public IReadOnlyReactiveProperty<int> Time;
     public IReadOnlyReactiveProperty<int> TotalTime;
@@ -16,6 +17,7 @@ public class Stage_View_Model
         Bomb = GetModel.Bomb;
         Rope = GetModel.Rope;
         Money = GetModel.Money;
+        CurrentMoney = GetModel.CurrentMoney;
         Stage = GetModel.Stage;
         Time = GetModel.Time;
         TotalTime = GetModel.TotalTime;
@@ -25,7 +27,11 @@ public class Stage_View_Model
     public void UpdateRopeUI(int amount) => GetModel.UpdateRope(amount);
     public void UpdateMoneyUI(int amount) => GetModel.UpdateMoney(amount);
     public void UpdateStageUI(int amount) => GetModel.UpdateStage(amount);
-    public void UpdateTimeUI(int time) => GetModel.UpdateTime(time);
-    public void UpdateTotalTimeUI(int time) => GetModel.UpdateTotalTime(time);
+    public void UpdateTimeUI(int time)
+    {
+        GetModel.UpdateTime(time);
+        GetModel.UpdateTotalTime(time);
+    }
     public void InitTimeUI() => GetModel.InitTime();
+    public void InitMoney() => GetModel.InitMoney();
 }

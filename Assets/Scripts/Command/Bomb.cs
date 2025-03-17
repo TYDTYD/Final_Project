@@ -17,7 +17,7 @@ public class Bomb : ICommand
     }
     public void Execute(Player player)
     {
-        if (Stage_UI_View.Instance.View_Model.Bomb.Value > 0)
+        if (Stage_UI_View.Instance.GetBomb > 0)
         {
             Stage_UI_View.Instance.DecreaseBomb(1);
             GameObject obj = player.gameObject;

@@ -5,6 +5,7 @@ public class Model
     IReactiveProperty<int> bomb = new ReactiveProperty<int>(4);
     IReactiveProperty<int> rope = new ReactiveProperty<int>(4);
     IReactiveProperty<int> money = new ReactiveProperty<int>(0);
+    IReactiveProperty<int> currentMoney = new ReactiveProperty<int>(0);
     IReactiveProperty<int> stage = new ReactiveProperty<int>(1);
     IReactiveProperty<int> time = new ReactiveProperty<int>(0);
     IReactiveProperty<int> totalTime = new ReactiveProperty<int>(0);
@@ -12,6 +13,7 @@ public class Model
     public IReadOnlyReactiveProperty<int> Bomb => bomb;
     public IReadOnlyReactiveProperty<int> Rope => rope;
     public IReadOnlyReactiveProperty<int> Money => money;
+    public IReadOnlyReactiveProperty<int> CurrentMoney => currentMoney;
     public IReadOnlyReactiveProperty<int> Stage => stage;
     public IReadOnlyReactiveProperty<int> Time => time;
     public IReadOnlyReactiveProperty<int> TotalTime => totalTime;
@@ -50,7 +52,7 @@ public class Model
     }
     public void UpdateMoney(int amount)
     {
-        if (Money.Value <= 0)
+        if (Money.Value < 0)
             return;
         if (Money.Value + amount < 0)
         {
@@ -58,6 +60,7 @@ public class Model
             return;
         }
         money.Value += amount;
+        currentMoney.Value += amount;
     }
     public void UpdateStage(int amount)
     {
@@ -73,4 +76,5 @@ public class Model
     public void UpdateTime(int amount) => time.Value += amount;
     public void UpdateTotalTime(int time) => totalTime.Value += time;
     public void InitTime() => time.Value = 0;
+    public void InitMoney() => currentMoney.Value = 0;
 }

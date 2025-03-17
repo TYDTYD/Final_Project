@@ -15,9 +15,9 @@ public partial class GameManager : MonoBehaviour
     Vector3 Stage3Start = new Vector3(11f, 5f);
     Vector3 Stage4Start = new Vector3(-14f, 5f);
 
-    public Action SceneLoad;
-    public Action StageLoad;
-    public Action RestAreaLoad;
+    public event Action SceneLoad;
+    public event Action StageLoad;
+    public event Action RestAreaLoad;
 
     private void Awake()
     {

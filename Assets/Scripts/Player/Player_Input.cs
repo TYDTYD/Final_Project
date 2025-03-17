@@ -10,6 +10,7 @@ namespace player
         [SerializeField] GameObject anchor;
         [SerializeField] GameObject bomb;
         Player GetPlayer;
+        Idle Idle;
         Move RightMove;
         Move LeftMove;
         class InputState
@@ -45,6 +46,7 @@ namespace player
             GetPlayer = GetComponent<Player>();
             RightMove = new Move(GetPlayer.GetRigidbody, 7f, true);
             LeftMove = new Move(GetPlayer.GetRigidbody, 7f, false);
+            Idle = new Idle(GetPlayer.GetRigidbody);
 
             GetPlayer.GetPlayer_Health.DeathEvent += DisableInput;
 
@@ -85,11 +87,20 @@ namespace player
         
         void UpdateMethod()
         {
+            bool anyKeyPressed = false;
             foreach (var key in keyDelegate.Keys)
             {
                 keyValue[key].isPressed = (keyValue[key].value == 0)
                 ? Input.GetKeyDown(key)  // 단발 입력
                 : Input.GetKey(key);     // 지속 입력
+                if (keyValue[key].isPressed)
+                    anyKeyPressed = true;
+            }
+
+            if (!anyKeyPressed)
+            {
+                Idle.Execute();
+                return;
             }
 
             foreach (var press in keyValue)
