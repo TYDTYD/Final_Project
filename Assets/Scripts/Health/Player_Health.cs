@@ -7,6 +7,8 @@ namespace player
         public event Action DeathEvent;
         Player GetPlayer;
         Rigidbody2D GetRigidbody2D;
+
+        int hp;
         private void Start()
         {
             GetPlayer = GetComponent<Player>();
@@ -23,8 +25,12 @@ namespace player
         }
         void UpdateMethod()
         {
-            if (Stage_UI_View.Instance.GetHp <= 0)
-                DeathEvent?.Invoke();
+            if (hp != Stage_UI_View.Instance.GetHp)
+            {
+                if (Stage_UI_View.Instance.GetHp <= 0)
+                    DeathEvent?.Invoke();
+                hp = Stage_UI_View.Instance.GetHp;
+            }
         }
         public void Heal(int amount) => Stage_UI_View.Instance.IncreaseHealth(amount);
         public void TakeDamage(int damage, int force, GameObject obj)
