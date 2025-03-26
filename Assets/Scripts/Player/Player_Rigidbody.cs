@@ -7,6 +7,18 @@ namespace player
         Rigidbody2D GetRigidbody2D;
         Player GetPlayer;
 
+        [HideInInspector] public bool ledgeDetected;
+
+        [Header("Ledge Info")]
+        [SerializeField] Vector2 offset1;
+        [SerializeField] Vector2 offset2;
+
+        Vector2 climbBegunPosition;
+        Vector2 climbOverPosition;
+
+        public bool canGrabLedge = true;
+        public bool canClimb;
+
         bool Grounded = false;
         bool Ladder = false;
         bool Climbing = false;
@@ -16,7 +28,35 @@ namespace player
             GetPlayer = GetComponent<Player>();
             GetRigidbody2D = GetPlayer.GetRigidbody;
         }
+        private void Update()
+        {
+            CheckCollision();
+            CheckForLedge();
+        }
 
+        void CheckForLedge()
+        {
+            if(ledgeDetected && canGrabLedge)
+            {
+                canGrabLedge = false;
+
+                //Vector2 ledgePosition = GetComponentInChildren<LedgeDetection>().transform.position;
+
+                //climbBegunPosition = ledgePosition + offset1;
+                //climbOverPosition = ledgePosition + offset2;
+
+                canClimb = true;
+            }
+            /*
+            if (canClimb)
+                transform.position = climbBegunPosition;
+            */
+        }
+
+        void CheckCollision()
+        {
+            Debug.Log(canGrabLedge);
+        }
         void UpdateClimbingState()
         {
             if (GetClimbing)
@@ -29,7 +69,6 @@ namespace player
                 GetRigidbody2D.gravityScale = gravity;
             }
         }
-
         void CheckGrounded(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.7f)
@@ -37,26 +76,21 @@ namespace player
                 Grounded = true;
             }
         }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Ladder"))
             {
                 Ladder = true;
             }
-            
         }
-
         private void OnCollisionEnter2D(Collision2D collision)
         {
             CheckGrounded(collision);
         }
-
         private void OnCollisionStay2D(Collision2D collision)
         {
             CheckGrounded(collision);
         }
-
         private void OnCollisionExit2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Ground"))
@@ -64,7 +98,6 @@ namespace player
                 Grounded = false;
             }
         }
-
         private void OnTriggerStay2D(Collider2D collision)
         {
             if (collision.CompareTag("Ladder"))
@@ -78,7 +111,6 @@ namespace player
                 return;
             }
         }
-
         private void OnTriggerExit2D(Collider2D collision)
         {
             if (collision.CompareTag("Ladder"))
@@ -87,7 +119,6 @@ namespace player
                 GetClimbing = false;
             }
         }
-
         public bool GetClimbing
         {
             get => Climbing;

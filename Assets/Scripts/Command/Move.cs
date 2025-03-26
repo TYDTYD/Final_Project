@@ -23,6 +23,7 @@ public class Move : ICommand
             player.CurrentState == Player.State.Land_State ||
             player.CurrentState == Player.State.Attack_State ||
             player.CurrentState == Player.State.Damage_State ||
+            player.CurrentState == Player.State.EdgeDetact_State ||
             player.CurrentState == Player.State.Edge_State ||
             player.CurrentState == Player.State.Death_State)
             return;

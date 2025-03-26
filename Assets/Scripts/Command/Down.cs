@@ -1,10 +1,13 @@
 using UnityEngine;
 using player;
+using System.Collections;
+
 public class Down : ICommand
 {
     Transform transform;
     Rigidbody2D rigidbody;
-    Vector3 down = new Vector3(0, 0.1f);
+    WaitForSeconds delay = new(0.1f);
+    Vector3 down = new(0, 0.1f);
     public Down(Transform _transform, Rigidbody2D rigidbody2D)
     {
         transform = _transform;
@@ -16,10 +19,23 @@ public class Down : ICommand
     }
     public void Execute(Player player)
     {
-        if (!player.GetPlayer_Rigidbody.GetLadder)
+        Player_Rigidbody playerRb = player.GetPlayer_Rigidbody;
+        if (player.CurrentState == Player.State.EdgeDetact_State)
+        {
+            playerRb.canClimb = false;
+            rigidbody.gravityScale = 6f;
+        }
+        if (!playerRb.GetLadder)
             return;
         rigidbody.linearVelocity = Vector2.zero;
         transform.position -= down;
-        player.GetPlayer_Rigidbody.GetClimbing = true;
+        playerRb.GetClimbing = true;
+        player.StartCoroutine(SetGrap(player));
+    }
+    IEnumerator SetGrap(Player player)
+    {
+        yield return delay;
+        if (player != null)
+            player.GetPlayer_Rigidbody.canGrabLedge = true;
     }
 }

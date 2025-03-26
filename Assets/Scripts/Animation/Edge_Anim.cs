@@ -10,7 +10,6 @@ namespace player
         {
             if (GetPlayer == null)
             {
-                Debug.Log("º® ºÙ±â");
                 GetPlayer = animator.gameObject.GetComponent<Player>();
             }
             GetPlayer.GetRigidbody.linearVelocity = Vector2.zero;
@@ -26,7 +25,7 @@ namespace player
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            GetPlayer.GetRigidbody.gravityScale = 5f;
+            GetPlayer.GetRigidbody.gravityScale = 6f;
         }
     }
 }

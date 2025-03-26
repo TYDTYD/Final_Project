@@ -56,8 +56,9 @@ namespace player
             { State.SittingStart_State, Animator.StringToHash("Croush") },
             { State.Sitting_State, Animator.StringToHash("Sitting") },
             { State.SittingMove_State, Animator.StringToHash("SittingMove") },
-            { State.Edge_State, Animator.StringToHash("Edge_Idle") },
-            { State.Death_State, Animator.StringToHash("Death") }
+            { State.EdgeDetact_State, Animator.StringToHash("Edge_Idle") },
+            { State.Death_State, Animator.StringToHash("Death") },
+            { State.Edge_State, Animator.StringToHash("CanClimb") }
         };
 
             rigidBody = GetComponent<Rigidbody2D>();
@@ -65,7 +66,14 @@ namespace player
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        
+        void SetAnimation(State state, State before_State)
+        {
+            if (animationHashes.TryGetValue(before_State, out int hashValue))
+                animator.SetBool(hashValue, false);
+
+            if (animationHashes.TryGetValue(state, out int hash))
+                animator.SetBool(hash, true);
+        }
 
         void TriggerAnimation(State state, State before_State)
         {

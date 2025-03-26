@@ -38,10 +38,12 @@ namespace player
             if (currentState != previousState)
             {
                 TriggerAnimation(currentState, previousState);
+                SetAnimation(currentState, previousState);
                 previousState = currentState;
             }
 
             bool isJumpPressed = Input.GetKey(InputHandler.JumpKey);
+            bool isUpPressed = Input.GetKey(InputHandler.UpKey);
             bool isRightPressed = Input.GetKey(InputHandler.RightKey);
             bool isLeftPressed = Input.GetKey(InputHandler.LeftKey);
             bool isDownPressed = Input.GetKey(InputHandler.DownKey);
@@ -67,8 +69,19 @@ namespace player
                 return;
             }
 
-            if (CurrentState == State.Edge_State)
+            if (GetPlayer_Rigidbody.canClimb)
             {
+                SetState(State.EdgeDetact_State);
+                return;
+            }
+
+            if (CurrentState == State.EdgeDetact_State)
+            {
+                if (isUpPressed)
+                {
+                    SetState(State.Edge_State);
+                    return;
+                }
                 if (isJumpPressed)
                 {
                     SetState(State.Jump_State);

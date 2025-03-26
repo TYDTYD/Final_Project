@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Stone : MonoBehaviour, ICatchable
+public class TorchLight : MonoBehaviour, ICatchable
 {
     float threshold = 5f;
-    int damage = 1;
+    int damage = 2;
     Rigidbody2D rb;
     GameObject Owner;
     Vector3 Offset = Vector3.zero;
@@ -32,6 +32,7 @@ public class Stone : MonoBehaviour, ICatchable
             Debug.Log(rb.linearVelocity.magnitude);
             if (Owner != null && Owner == collision.gameObject)
                 return;
+
             health.TakeDamage(damage, 100, gameObject);
         }
     }
