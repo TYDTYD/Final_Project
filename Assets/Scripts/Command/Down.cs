@@ -23,14 +23,16 @@ public class Down : ICommand
         if (player.CurrentState == Player.State.EdgeDetact_State)
         {
             playerRb.canClimb = false;
-            rigidbody.gravityScale = 6f;
-        }
-        if (!playerRb.GetLadder)
+            player.StartCoroutine(SetGrap(player));
             return;
-        rigidbody.linearVelocity = Vector2.zero;
-        transform.position -= down;
-        playerRb.GetClimbing = true;
-        player.StartCoroutine(SetGrap(player));
+        }
+        if (playerRb.GetLadder)
+        {
+            rigidbody.linearVelocity = Vector2.zero;
+            transform.position -= down;
+            playerRb.GetClimbing = true;
+            return;
+        }
     }
     IEnumerator SetGrap(Player player)
     {

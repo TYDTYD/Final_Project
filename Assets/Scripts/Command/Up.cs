@@ -17,10 +17,19 @@ public class Up : ICommand
     }
     public void Execute(Player player)
     {
-        if (!player.GetPlayer_Rigidbody.GetLadder)
+        Player_Rigidbody playerRb = player.GetPlayer_Rigidbody;
+        if (player.CurrentState == Player.State.EdgeDetact_State)
+        {
+            playerRb.canClimb = false;
+            player.CurrentState = Player.State.Edge_State;
             return;
-        rigidbody.linearVelocity = Vector2.zero;
-        transform.position += up;
-        player.GetPlayer_Rigidbody.GetClimbing = true;
+        }
+        if (player.GetPlayer_Rigidbody.GetLadder)
+        {
+            rigidbody.linearVelocity = Vector2.zero;
+            transform.position += up;
+            player.GetPlayer_Rigidbody.GetClimbing = true;
+            return;
+        }
     }
 }

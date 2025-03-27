@@ -39,7 +39,6 @@ namespace player
             if(ledgeDetected && canGrabLedge)
             {
                 canGrabLedge = false;
-
                 //Vector2 ledgePosition = GetComponentInChildren<LedgeDetection>().transform.position;
 
                 //climbBegunPosition = ledgePosition + offset1;

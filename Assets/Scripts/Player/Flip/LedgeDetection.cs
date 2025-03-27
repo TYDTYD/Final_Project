@@ -6,32 +6,30 @@ public class LedgeDetection : MonoBehaviour
     [SerializeField] LayerMask whatIsGround;
     [SerializeField] Player player;
 
-    bool canDectected;
-
-    private void Update()
+    int canDectected = 0;
+    private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+    private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+    private void UpdateMethod()
     {
-        if (canDectected)
+        if (canDectected == 0)
             player.GetPlayer_Rigidbody.ledgeDetected = Physics2D.OverlapCircle(transform.position, radius, whatIsGround);
         else
             player.GetPlayer_Rigidbody.ledgeDetected = false;
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if(collision.CompareTag("Ground"))
         {
-            canDectected = false;
+            canDectected++;
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (collision.CompareTag("Ground"))
         {
-            canDectected = true;
+            canDectected--;
         }
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position,radius);
