@@ -1,9 +1,12 @@
 using UnityEngine;
-using System.Collections;
+using TMPro;
 using UnityEngine.UI;
+using System;
+
 public class DeathUI : MonoBehaviour
 {
     [SerializeField] Button[] GetButtons;
+    [SerializeField] TextMeshProUGUI[] GetTexts;
     [SerializeField] MaskVariation GetMask;
     int pos = 0;
     ColorBlock colorVar, original, selected;
@@ -12,13 +15,18 @@ public class DeathUI : MonoBehaviour
         colorVar = GetButtons[pos].colors;
         original = GetButtons[pos].colors;
         selected = GetButtons[pos].colors;
-        colorVar.normalColor = new Color(140 / 255f, 140 / 255f, 140 / 255f);
-        selected.normalColor = new Color(80 / 255f, 80 / 255f, 80 / 255f);
-        GetButtons[pos].colors = colorVar;
-    }
 
-    // Update is called once per frame
-    void Update()
+        colorVar.normalColor = new Color(140f / 255f, 140f / 255f, 140f / 255f);
+        selected.normalColor = new Color(80f / 255f, 80f / 255f, 80f / 255f);
+        GetButtons[pos].colors = colorVar;
+
+        GetTexts[0].text = Stage_UI_View.Instance.GetStage.ToString();
+        GetTexts[1].text = Stage_UI_View.Instance.GetMoney.ToString();
+        GetTexts[2].text = ChangeIntToString(Stage_UI_View.Instance.GetTime);
+    }
+    private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+    private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+    void UpdateMethod()
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
@@ -47,5 +55,10 @@ public class DeathUI : MonoBehaviour
             GetButtons[pos].colors = colorVar;
             GetButtons[pos + 1].colors = original;
         }
+    }
+    string ChangeIntToString(int t)
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(t);
+        return timeSpan.ToString(@"mm\:ss");
     }
 }

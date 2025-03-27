@@ -12631,6 +12631,10 @@ MonoBehaviour:
   - {fileID: 1240373681}
   - {fileID: 1429931573}
   - {fileID: 727945974}
+  GetTexts:
+  - {fileID: 115174280}
+  - {fileID: 1081700226}
+  - {fileID: 1862148132}
   GetMask: {fileID: 734820039}
 --- !u!1001 &118450167
 PrefabInstance:
