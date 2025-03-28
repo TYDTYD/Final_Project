@@ -10,6 +10,7 @@ TagManager:
   - Item
   - Monster
   - Pause
+  - Light
   layers:
   - Default
   - TransparentFX

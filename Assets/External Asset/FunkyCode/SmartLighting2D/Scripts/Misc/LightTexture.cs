@@ -12,8 +12,9 @@ namespace FunkyCode
 
         public int setWidth;
         public int setHeight;
-
         public LightTexture(int width, int height, int depth, RenderTextureFormat format) {
+            if (!SystemInfo.SupportsRenderTextureFormat(format))
+                format = RenderTextureFormat.ARGB32;
             renderTexture = new RenderTexture (width, height, depth, format);
 
             this.width = width;

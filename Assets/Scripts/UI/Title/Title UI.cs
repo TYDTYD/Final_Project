@@ -8,6 +8,8 @@ public class TitleUI : MonoBehaviour
     int pos = 0;
     ColorBlock colorVar, original, selected;
 
+    private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+    private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
     private void Start()
     {
         colorVar = GetButtons[pos].colors;
@@ -17,21 +19,14 @@ public class TitleUI : MonoBehaviour
         selected.normalColor = new Color(80 / 255f, 80 / 255f, 80 / 255f);
         GetButtons[pos].colors = colorVar;
     }
-
-    void SceneLoad()
-    {
-        GameManager.Instance.startTime = Time.realtimeSinceStartup;
-        SceneManager.LoadScene(1);
-    }
-
-    void Update()
+    void UpdateMethod()
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
             switch (pos)
             {
                 case 0:
-                    StartCoroutine(GameManager.Instance.PreloadScene(1, GetMask.Darker()));
+                    StartCoroutine(GameManager.Instance.PreloadScene("Story", GetMask.Darker()));
                     break;
                 case 1:
                     StartCoroutine(GameManager.Instance.PreloadScene("Setting", GetMask.Darker()));
