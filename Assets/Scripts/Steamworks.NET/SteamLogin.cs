@@ -1,16 +1,22 @@
 using UnityEngine;
 using Steamworks;
 using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 
+[System.Serializable]
+public class SessionTicketData
+{
+    public string session_ticket;
+    public string identity;
+}
 public class SteamLogin : MonoBehaviour
 {
-    string apiUrl = "https://your-fastapi-server.com/steam-auth";
+    public readonly static string url = "https://fastapi-cloudrun-951964224435.asia-northeast3.run.app";
+    readonly string apiUrl = "https://fastapi-cloudrun-951964224435.asia-northeast3.run.app/steam-auth";
     Callback<GetTicketForWebApiResponse_t> m_AuthTicketForWebApiResponseCallback;
     string m_SessionTicket;
-    string identity = "unityauthenticationservice";
+    string identity;
 
     private void Start()
     {
@@ -26,15 +32,8 @@ public class SteamLogin : MonoBehaviour
 
     void SignInWithSteam()
     {
-        // It's not necessary to add event handlers if they are 
-        // already hooked up.
-        // Callback.Create return value must be assigned to a 
-        // member variable to prevent the GC from cleaning it up.
-        // Create the callback to receive events when the session ticket
-        // is ready to use in the web API.
-        // See GetAuthSessionTicket document for details.
         m_AuthTicketForWebApiResponseCallback = Callback<GetTicketForWebApiResponse_t>.Create(OnAuthCallback);
-
+        identity = SteamUser.GetSteamID().ToString();
         SteamUser.GetAuthTicketForWebApi(identity);
     }
 
@@ -45,48 +44,32 @@ public class SteamLogin : MonoBehaviour
         m_AuthTicketForWebApiResponseCallback = null;
         Debug.Log("Steam Login success. Session Ticket: " + m_SessionTicket);
         // Call Unity Authentication SDK to sign in or link with Steam, displayed in the following examples, using the same identity string and the m_SessionTicket.
-        
-
-        
-        //GetUserInfomation();
-        //GetUserFriendList();
+        StartCoroutine(SendSessionTicketToServer(m_SessionTicket));
     }
 
     IEnumerator SendSessionTicketToServer(string ticket)
     {
-        WWWForm form = new WWWForm();
-        form.AddField("session_ticket", ticket);
-
-        using (UnityWebRequest www = UnityWebRequest.Post(apiUrl, form))
+        SessionTicketData userData = new SessionTicketData();
+        userData.session_ticket = ticket;
+        userData.identity = identity;
+        string jsonData = JsonUtility.ToJson(userData);
+        using (UnityWebRequest www = new UnityWebRequest(apiUrl, "POST"))
         {
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+            www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            www.downloadHandler = new DownloadHandlerBuffer();
+            www.SetRequestHeader("Content-Type", "application/json"); // JSON 데이터 전송을 위한 헤더 설정
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("Error: " + www.error);
+                Debug.LogError("Response Code: " + www.responseCode);
+                Debug.LogError("Response: " + www.downloadHandler.text);
             }
             else
             {
                 Debug.Log("Server Response: " + www.downloadHandler.text);
-            }
-        }
-    }
-
-    IEnumerator GetUserData(string steamId)
-    {
-        string apiUrl = "https://your-fastapi-server.com/get-user-data?steam_id=" + steamId;
-
-        using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Error: " + www.error);
-            }
-            else
-            {
-                Debug.Log("User Data: " + www.downloadHandler.text);
             }
         }
     }
