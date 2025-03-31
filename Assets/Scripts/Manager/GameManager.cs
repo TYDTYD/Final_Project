@@ -4,12 +4,11 @@ using System;
 public partial class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public float startTime = 0f;
-    public float endTime = 0f;
+    public bool initialized = false;
     [SerializeField] GameObject playerPrefab;
     GameObject player;
     int stageNumber = 0;
-
+    
     Vector3 Stage1Start = new Vector3(10f, 5f);
     Vector3 Stage2Start = new Vector3(6f, 6f);
     Vector3 Stage3Start = new Vector3(11f, 5f);
@@ -50,7 +49,6 @@ public partial class GameManager : MonoBehaviour
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
         SceneLoad?.Invoke();
-        endTime = Time.realtimeSinceStartup;
         int sceneNum = scene.buildIndex;
         if (IsStageScene(sceneNum))
         {

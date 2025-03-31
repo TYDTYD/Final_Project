@@ -7,12 +7,10 @@ public class TitleFade : MonoBehaviour
 {
     TMP_Text text;
     [SerializeField] GameObject Panel;
-    [SerializeField] MaskVariation GetMask;
     float FadeDuration = 1f;
 
     void Start()
     {
-        StartCoroutine(GetMask.Brighter());
         text = GetComponent<TMP_Text>();
         StartCoroutine(FadeLoop());
         this.UpdateAsObservable()

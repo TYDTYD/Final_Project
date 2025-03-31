@@ -29,6 +29,7 @@ public class Monster_Girl : MonoBehaviour, IHealth
     {
         if (GetMonster_Anim.GetState == State.DEATH)
         {
+            Stage_UI_View.Instance.IncreaseMoney(1000);
             gameObject.SetActive(false);
             return;
         }

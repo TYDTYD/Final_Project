@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class Monster_Rigidbody : MonoBehaviour
 {
+    Monster_Anim GetMonster_Anim;
+    private void Start()
+    {
+        GetMonster_Anim = GetComponent<Monster_Anim>();
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -15,7 +20,7 @@ public class Monster_Rigidbody : MonoBehaviour
                     {
                         if (collision.gameObject.TryGetComponent(out Rigidbody2D playerRb))
                             playerRb.AddForce(new Vector2(0, 20), ForceMode2D.Impulse);
-                        gameObject.SetActive(false);
+                        GetMonster_Anim.GetState = State.DEATH;
                         return;
                     }
                 }

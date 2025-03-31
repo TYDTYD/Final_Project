@@ -17,12 +17,23 @@ public class SteamLogin : MonoBehaviour
     Callback<GetTicketForWebApiResponse_t> m_AuthTicketForWebApiResponseCallback;
     string m_SessionTicket;
     string identity;
+    [SerializeField] GameObject pressEnter;
+    [SerializeField] GameObject info;
+    [SerializeField] MaskVariation GetMask;
 
     private void Start()
     {
+        StartCoroutine(GetMask.Brighter());
+        if (GameManager.Instance.initialized)
+        {
+            info.SetActive(false);
+            pressEnter.SetActive(true);
+            return;
+        }
         if (SteamManager.Initialized)
         {
             SignInWithSteam();
+            GameManager.Instance.initialized = true;
         }
         else
         {
@@ -70,6 +81,8 @@ public class SteamLogin : MonoBehaviour
             else
             {
                 Debug.Log("Server Response: " + www.downloadHandler.text);
+                info.SetActive(false);
+                pressEnter.SetActive(true);
             }
         }
     }
