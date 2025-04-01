@@ -10,6 +10,19 @@ Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
 
 ## 키 변경 기능 구현
 ![Final_Project-Setting-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-01-2423-01-05-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8652c26-1047-42bc-988f-3b41ad6610c1)
+
+## 명령 패턴을 통해 게임 입력 분리
+![image](https://github.com/user-attachments/assets/c77ecbe6-7291-4ec7-b509-9dd8d0b3f5b3)
+입력과 로직을 분리하기 위해 ICommand 인터페이스를 선언했습니다.
+
+ICommand 인터페이스를 가진 클래스는 Execute 함수를 정의합니다.
+
+Player_Input 클래스에서 keyValue는 플레이어가 설정한 키와 입력 상태를 Dictionary 형태로 갖고 있습니다.
+
+keyDelegate는 설정한 키에 걸맞는 명령을 갖고 있습니다. keyValue에서 입력이 들어왔다면 keyDelegate에서 ICommand로 정의된 명령을 실행합니다.
+
+명령과 입력을 구분하면서 사용자가 키를 바꿔도 그에 맞게 명령을 실행할 수 있습니다.
+
 <details>
   <summary>
     명령 패턴 인터페이스를 활용한 입력 분리
