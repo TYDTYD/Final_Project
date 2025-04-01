@@ -360,7 +360,7 @@ public class StageRestView : MonoBehaviour
 </details>
 스테이지 중간마다 플레이 기록에 따른 통계창을 볼 수 있도록 구현하였습니다.
 
-## 비동기 씬 로드 구현
+## Coroutine + AsyncLoad를 통한 비동기 씬 로드 구현
 <details>
   <summary>
     코루틴을 통한 비동기 씬 로드
@@ -407,6 +407,22 @@ public partial class GameManager : MonoBehaviour
 ```
  </pre>
 </details>
+Scene을 동기적으로 로드하면 0.5초의 로딩시간이 걸렸습니다.
+
+비동기적으로 Scene을 로드하고, 로딩 시간동안 CutOut UI를 활용하여 애니메이션을 연출한다면 사용자 체감상 로딩 시간이 느껴지지 않을 것이라 생각했습니다.
+
+AsyncLoad 함수를 사용하여 Scene을 비동기적으로 로드하는 동안 Coroutine을 호출하여 CutOut UI 애니메이션을 연출하였습니다.
+
+테스트해 본 결과, 비동기적으로 Scene을 호출하고 Coroutine이 끝난 뒤, Scene 전환에 걸리는 시간과 동기적으로 Scene을 호출하는 시간은 다음과 같습니다.
+
+![image](https://github.com/user-attachments/assets/81a7df33-bc41-473a-9be0-ae1f2f42c02b)
+![image](https://github.com/user-attachments/assets/20b8e1f3-f445-45ae-9c03-5d5440fea6e5)
+
+0.578726초 => 0.3584538초로 약 37.85% 성능을 향상시켰습니다.
+
+![image](https://github.com/user-attachments/assets/2dd28d4d-855a-4209-8e3a-4b004237cc62)
+# CutOut 애니메이션을 Coroutine을 통해 호출
+
 비동기적으로 씬을 로드하여 딜레이를 없앴습니다.
 
 ## UniRx를 활용한 MVVM 패턴 구현
