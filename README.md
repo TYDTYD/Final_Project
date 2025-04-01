@@ -653,4 +653,11 @@ Model과 View를 연결하고 데이터를 Observable 형태로 유지하였습�
 UniRx를 활용하여 UI를 쉽게 관리할 수 있게끔 Model - View - View Model 패턴을 구성하였습니다.
 
 ## Sprite Atlas를 활용하여 드로우 콜 감소
+![image](https://github.com/user-attachments/assets/44a4ca04-3b9d-4bc7-a9da-b6c54e54424e)
+![image](https://github.com/user-attachments/assets/5a55e611-a8ac-4ff4-99c1-4155f2f4e888)
+
 Sprite Atlas를 활용하여 Batches 수를 줄였습니다.
+
+여러 개의 스프라이트를 하나의 텍스쳐에 합쳐 드로우 콜을 줄이고 성능을 최적화했습니다.
+Batches : 33 -> 18로 줄이며, Draw Call을 약 45% 감소시켰습니다.
+
