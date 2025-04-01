@@ -410,6 +410,7 @@ public partial class GameManager : MonoBehaviour
 비동기적으로 씬을 로드하여 딜레이를 없앴습니다.
 
 ## UniRx를 활용한 MVVM 패턴 구현
+![image](https://github.com/user-attachments/assets/b00b3f3b-ce17-4bef-a2ed-9d2c63b822fd)
 <details>
   <summary>
     Model
@@ -495,6 +496,8 @@ public class Model
 ```
  </pre>
 </details>
+데이터 관리 및 규칙을 선언하였습니다.
+
 <details>
   <summary>
     View
@@ -574,6 +577,8 @@ public class Stage_UI_View : MonoBehaviour
 ```
  </pre>
 </details>
+사용자가 보고 있는 화면 UI를 연결하고 View Model을 통해 변화된 값을 출력하였습니다.
+
 <details>
   <summary>
     View Model
@@ -614,6 +619,8 @@ public class Stage_View_Model
 ```
  </pre>
 </details>
+Model과 View를 연결하고 데이터를 Observable 형태로 유지하였습니다.
+
 UniRx를 활용하여 UI를 쉽게 관리할 수 있게끔 Model - View - View Model 패턴을 구성하였습니다.
 
 ## Sprite Atlas를 활용하여 드로우 콜 감소
