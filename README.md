@@ -661,3 +661,10 @@ Sprite Atlas를 활용하여 Batches 수를 줄였습니다.
 여러 개의 스프라이트를 하나의 텍스쳐에 합쳐 드로우 콜을 줄이고 성능을 최적화했습니다.
 Batches : 33 -> 18로 줄이며, Draw Call을 약 45% 감소시켰습니다.
 
+## 업데이트 매니저를 통해 업데이트 함수 통합
+![image](https://github.com/user-attachments/assets/2abe4618-70fa-45ea-9709-7fa751f1ba40)
+
+UpdateManager를 싱글톤으로 선언하고, 개별 객체는 UpdateManager.Instance의 UpdateMethod를 구독 및 구독 해제하도록 설계했습니다.
+
+이를 통해 개별 객체가 직접 Update()를 실행하는 것이 아니라, UpdateManager에서 일괄 실행하도록 하여 CPU 부하를 줄일 수 있습니다.
+
