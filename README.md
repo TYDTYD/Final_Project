@@ -5,6 +5,17 @@
 
 ## Github CI 구축
 ![Image](https://github.com/user-attachments/assets/f97c08f0-135c-45c0-a6ce-a9ca4ef220e6)
+Checkout – cache – build – output 순서로 자동 빌드를 진행합니다.
+
+Checkout : GitHub 리포지토리에서 소스 코드를 가져옵니다.
+
+Cache : Unity의 Library 폴더를 캐싱하여 빌드 속도를 향상시킵니다.
+
+Build : Unity 프로젝트를 StandaloneWindows64로 빌드합니다. Unity 라이선스, 이메일, 비밀번호는 GitHub Secrets에서 안전하게 관리됩니다.
+
+빌드 결과물을 GitHub Actions의 Artifact로 업로드합니다. GitHub에 push할 때마다 자동으로 빌드 파일이 생성됩니다.
+
+이를 통해 버그를 사전에 감지하여 수정이 가능하고, 반복적인 수동 작업을 제거하여 개발 속도를 향상시켰습니다.
 
 Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
 
