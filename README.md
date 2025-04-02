@@ -3,7 +3,7 @@
 
 
 # 기술 경험
-## Github CI 구축
+## Github Actions를 통한 CI 구축
 ![Image](https://github.com/user-attachments/assets/f97c08f0-135c-45c0-a6ce-a9ca4ef220e6)
 Checkout – cache – build – output 순서로 자동 빌드를 진행합니다.
 
