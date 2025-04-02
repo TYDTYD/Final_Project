@@ -293,7 +293,7 @@ AsyncLoad 함수를 사용하여 Scene을 비동기적으로 로드하는 동안
 
 0.578726초 => 0.3584538초로 약 37.85% 성능을 향상시켰습니다.
 
-![image](https://github.com/user-attachments/assets/068e2421-bf8f-4c59-9110-367eb1c74550)
+![Final_Project-MaskTest-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-02-0221-42-32-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/956c9b84-aed6-4cfd-a6f5-bfd7c9160f8d)
 # CutOut 애니메이션을 Coroutine을 통해 호출
 
 비동기적으로 씬을 로드하여 딜레이를 없앴습니다.
@@ -424,7 +424,23 @@ public interface ICommand
 </details>
 명령 패턴을 사용하여 키를 변경할 수 있도록 구현하였습니다.
 
-## 업데이트 매니저 구현
+# 최적화
+
+## Sprite Atlas를 활용하여 드로우 콜 감소
+![image](https://github.com/user-attachments/assets/44a4ca04-3b9d-4bc7-a9da-b6c54e54424e)
+![image](https://github.com/user-attachments/assets/5a55e611-a8ac-4ff4-99c1-4155f2f4e888)
+
+Sprite Atlas를 활용하여 Batches 수를 줄였습니다.
+
+여러 개의 스프라이트를 하나의 텍스쳐에 합쳐 드로우 콜을 줄이고 성능을 최적화했습니다.
+Batches : 33 -> 18로 줄이며, Draw Call을 약 45% 감소시켰습니다.
+
+## 업데이트 매니저를 통해 업데이트 함수 통합
+![image](https://github.com/user-attachments/assets/2abe4618-70fa-45ea-9709-7fa751f1ba40)
+
+UpdateManager를 싱글톤으로 선언하고, 개별 객체는 UpdateManager.Instance의 UpdateMethod를 구독 및 구독 해제하도록 설계했습니다.
+
+이를 통해 개별 객체가 직접 Update()를 실행하는 것이 아니라, UpdateManager에서 일괄 실행하도록 하여 CPU 부하를 줄일 수 있습니다.
 <details>
   <summary>
     업데이트 매니저
@@ -478,10 +494,12 @@ public class UpdateManager : MonoBehaviour
   </pre>
 </details>
 
+# 그 외 개발한 것들
+
 ## 키 변경 기능 구현
 ![Final_Project-Setting-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-01-2423-01-05-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8652c26-1047-42bc-988f-3b41ad6610c1)
 
-## 마스크 기능 구현
+## Cut Out 마스크 기능 구현
 ![Final_Project-MaskTest-WindowsMacLinux-Unity66000 0 26f1_DX11_2025-02-0221-42-32-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/956c9b84-aed6-4cfd-a6f5-bfd7c9160f8d)
 <details>
   <summary>
@@ -662,24 +680,3 @@ public class StageRestView : MonoBehaviour
  </pre>
 </details>
 스테이지 중간마다 플레이 기록에 따른 통계창을 볼 수 있도록 구현하였습니다.
-
-
-
-
-
-## Sprite Atlas를 활용하여 드로우 콜 감소
-![image](https://github.com/user-attachments/assets/44a4ca04-3b9d-4bc7-a9da-b6c54e54424e)
-![image](https://github.com/user-attachments/assets/5a55e611-a8ac-4ff4-99c1-4155f2f4e888)
-
-Sprite Atlas를 활용하여 Batches 수를 줄였습니다.
-
-여러 개의 스프라이트를 하나의 텍스쳐에 합쳐 드로우 콜을 줄이고 성능을 최적화했습니다.
-Batches : 33 -> 18로 줄이며, Draw Call을 약 45% 감소시켰습니다.
-
-## 업데이트 매니저를 통해 업데이트 함수 통합
-![image](https://github.com/user-attachments/assets/2abe4618-70fa-45ea-9709-7fa751f1ba40)
-
-UpdateManager를 싱글톤으로 선언하고, 개별 객체는 UpdateManager.Instance의 UpdateMethod를 구독 및 구독 해제하도록 설계했습니다.
-
-이를 통해 개별 객체가 직접 Update()를 실행하는 것이 아니라, UpdateManager에서 일괄 실행하도록 하여 CPU 부하를 줄일 수 있습니다.
-
