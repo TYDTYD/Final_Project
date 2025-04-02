@@ -25,8 +25,7 @@ Github Actions를 활용하여 자동화 빌드를 구축하였습니다.
   <summary>
     Model
   </summary>
- <pre>
-   
+  
 ```cs
 public class Model
 {
@@ -104,7 +103,6 @@ public class Model
     public void InitTime() => time.Value = 0;
 }
 ```
- </pre>
 </details>
 데이터 관리 및 규칙을 선언하였습니다.
 
@@ -112,7 +110,6 @@ public class Model
   <summary>
     View
   </summary>
- <pre>
    
 ```cs
 public class Stage_UI_View : MonoBehaviour
@@ -185,7 +182,6 @@ public class Stage_UI_View : MonoBehaviour
     string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
 }
 ```
- </pre>
 </details>
 사용자가 보고 있는 화면 UI를 연결하고 View Model을 통해 변화된 값을 출력하였습니다.
 
@@ -193,8 +189,7 @@ public class Stage_UI_View : MonoBehaviour
   <summary>
     View Model
   </summary>
- <pre>
-   
+  
 ```cs
 public class Stage_View_Model
 {
@@ -227,7 +222,6 @@ public class Stage_View_Model
     public void InitTimeUI() => GetModel.InitTime();
 }
 ```
- </pre>
 </details>
 Model과 View를 연결하고 데이터를 Observable 형태로 유지하였습니다.
 
@@ -238,7 +232,6 @@ UniRx를 활용하여 UI를 쉽게 관리할 수 있게끔 Model - View - View M
   <summary>
     코루틴을 통한 비동기 씬 로드
   </summary>
- <pre>
    
 ```cs
 public partial class GameManager : MonoBehaviour
@@ -278,7 +271,6 @@ public partial class GameManager : MonoBehaviour
     }
 }
 ```
- </pre>
 </details>
 Scene을 동기적으로 로드하면 0.5초의 로딩시간이 걸렸습니다.
 
@@ -304,7 +296,6 @@ AsyncLoad 함수를 사용하여 Scene을 비동기적으로 로드하는 동안
   <summary>
     명령 패턴 인터페이스를 활용한 입력 분리
   </summary>
-  <pre>
     
 ```cs
 public class Player_Input : MonoBehaviour
@@ -395,14 +386,12 @@ public class Player_Input : MonoBehaviour
         public Move GetLeftMove => LeftMove;
     }
 ```
-  </pre>
 </details>
 <details>
   <summary>
     명령 패턴 인터페이스
   </summary>
- <pre>
-   
+  
 ```cs
 public interface ICommand
 {
@@ -410,7 +399,6 @@ public interface ICommand
     void Execute(Player player);
 }
 ```
- </pre>
 </details>
 
 입력과 로직을 분리하기 위해 ICommand 인터페이스를 선언했습니다.
@@ -440,7 +428,6 @@ Batches : 33 -> 18로 줄이며, Draw Call을 약 45% 감소시켰습니다.
   <summary>
     업데이트 매니저
   </summary>
-  <pre>
     
 ```cs
 public class UpdateManager : MonoBehaviour
@@ -486,7 +473,6 @@ public class UpdateManager : MonoBehaviour
     public void UnSubscribeLateUpdate(Action method) => LateUpdateMethod -= method;
 }
 ```
-  </pre>
 </details>
 
 UpdateManager를 싱글톤으로 선언하고, 개별 객체는 UpdateManager.Instance의 UpdateMethod를 구독 및 구독 해제하도록 설계했습니다.
@@ -504,7 +490,6 @@ UpdateManager를 싱글톤으로 선언하고, 개별 객체는 UpdateManager.In
   <summary>
     Cut Out 마스크 기능
   </summary>
- <pre>
    
 ```cs
 public class MaskAnim : MonoBehaviour
@@ -551,7 +536,6 @@ public class MaskAnim : MonoBehaviour
     }
 }
 ```
- </pre>
 </details>
 마스크 기능을 통해 연출 효과를 넣었습니다.
 
@@ -561,7 +545,6 @@ public class MaskAnim : MonoBehaviour
   <summary>
     로프 기능
   </summary>
- <pre>
    
 ```cs
 public class Rope : ICommand
@@ -632,7 +615,6 @@ public class Rope : ICommand
     }
 }
 ```
- </pre>
 </details>
 로프 기능을 통해 밧줄을 타고 다닐 수 있도록 하였습니다.
 
@@ -642,7 +624,6 @@ public class Rope : ICommand
   <summary>
     통계 UI
   </summary>
- <pre>
    
 ```cs
 public class StageRestView : MonoBehaviour
@@ -676,6 +657,5 @@ public class StageRestView : MonoBehaviour
     string ChangeIntToString(int t) => $"{t / 60:D2}:{t % 60:D2}";
 }
 ```
- </pre>
 </details>
 스테이지 중간마다 플레이 기록에 따른 통계창을 볼 수 있도록 구현하였습니다.
