@@ -9,6 +9,8 @@ namespace player
         [SerializeField] Transform downViewTransform;
 
         Player GetPlayer;
+        Player_Input GetPlayer_Input;
+        Interact GetKeyCode;
         Player_Rigidbody player_Rigidbody;
         CinemachineCamera virtualCamera;
 
@@ -20,6 +22,8 @@ namespace player
         private void Start()
         {
             GetPlayer = GetComponent<Player>();
+            GetPlayer_Input = GetPlayer.GetPlayer_Input;
+            GetKeyCode = GetPlayer_Input.PlayerKey;
             player_Rigidbody = GetPlayer.GetPlayer_Rigidbody;
             virtualCamera = GetPlayer.GetPlayer_Tracking.GetPlayerCamera;
         }
@@ -29,7 +33,7 @@ namespace player
             if (player_Rigidbody.GetLadder)
                 return;
             // 위 방향키 입력 체크
-            if (Input.GetKey(InputHandler.UpKey))
+            if (GetPlayer_Input.GetKeyPress(GetKeyCode.Up))
             {
                 keyPressTime += Time.deltaTime;
                 if (keyPressTime > holdTime && !isTopView)

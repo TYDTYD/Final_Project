@@ -1,5 +1,5 @@
 using UnityEngine;
-using System;
+using player;
 public class Next_Stage : MonoBehaviour
 {
     [SerializeField] MaskVariation GetMaskVariation;
@@ -8,10 +8,12 @@ public class Next_Stage : MonoBehaviour
     bool trigger = false;
     bool canInteract = false;
     SpriteRenderer GetSprite;
+    Player GetPlayer;
 
     private void Start()
     {
         GetSprite = GetComponent<SpriteRenderer>();
+        GetPlayer = GameManager.Instance.GetPlayer.GetComponent<Player>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,7 +36,8 @@ public class Next_Stage : MonoBehaviour
 
     private void Update()
     {
-        if (canInteract && !trigger && Input.GetKeyDown(Interact.GetKeyCode(Interact.KeySequence.Item)))
+        if (canInteract && !trigger && 
+            GetPlayer.GetPlayer_Input.GetKeyPress(GetPlayer.GetPlayer_Input.PlayerKey.Item))
         {
             trigger = true;
             GameManager.Instance.GetStageNumber = GameManager.Instance.CurrentSceneNumber + 1;

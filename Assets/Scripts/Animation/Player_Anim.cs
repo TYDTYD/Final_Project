@@ -42,11 +42,11 @@ namespace player
                 previousState = currentState;
             }
 
-            bool isJumpPressed = Input.GetKey(InputHandler.JumpKey);
-            bool isUpPressed = Input.GetKey(InputHandler.UpKey);
-            bool isRightPressed = Input.GetKey(InputHandler.RightKey);
-            bool isLeftPressed = Input.GetKey(InputHandler.LeftKey);
-            bool isDownPressed = Input.GetKey(InputHandler.DownKey);
+            bool isJumpPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Jump);
+            bool isUpPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Up);
+            bool isRightPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Right);
+            bool isLeftPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Left);
+            bool isDownPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Down);
 
             // 생사 여부
             if (Stage_UI_View.Instance.GetHp <= 0)
@@ -198,10 +198,10 @@ namespace player
         public float GetSittingTime => SittingTime;
         void CheckState()
         {
-            bool isJumpPressed = Input.GetKey(InputHandler.JumpKey);
-            bool isRightPressed = Input.GetKey(InputHandler.RightKey);
-            bool isLeftPressed = Input.GetKey(InputHandler.LeftKey);
-            bool isDownPressed = Input.GetKey(InputHandler.DownKey);
+            bool isJumpPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Jump);
+            bool isRightPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Right);
+            bool isLeftPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Left);
+            bool isDownPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Down);
 
             if (Stage_UI_View.Instance.GetHp <= 0)
             {

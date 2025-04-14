@@ -1,5 +1,6 @@
 namespace player
 {
+    /*
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -46,5 +47,5 @@ namespace player
                 keyCodes.Add(Interact.GetKeyCode(key));
             }
         }
-    }
+    }*/
 }

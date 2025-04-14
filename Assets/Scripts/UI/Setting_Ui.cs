@@ -13,6 +13,7 @@ public class Setting_Ui : MonoBehaviour
     Vector2 CachePosition;
     float initPosition;
     ColorBlock colorVar, original, selected;
+    Sprite beforeImage;
 
     bool isEnter = false;
     private void Start()
@@ -47,7 +48,7 @@ public class Setting_Ui : MonoBehaviour
         int idx = 0;
         foreach(Image image in GetImages)
         {
-            Interact.SetKeyCode(image.sprite.name, idx++);
+            Interact.instance.SetKeyCode(image.sprite.name, idx++);
         }
     }
 
@@ -63,6 +64,30 @@ public class Setting_Ui : MonoBehaviour
         {
             isEnter = !isEnter;
             GetButtons[pos].colors = isEnter ? selected : colorVar;
+            if (!isEnter)
+            {
+                for(int i=0; i<GetImages.Length; i++)
+                {
+                    
+                    if (pos == i)
+                        continue;
+                    
+                    if (GetImages[i].sprite.name == GetImages[pos].sprite.name)
+                    {
+                        Debug.Log($"Compare: {GetImages[i].sprite.name} vs {GetImages[pos].sprite.name}");
+                        Debug.Log($"Will replace {i} with beforeImage: {beforeImage.name}");
+
+                        GetImages[i].sprite = beforeImage;
+                    }
+                        
+                }
+            }
+            else
+            {
+
+                beforeImage = GetImages[pos].sprite;
+                Debug.Log(beforeImage.name);
+            }
         }
         if (!isEnter)
         {

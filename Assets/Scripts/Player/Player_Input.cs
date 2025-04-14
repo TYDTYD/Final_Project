@@ -5,6 +5,8 @@ namespace player
 {
     public class Player_Input : MonoBehaviour
     {
+        Interact PlayerInput = Interact.instance;
+
         Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
         Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
         [SerializeField] GameObject anchor;
@@ -60,11 +62,11 @@ namespace player
             new InputAction(0, new Jump(GetPlayer.GetRigidbody,15f)),
             new InputAction(0, new Rope(anchor)),
             new InputAction(0, new Bomb(bomb))
-        };
+            };
 
             for (int i = 0; i < InputActions.Length; i++)
             {
-                var key = InputHandler.keyCodes[i];
+                var key = PlayerInput.keyCodes[i];
                 keyValue[key] = new InputState(InputActions[i].value, false);
                 keyDelegate[key] = InputActions[i];
             }
@@ -84,7 +86,7 @@ namespace player
             // 업데이트 매니저의 Instance를 통해 함수를 제거합니다
             UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
         }
-        
+
         void UpdateMethod()
         {
             bool anyKeyPressed = false;
@@ -111,5 +113,7 @@ namespace player
         }
         public Move GetRightMove => RightMove;
         public Move GetLeftMove => LeftMove;
+        public bool GetKeyPress(KeyCode key) => keyValue[key].isPressed;
+        public Interact PlayerKey => PlayerInput;
     }
 }

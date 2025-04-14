@@ -12,7 +12,7 @@ namespace player
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!Input.GetKey(InputHandler.UpKey) && !Input.GetKey(InputHandler.DownKey))
+            if (!Input.GetKey(Interact.instance.Up) && !Input.GetKey(Interact.instance.Down))
                 animator.speed = 0;
             else
                 animator.speed = 1f;

@@ -807,6 +807,60 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4913591663413501534, guid: aa13595a0e26fab4a90487424475cd74, type: 3}
   m_PrefabInstance: {fileID: 1692573362}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1170309754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1170309755}
+  - component: {fileID: 1170309756}
+  m_Layer: 0
+  m_Name: KeyCodeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1170309755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170309754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1170309756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170309754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc11114d05e2f864fb2b0e5d634388d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodes: 
+  Attack: 97
+  Left: 276
+  Right: 275
+  Up: 273
+  Down: 274
+  Item: 122
+  Rope: 101
+  Bomb: 98
+  Jump: 32
 --- !u!1 &1214918502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1460,8 +1514,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 2738724980144753272}
   - {fileID: 1051326015}
+  - {fileID: 1214918503}
+  - {fileID: 1170309755}
   - {fileID: 766688790}
   - {fileID: 318727698}
   - {fileID: 676595995}
-  - {fileID: 1214918503}
   - {fileID: 1492674673}

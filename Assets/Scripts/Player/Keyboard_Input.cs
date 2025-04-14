@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UniRx.Triggers;
-using UniRx;
 
 public class Keyboard_Input : MonoBehaviour
 {

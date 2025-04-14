@@ -24,6 +24,9 @@ public class SteamLogin : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GetMask.Brighter());
+        info.SetActive(false);
+        pressEnter.SetActive(true);
+        /*
         if (GameManager.Instance.initialized)
         {
             info.SetActive(false);
@@ -38,7 +41,7 @@ public class SteamLogin : MonoBehaviour
         else
         {
             Debug.Log("Steam is not initialized!");
-        }
+        }*/
     }
 
     void SignInWithSteam()
