@@ -7,17 +7,8 @@ namespace player
         Rigidbody2D GetRigidbody2D;
         Player GetPlayer;
 
-        [HideInInspector] public bool ledgeDetected;
-
-        [Header("Ledge Info")]
-        [SerializeField] Vector2 offset1;
-        [SerializeField] Vector2 offset2;
-
-        Vector2 climbBegunPosition;
-        Vector2 climbOverPosition;
-
-        public bool canGrabLedge = true;
         public bool canClimb;
+        public bool canGrabLedge;
 
         bool Grounded = false;
         bool Ladder = false;
@@ -28,29 +19,6 @@ namespace player
             GetPlayer = GetComponent<Player>();
             GetRigidbody2D = GetPlayer.GetRigidbody;
         }
-        private void Update()
-        {
-            CheckForLedge();
-        }
-
-        void CheckForLedge()
-        {
-            if(ledgeDetected && canGrabLedge)
-            {
-                canGrabLedge = false;
-                //Vector2 ledgePosition = GetComponentInChildren<LedgeDetection>().transform.position;
-
-                //climbBegunPosition = ledgePosition + offset1;
-                //climbOverPosition = ledgePosition + offset2;
-
-                canClimb = true;
-            }
-            /*
-            if (canClimb)
-                transform.position = climbBegunPosition;
-            */
-        }
-
         void UpdateClimbingState()
         {
             if (GetClimbing)
@@ -63,32 +31,16 @@ namespace player
                 GetRigidbody2D.gravityScale = gravity;
             }
         }
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Ladder"))
-            {
-                Ladder = true;
-            }
-        }
         private void OnTriggerStay2D(Collider2D collision)
         {
-            if (collision.CompareTag("Ladder"))
+            if (Ladder)
             {
-                Ladder = true;
                 if (GetClimbing)
                 {
                     transform.position = new Vector3(collision.transform.position.x
                         - GetTransform.localPosition.x, transform.position.y);
                 }
                 return;
-            }
-        }
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Ladder"))
-            {
-                Ladder = false;
-                GetClimbing = false;
             }
         }
         public bool GetClimbing
