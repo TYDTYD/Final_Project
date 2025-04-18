@@ -28,8 +28,6 @@ namespace player
         [SerializeField] Player_Item player_Item;
         [SerializeField] Player_Rigidbody player_Rigidbody;
         [SerializeField] Player_Input player_Input;
-        [SerializeField] Player_Right_Flip player_Right_Flip;
-        [SerializeField] Player_Left_Flip player_Left_Flip;
         [SerializeField] Player_Attack player_Attack;
 
         Rigidbody2D rigidBody;
@@ -92,8 +90,6 @@ namespace player
         public Player_Item GetPlayer_Item => player_Item;
         public Animator GetAnimator => animator;
         public Player_Health GetPlayer_Health => player_health;
-        public Player_Right_Flip GetPlayer_Right_Flip => player_Right_Flip;
-        public Player_Left_Flip GetPlayer_Left_Flip => player_Left_Flip;
         public Player_Tracking GetPlayer_Tracking
         {
             get

@@ -17,15 +17,20 @@ public class Down : ICommand
     {
 
     }
+    bool CanClimb(Player player)
+    {
+        return player.CurrentState == Player.State.Fall_State
+            || player.CurrentState == Player.State.Jump_State
+            || player.CurrentState == Player.State.Idle_State
+            || player.CurrentState == Player.State.LadderStop_State
+            || player.CurrentState == Player.State.Ladder_State;
+    }
     public void Execute(Player player)
     {
-        Player_Rigidbody playerRb = player.GetPlayer_Rigidbody;
-        if (player.CurrentState == Player.State.EdgeDetact_State)
-        {
-            playerRb.canClimb = false;
-            player.StartCoroutine(SetGrap(player));
+        if (!CanClimb(player))
             return;
-        }
+        Player_Rigidbody playerRb = player.GetPlayer_Rigidbody;
+        
         if (playerRb.GetLadder)
         {
             rigidbody.linearVelocity = Vector2.zero;
@@ -33,11 +38,5 @@ public class Down : ICommand
             playerRb.GetClimbing = true;
             return;
         }
-    }
-    IEnumerator SetGrap(Player player)
-    {
-        yield return delay;
-        if (player != null)
-            player.GetPlayer_Rigidbody.canGrabLedge = true;
     }
 }

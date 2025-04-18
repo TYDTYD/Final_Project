@@ -69,49 +69,10 @@ namespace player
                 return;
             }
 
-            if (GetPlayer_Rigidbody.canClimb)
-            {
-                SetState(State.EdgeDetact_State);
-                return;
-            }
-
-            if (CurrentState == State.EdgeDetact_State)
-            {
-                if (isUpPressed)
-                {
-                    SetState(State.Edge_State);
-                    return;
-                }
-                if (isJumpPressed)
-                {
-                    SetState(State.Jump_State);
-                    return;
-                }
-                if (isDownPressed)
-                {
-                    SetState(State.Fall_State);
-                }
-                return;
-            }
-
             // 공중 여부
             if (!GetPlayer_Rigidbody.GetGrounded)
             {
                 BeforeGrounded = false;
-                if (GetPlayer_Right_Flip.GetEdgeDetact)
-                {
-                    if (!isRightPressed)
-                        return;
-                    CurrentState = State.Edge_State;
-                    return;
-                }
-                if (GetPlayer_Left_Flip.GetEdgeDetact)
-                {
-                    if (!isLeftPressed)
-                        return;
-                    CurrentState = State.Edge_State;
-                    return;
-                }
                 if (isJumpPressed)
                 {
                     CurrentState = State.Jump_State;
@@ -231,13 +192,6 @@ namespace player
         }
         void HandleAirState(bool isJumpPressed, bool isRightPressed, bool isLeftPressed)
         {
-            if (GetPlayer_Right_Flip.GetEdgeDetact && !isRightPressed ||
-                GetPlayer_Left_Flip.GetEdgeDetact && !isLeftPressed)
-            {
-                SetState(State.Edge_State);
-                return;
-            }
-
             SetState(isJumpPressed ? State.Jump_State : State.Fall_State);
         }
         void HandleGroundState(bool isJumpPressed, bool isRightPressed, bool isLeftPressed, bool isDownPressed)
@@ -265,6 +219,6 @@ namespace player
         void HandleSittingState(bool isRightPressed, bool isLeftPressed)
         {
 
-        }  
+        }
     }
 }

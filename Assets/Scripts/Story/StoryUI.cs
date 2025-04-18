@@ -59,6 +59,14 @@ public class StoryUI : MonoBehaviour
     }
     void UpdateMethod()
     {
+        bool SkipPressed = Input.GetKeyDown(KeyCode.P);
+
+        if (SkipPressed)
+        {
+            StartCoroutine(GameManager.Instance.PreloadScene(1, GetMask.Darker()));
+            return;
+        }
+
         bool EnterPressed = Input.GetKeyDown(KeyCode.Return);
 
         if (EnterPressed)
@@ -68,7 +76,10 @@ public class StoryUI : MonoBehaviour
             if (pos < images.Count - 1)
             {
                 if (textPos < 4 || textPos > 10)
+                {
                     StartCoroutine(GetMask.Darker(ChangeSprite, GetMask.Brighter()));
+                    return;
+                }
             }
             if (textPos < Texts.Count - 1)
             {

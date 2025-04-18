@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: baa6471d303228543bf8be389d1b8037
+guid: 5e4a37e9200487a4f891b4810c6e93d5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8102178009159449182
-    second: open_door-removebg-preview_0
+      213: -4870844539499704926
+    second: mesa-background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: open_door-removebg-preview_0
+      name: mesa-background_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
-        width: 114
-        height: 185
+        y: 0
+        width: 4096
+        height: 2048
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e5a3eeed8f7b07070800000000000000
-      internalID: 8102178009159449182
+      spriteID: 2ad08fab2b8476cb0800000000000000
+      internalID: -4870844539499704926
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      open_door-removebg-preview_0: 8102178009159449182
+      mesa-background_0: -4870844539499704926
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

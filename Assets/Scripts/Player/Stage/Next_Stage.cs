@@ -1,18 +1,16 @@
 using UnityEngine;
+using TMPro;
 using player;
 public class Next_Stage : MonoBehaviour
 {
     [SerializeField] MaskVariation GetMaskVariation;
-    [SerializeField] Sprite openDoor;
-    [SerializeField] Sprite closeDoor;
+    [SerializeField] TextMeshProUGUI text;
     bool trigger = false;
     bool canInteract = false;
-    SpriteRenderer GetSprite;
     Player GetPlayer;
 
     private void Start()
     {
-        GetSprite = GetComponent<SpriteRenderer>();
         GetPlayer = GameManager.Instance.GetPlayer.GetComponent<Player>();
     }
 
@@ -21,7 +19,8 @@ public class Next_Stage : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             canInteract = true; // 상호작용 가능 상태로 변경
-            GetSprite.sprite = openDoor;
+            text.text = $"Press {GetPlayer.GetPlayer_Input.PlayerKey.Item} key";
+            text.enabled = true;
         }
     }
 
@@ -30,7 +29,7 @@ public class Next_Stage : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             canInteract = false; // 상호작용 종료
-            GetSprite.sprite = closeDoor;
+            text.enabled = false;
         }
     }
 

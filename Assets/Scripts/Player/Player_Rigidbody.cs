@@ -8,7 +8,6 @@ namespace player
         Player GetPlayer;
 
         public bool canClimb;
-        public bool canGrabLedge;
 
         bool Grounded = false;
         bool Ladder = false;
