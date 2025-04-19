@@ -42,6 +42,7 @@ namespace player
         {
             // 업데이트 매니저의 Instance를 통해 함수를 추가합니다
             UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+            UpdateManager.Instance.SubscribeFixedUpdate(FixedUpdateMethod);
         }
         void Start()
         {
@@ -71,7 +72,7 @@ namespace player
                 keyDelegate[key] = InputActions[i];
             }
         }
-        private void FixedUpdate()
+        private void FixedUpdateMethod()
         {
             foreach (var press in keyValue)
             {
@@ -79,14 +80,12 @@ namespace player
                     keyDelegate[press.Key].Command.Execute(GetPlayer);
             }
         }
-
-
         private void OnDisable()
         {
             // 업데이트 매니저의 Instance를 통해 함수를 제거합니다
             UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+            UpdateManager.Instance.UnSubscribeFixedUpdate(FixedUpdateMethod);
         }
-
         void UpdateMethod()
         {
             bool anyKeyPressed = false;

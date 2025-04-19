@@ -14,7 +14,8 @@ public partial class GameManager : MonoBehaviour
         for (int i = 0; i < sceneNames.Length; i++)
         {
             string sceneName = sceneNames[i];
-            SceneIndex.Add(i, sceneName);
+            if(!SceneIndex.ContainsKey(i))
+                SceneIndex.Add(i, sceneName);
         }
     }
     public IEnumerator PreloadScene(int index, IEnumerator coroutine)
