@@ -294,13 +294,18 @@ AsyncLoad 함수를 사용하여 Scene을 비동기적으로 로드하는 동안
   </summary>
     
 ```cs
-public class Player_Input : MonoBehaviour
+namespace player
+{
+    public class Player_Input : MonoBehaviour
     {
+        Interact PlayerInput = Interact.instance;
+
         Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
         Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
         [SerializeField] GameObject anchor;
         [SerializeField] GameObject bomb;
         Player GetPlayer;
+        Idle Idle;
         Move RightMove;
         Move LeftMove;
         class InputState
@@ -326,11 +331,18 @@ public class Player_Input : MonoBehaviour
                 Command = c;
             }
         }
+        private void OnEnable()
+        {
+            // 업데이트 매니저의 Instance를 통해 함수를 추가합니다
+            UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+            UpdateManager.Instance.SubscribeFixedUpdate(FixedUpdateMethod);
+        }
         void Start()
         {
             GetPlayer = GetComponent<Player>();
             RightMove = new Move(GetPlayer.GetRigidbody, 7f, true);
             LeftMove = new Move(GetPlayer.GetRigidbody, 7f, false);
+            Idle = new Idle(GetPlayer.GetRigidbody);
 
             GetPlayer.GetPlayer_Health.DeathEvent += DisableInput;
 
@@ -344,18 +356,16 @@ public class Player_Input : MonoBehaviour
             new InputAction(0, new Jump(GetPlayer.GetRigidbody,15f)),
             new InputAction(0, new Rope(anchor)),
             new InputAction(0, new Bomb(bomb))
-        };
+            };
 
             for (int i = 0; i < InputActions.Length; i++)
             {
-                var key = InputHandler.keyCodes[i];
+                var key = PlayerInput.keyCodes[i];
                 keyValue[key] = new InputState(InputActions[i].value, false);
                 keyDelegate[key] = InputActions[i];
             }
-            // 업데이트 매니저의 Instance를 통해 함수를 추가합니다
-            UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
         }
-        private void FixedUpdate()
+        private void FixedUpdateMethod()
         {
             foreach (var press in keyValue)
             {
@@ -363,13 +373,28 @@ public class Player_Input : MonoBehaviour
                     keyDelegate[press.Key].Command.Execute(GetPlayer);
             }
         }
+        private void OnDisable()
+        {
+            // 업데이트 매니저의 Instance를 통해 함수를 제거합니다
+            UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+            UpdateManager.Instance.UnSubscribeFixedUpdate(FixedUpdateMethod);
+        }
         void UpdateMethod()
         {
+            bool anyKeyPressed = false;
             foreach (var key in keyDelegate.Keys)
             {
                 keyValue[key].isPressed = (keyValue[key].value == 0)
                 ? Input.GetKeyDown(key)  // 단발 입력
                 : Input.GetKey(key);     // 지속 입력
+                if (keyValue[key].isPressed)
+                    anyKeyPressed = true;
+            }
+
+            if (!anyKeyPressed)
+            {
+                Idle.Execute();
+                return;
             }
 
             foreach (var press in keyValue)
@@ -380,7 +405,10 @@ public class Player_Input : MonoBehaviour
         }
         public Move GetRightMove => RightMove;
         public Move GetLeftMove => LeftMove;
+        public bool GetKeyPress(KeyCode key) => keyValue[key].isPressed;
+        public Interact PlayerKey => PlayerInput;
     }
+}
 ```
 </details>
 <details>
