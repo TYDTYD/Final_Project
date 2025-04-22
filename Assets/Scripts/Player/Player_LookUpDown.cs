@@ -28,7 +28,10 @@ namespace player
             virtualCamera = GetPlayer.GetPlayer_Tracking.GetPlayerCamera;
         }
 
-        void Update()
+        private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+        private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+
+        void UpdateMethod()
         {
             if (player_Rigidbody.GetLadder)
                 return;

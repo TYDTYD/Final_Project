@@ -1,7 +1,5 @@
 using UnityEngine;
 using player;
-using System.Collections;
-
 public class Down : ICommand
 {
     Transform transform;

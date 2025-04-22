@@ -1,6 +1,5 @@
 using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
 using System;
 using TMPro;
 using player;
