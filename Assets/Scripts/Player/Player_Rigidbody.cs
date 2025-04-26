@@ -7,16 +7,21 @@ namespace player
         Rigidbody2D GetRigidbody2D;
         Player GetPlayer;
 
-        public bool canClimb;
-
         bool Grounded = false;
         bool Ladder = false;
         bool Climbing = false;
+        bool Wall = false;
+        bool Ledge = false;
         float gravity = 6f;
         void Start()
         {
             GetPlayer = GetComponent<Player>();
             GetRigidbody2D = GetPlayer.GetRigidbody;
+        }
+        private void Update()
+        {
+            Debug.Log($"Ledge : {Ledge}");
+            Debug.Log($"Wall : {Wall}");
         }
         void UpdateClimbingState()
         {
@@ -74,6 +79,24 @@ namespace player
                 {
                     Ladder = value;
                 }
+            }
+        }
+        public bool GetWall
+        {
+            get => Ladder;
+            set
+            {
+                if (Wall != value)
+                    Wall = value;
+            }
+        }
+        public bool GetLedge
+        {
+            get => Ledge;
+            set
+            {
+                if (Ledge != value)
+                    Ledge = value;
             }
         }
     }

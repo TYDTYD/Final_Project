@@ -4,18 +4,25 @@ namespace player
     public class Fall_Anim : StateMachineBehaviour
     {
         Player GetPlayer;
+        Player_Rigidbody Player_Rb;
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (GetPlayer == null)
+            {
                 GetPlayer = animator.gameObject.GetComponent<Player>();
+                Player_Rb = GetPlayer.GetPlayer_Rigidbody;
+            }
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //    
-        //}
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (Player_Rb.GetLedge && !Player_Rb.GetWall)
+            {
+                GetPlayer.CurrentState = Player.State.EdgeDetact_State;
+            }
+        }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
