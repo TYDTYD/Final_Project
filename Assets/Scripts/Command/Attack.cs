@@ -1,12 +1,16 @@
 using UnityEngine;
+using System.Collections;
 using player;
 public class Attack : ICommand
 {
     GameObject obj = null;
+    float attackTime = 0.2f;
+    WaitForSeconds cache;
     Rigidbody2D rigidbody;
     public Attack(Rigidbody2D rigid)
     {
         rigidbody = rigid;
+        cache = new WaitForSeconds(attackTime);
     }
     public void Execute()
     {
@@ -14,20 +18,21 @@ public class Attack : ICommand
     }
     public void Execute(Player player)
     {
-        if (player.CurrentState == Player.State.Damage_State ||
-            player.CurrentState == Player.State.Land_State ||
-            player.CurrentState == Player.State.EdgeDetact_State)
-            return;
-
         obj = player.GetPlayer_Item.CurrentItem;
         player.GetPlayer_Rigidbody.GetClimbing = false;
 
         if (obj!=null && obj.TryGetComponent(out IItem item))
-        {
             item.Use();
-            return;
+        else
+        {
+            player.GetPlayer_Attack.GetBox.enabled = true;
+            player.StartCoroutine(AttackTiming(player));
         }
-        if (player.CurrentState != Player.State.Jump_State)
-            player.CurrentState = Player.State.Attack_State;
+    }
+
+    IEnumerator AttackTiming(Player player)
+    {
+        yield return cache;
+        player.GetPlayer_Attack.GetBox.enabled = false;
     }
 }

@@ -9,9 +9,12 @@ namespace player
 
         Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
         Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
+
         [SerializeField] GameObject anchor;
         [SerializeField] GameObject bomb;
+
         Player GetPlayer;
+
         Idle Idle;
         Move RightMove;
         Move LeftMove;
@@ -43,6 +46,12 @@ namespace player
             // 업데이트 매니저의 Instance를 통해 함수를 추가합니다
             UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
             UpdateManager.Instance.SubscribeFixedUpdate(FixedUpdateMethod);
+        }
+        private void OnDisable()
+        {
+            // 업데이트 매니저의 Instance를 통해 함수를 제거합니다
+            UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+            UpdateManager.Instance.UnSubscribeFixedUpdate(FixedUpdateMethod);
         }
         void Start()
         {
@@ -79,12 +88,6 @@ namespace player
                 if (press.Value.isPressed && press.Value.value != 0)
                     keyDelegate[press.Key].Command.Execute(GetPlayer);
             }
-        }
-        private void OnDisable()
-        {
-            // 업데이트 매니저의 Instance를 통해 함수를 제거합니다
-            UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
-            UpdateManager.Instance.UnSubscribeFixedUpdate(FixedUpdateMethod);
         }
         void UpdateMethod()
         {

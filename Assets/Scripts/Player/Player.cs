@@ -5,25 +5,6 @@ namespace player
 
     public partial class Player : MonoBehaviour
     {
-        public enum State
-        {
-            Idle_State,
-            Jump_State,
-            Ladder_State,
-            Damage_State,
-            Attack_State,
-            Move_State,
-            Fall_State,
-            Land_State,
-            LadderStop_State,
-            EdgeDetact_State,
-            SittingStart_State,
-            Sitting_State,
-            SittingMove_State,
-            Edge_State,
-            Death_State
-        };
-
         [SerializeField] Player_Health player_health;
         [SerializeField] Player_Item player_Item;
         [SerializeField] Player_Rigidbody player_Rigidbody;
@@ -34,29 +15,57 @@ namespace player
         Animator animator;
         SpriteRenderer spriteRenderer;
         Player_Tracking player_Tracking;
-        Dictionary<State, int> animationHashes;
-
-        State previousState;
-        State currentState = State.Idle_State;
+        Dictionary<IState, int> animationHashes;
+        IState previousState;
+        IState currentState;
+        IdleState IdleState;
+        JumpState JumpState;
+        LadderState LadderState;
+        DamageState DamageState;
+        AttackState AttackState;
+        MoveState MoveState;
+        FalIState FallState;
+        LandState LandState;
+        EdgeDetactState EdgeDetactState;
+        SittingStartState SittingStartState;
+        SittingState SittingState;
+        SittingMoveState SittingMoveState;
+        EdgeState EdgeState;
+        DeathState DeathState;
 
         private void Awake()
         {
-            animationHashes = new Dictionary<State, int>
+            IdleState = new IdleState(this);
+            JumpState = new JumpState(this);
+            LadderState = new LadderState(this);
+            DamageState = new DamageState(this);
+            AttackState = new AttackState(this);
+            MoveState = new MoveState(this);
+            FallState = new FalIState(this);
+            LandState = new LandState(this);
+            EdgeDetactState = new EdgeDetactState(this);
+            SittingStartState = new SittingStartState(this);
+            SittingState = new SittingState(this);
+            SittingMoveState = new SittingMoveState(this);
+            EdgeState = new EdgeState(this);
+            DeathState = new DeathState(this);
+
+            animationHashes = new Dictionary<IState, int>
         {
-            { State.Idle_State, Animator.StringToHash("Idle") },
-            { State.Jump_State, Animator.StringToHash("Jump") },
-            { State.Ladder_State, Animator.StringToHash("Ladder") },
-            { State.Damage_State, Animator.StringToHash("Hurt") },
-            { State.Attack_State, Animator.StringToHash("Attack") },
-            { State.Move_State, Animator.StringToHash("Move") },
-            { State.Fall_State, Animator.StringToHash("Fall") },
-            { State.Land_State, Animator.StringToHash("Land") },
-            { State.SittingStart_State, Animator.StringToHash("Croush") },
-            { State.Sitting_State, Animator.StringToHash("Sitting") },
-            { State.SittingMove_State, Animator.StringToHash("SittingMove") },
-            { State.EdgeDetact_State, Animator.StringToHash("Edge_Idle") },
-            { State.Death_State, Animator.StringToHash("Death") },
-            { State.Edge_State, Animator.StringToHash("CanClimb") }
+            { IdleState, Animator.StringToHash("Idle") },
+            { JumpState, Animator.StringToHash("Jump") },
+            { LadderState, Animator.StringToHash("Ladder") },
+            { DamageState, Animator.StringToHash("Hurt") },
+            { AttackState, Animator.StringToHash("Attack") },
+            { MoveState, Animator.StringToHash("Move") },
+            { FallState, Animator.StringToHash("Fall") },
+            { LandState, Animator.StringToHash("Land") },
+            { SittingStartState, Animator.StringToHash("Croush") },
+            { SittingState, Animator.StringToHash("Sitting") },
+            { SittingMoveState, Animator.StringToHash("SittingMove") },
+            { EdgeDetactState, Animator.StringToHash("Edge_Idle") },
+            { DeathState, Animator.StringToHash("Death") },
+            { EdgeState, Animator.StringToHash("CanClimb") }
         };
 
             rigidBody = GetComponent<Rigidbody2D>();
@@ -64,7 +73,7 @@ namespace player
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        void SetAnimation(State state, State before_State)
+        void SetAnimation(IState state, IState before_State)
         {
             if (animationHashes.TryGetValue(before_State, out int hashValue))
                 animator.SetBool(hashValue, false);
@@ -73,7 +82,7 @@ namespace player
                 animator.SetBool(hash, true);
         }
 
-        void TriggerAnimation(State state, State before_State)
+        void TriggerAnimation(IState state, IState before_State)
         {
             if (animationHashes.TryGetValue(before_State, out int hashValue))
                 animator.ResetTrigger(hashValue);
@@ -101,7 +110,7 @@ namespace player
                 player_Tracking = value;
             }
         }
-        public State CurrentState
+        public IState CurrentState
         {
             get
             {
@@ -112,5 +121,19 @@ namespace player
                 currentState = value;
             }
         }
+        public IdleState GetIdle => IdleState;
+        public JumpState GetJump => JumpState;
+        public LadderState GetLadder => LadderState;
+        public DamageState GetDamage => DamageState;
+        public AttackState GetAttackState => AttackState;
+        public MoveState GetMove => MoveState;
+        public FalIState GetFalI => FallState;
+        public LandState GetLand => LandState;
+        public EdgeDetactState GetEdgeDetact => EdgeDetactState;
+        public SittingStartState GetSittingStart => SittingStartState;
+        public SittingState GetSitting => SittingState;
+        public SittingMoveState GetSittingMove => SittingMoveState;
+        public EdgeState GetEdge => EdgeState;
+        public DeathState GetDeath => DeathState;
     }
 }

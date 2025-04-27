@@ -15,26 +15,16 @@ public class Down : ICommand
     {
 
     }
-    bool CanClimb(Player player)
-    {
-        return player.CurrentState == Player.State.Fall_State
-            || player.CurrentState == Player.State.Jump_State
-            || player.CurrentState == Player.State.Idle_State
-            || player.CurrentState == Player.State.LadderStop_State
-            || player.CurrentState == Player.State.Ladder_State;
-    }
+
     public void Execute(Player player)
     {
-        if (!CanClimb(player))
-            return;
-        Player_Rigidbody playerRb = player.GetPlayer_Rigidbody;
-        
-        if (playerRb.GetLadder)
+        if (player.GetPlayer_Rigidbody.GetGrounded)
         {
-            rigidbody.linearVelocity = Vector2.zero;
-            transform.position -= down;
-            playerRb.GetClimbing = true;
+            player.CurrentState = player.GetSitting;
             return;
         }
+        rigidbody.linearVelocity = Vector2.zero;
+        transform.position -= down;
+        player.GetPlayer_Rigidbody.GetClimbing = true;
     }
 }

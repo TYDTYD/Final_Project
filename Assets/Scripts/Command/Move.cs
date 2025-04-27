@@ -19,17 +19,8 @@ public class Move : ICommand
     }
     public void Execute(Player player)
     {
-        if (player.GetPlayer_Rigidbody.GetClimbing ||
-            player.CurrentState == Player.State.Land_State ||
-            player.CurrentState == Player.State.Attack_State ||
-            player.CurrentState == Player.State.Damage_State ||
-            player.CurrentState == Player.State.EdgeDetact_State ||
-            player.CurrentState == Player.State.Edge_State ||
-            player.CurrentState == Player.State.Death_State)
-            return;
-
         player.GetSprite.flipX = (Direction < 0) ? true : false;
-        speed = (player.CurrentState == Player.State.SittingMove_State) ? SittingSpeed : RunSpeed;
+        speed = (player.CurrentState == player.GetSittingMove) ? SittingSpeed : RunSpeed;
         speed *= wallContacted;
         Rigidbody2D.linearVelocityX = Direction * speed;
     }
