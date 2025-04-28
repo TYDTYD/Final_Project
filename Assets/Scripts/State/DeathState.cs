@@ -1,14 +1,9 @@
 namespace player
 {
-    public interface IState
-    {
-        public bool CanExcute(ICommand command);
-    }
-
-    public class SittingStartState : IState
+    public class DeathState : IState
     {
         Player player;
-        public SittingStartState(Player GetPlayer)
+        public DeathState(Player GetPlayer)
         {
             player = GetPlayer;
         }

@@ -1,14 +1,12 @@
 namespace player
 {
-    using UnityEngine;
-    public class LandState : IState
+    public class EdgeState : IState
     {
         Player player;
-        public LandState(Player GetPlayer)
+        public EdgeState(Player GetPlayer)
         {
             player = GetPlayer;
         }
-        float LandTime = 2f, timeIdx = 0f;
         public bool CanExcute(ICommand command)
         {
             if (player.GetDamaged)
@@ -17,29 +15,32 @@ namespace player
                 return false;
             }
             if (command is Attack)
-                return false;
-            if (command is Bomb)
+            {
+                player.CurrentState = player.GetAttackState;
                 return true;
-            if (command is Down)
+            }
+            if (command is Bomb)
                 return false;
+            if (command is Down)
+                return true;
             if (command is Idle)
             {
-                timeIdx += Time.deltaTime;
-                if (player.GetPlayer_Rigidbody.GetGrounded && timeIdx > LandTime)
-                {
-                    timeIdx = 0f;
-                    return true;
-                }
                 return false;
             }
             if (command is Jump)
-                return false;
+            {
+                player.CurrentState = player.GetJump;
+                return true;
+            }
             if (command is Move)
-                return false;
+            {
+
+                return true;
+            }
             if (command is Rope)
                 return true;
             if (command is Up)
-                return false;
+                return true;
             return false;
         }
     }
