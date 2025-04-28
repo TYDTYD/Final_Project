@@ -7,8 +7,10 @@ namespace player
         {
             player = GetPlayer;
         }
-        public bool CanExcute(ICommand command)
+        public PlayerStateType StateType => PlayerStateType.Death;
+        public bool CanExecute(ICommand command)
         {
+            player.CurrentState = player.GetDeath;
             return false;
         }
     }

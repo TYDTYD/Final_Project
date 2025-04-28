@@ -7,7 +7,10 @@ namespace player
         {
             player = GetPlayer;
         }
-        public bool CanExcute(ICommand command)
+
+        public PlayerStateType StateType => PlayerStateType.SittingMove;
+
+        public bool CanExecute(ICommand command)
         {
             if (player.GetDamaged)
             {

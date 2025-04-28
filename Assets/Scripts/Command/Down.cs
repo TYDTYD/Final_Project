@@ -18,21 +18,22 @@ public class Down : ICommand
 
     public void Execute(Player player)
     {
-        if (player.CurrentState is IdleState)
+        if (player.CurrentState.StateType == PlayerStateType.Sitting)
         {
             player.CurrentState = player.GetSitting;
             return;
         }
-        if(player.CurrentState is LadderState)
+        if(player.CurrentState.StateType == PlayerStateType.Ladder)
         {
+            player.CurrentState = player.GetLadder;
             rigidbody.linearVelocity = Vector2.zero;
             transform.position -= down;
             player.GetPlayer_Rigidbody.GetClimbing = true;
             return;
         }
-        if(player.CurrentState is EdgeDetactState)
+        if(player.CurrentState.StateType == PlayerStateType.Edge)
         {
-            player.CurrentState = player.GetFalI;
+            player.CurrentState = player.GetFall;
             return;
         }
     }

@@ -1,13 +1,14 @@
 namespace player
 {
-    public class EdgeDetactState : IState
+    public class EdgeDetectState : IState
     {
         Player player;
-        public EdgeDetactState(Player GetPlayer)
+        public EdgeDetectState(Player GetPlayer)
         {
             player = GetPlayer;
         }
-        public bool CanExcute(ICommand command)
+        public PlayerStateType StateType => PlayerStateType.EdgeDetect;
+        public bool CanExecute(ICommand command)
         {
             if (player.GetDamaged)
             {

@@ -18,11 +18,6 @@ namespace player
             GetPlayer = GetComponent<Player>();
             GetRigidbody2D = GetPlayer.GetRigidbody;
         }
-        private void Update()
-        {
-            Debug.Log($"Ledge : {Ledge}");
-            Debug.Log($"Wall : {Wall}");
-        }
         void UpdateClimbingState()
         {
             if (GetClimbing)

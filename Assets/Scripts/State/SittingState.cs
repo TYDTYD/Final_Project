@@ -7,7 +7,10 @@ namespace player
         {
             player = GetPlayer;
         }
-        public bool CanExcute(ICommand command)
+
+        public PlayerStateType StateType => PlayerStateType.Sitting;
+
+        public bool CanExecute(ICommand command)
         {
             if (player.GetDamaged)
             {
@@ -16,23 +19,34 @@ namespace player
             }
             if (command is Attack)
             {
+                player.CurrentState = player.GetAttackState;
                 return true;
             }
-            if (command is Bomb)
-                return true;
             if (command is Down)
+            {
                 return true;
+            }
             if (command is Idle)
-                return true;
+            {
+                if (player.GetPlayer_Rigidbody.GetGrounded)
+                {
+                    player.CurrentState = player.GetIdle;
+                    return true;
+                }
+            }
             if (command is Jump)
+            {
+                player.CurrentState = player.GetJump;
                 return true;
+            }
             if (command is Move)
+            {
                 return true;
-            if (command is Rope)
-                return true;
+            }
+                
             if (command is Up)
                 return false;
-            return false;
+            return true;
         }
     }
 }

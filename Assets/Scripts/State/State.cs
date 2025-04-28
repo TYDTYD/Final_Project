@@ -2,19 +2,7 @@ namespace player
 {
     public interface IState
     {
-        public bool CanExcute(ICommand command);
-    }
-
-    public class SittingStartState : IState
-    {
-        Player player;
-        public SittingStartState(Player GetPlayer)
-        {
-            player = GetPlayer;
-        }
-        public bool CanExcute(ICommand command)
-        {
-            return false;
-        }
+        PlayerStateType StateType { get; }
+        public bool CanExecute(ICommand command);
     }
 }

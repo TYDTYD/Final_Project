@@ -20,7 +20,7 @@ namespace player
         {
             if (Player_Rb.GetLedge && !Player_Rb.GetWall)
             {
-                GetPlayer.CurrentState = GetPlayer.GetEdgeDetact;
+                GetPlayer.CurrentState = GetPlayer.GetEdgeDetect;
             }
         }
 

@@ -9,7 +9,10 @@ namespace player
             player = GetPlayer;
         }
         float LandTime = 2f, timeIdx = 0f;
-        public bool CanExcute(ICommand command)
+
+        public PlayerStateType StateType => PlayerStateType.Land;
+
+        public bool CanExecute(ICommand command)
         {
             if (player.GetDamaged)
             {
@@ -18,8 +21,6 @@ namespace player
             }
             if (command is Attack)
                 return false;
-            if (command is Bomb)
-                return true;
             if (command is Down)
                 return false;
             if (command is Idle)
@@ -36,8 +37,6 @@ namespace player
                 return false;
             if (command is Move)
                 return false;
-            if (command is Rope)
-                return true;
             if (command is Up)
                 return false;
             return false;

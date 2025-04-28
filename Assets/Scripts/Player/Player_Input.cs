@@ -5,7 +5,7 @@ namespace player
 {
     public class Player_Input : MonoBehaviour
     {
-        Interact PlayerInput = Interact.instance;
+        Interact PlayerInputManager = Interact.instance;
 
         Dictionary<KeyCode, InputState> keyValue = new Dictionary<KeyCode, InputState>();
         Dictionary<KeyCode, InputAction> keyDelegate = new Dictionary<KeyCode, InputAction>();
@@ -18,7 +18,7 @@ namespace player
         Idle Idle;
         Move RightMove;
         Move LeftMove;
-        class InputState
+        struct InputState
         {
             // 0 => 트리거 ||  1 => 연속적 트리거
             public int value;
@@ -62,21 +62,22 @@ namespace player
 
             GetPlayer.GetPlayer_Health.DeathEvent += DisableInput;
 
-            InputAction[] InputActions = {
-            new InputAction(1, RightMove),
-            new InputAction(1, LeftMove),
-            new InputAction(1, new Up(transform,GetPlayer.GetRigidbody)),
-            new InputAction(1, new Down(transform,GetPlayer.GetRigidbody)),
-            new InputAction(0, new Attack(GetPlayer.GetRigidbody)),
-            new InputAction(0, new Item(GetPlayer.GetPlayer_Item.CurrentItem)),
-            new InputAction(0, new Jump(GetPlayer.GetRigidbody,15f)),
-            new InputAction(0, new Rope(anchor)),
-            new InputAction(0, new Bomb(bomb))
+            InputAction[] InputActions = new InputAction[]
+            {
+                new InputAction(1, RightMove),
+                new InputAction(1, LeftMove),
+                new InputAction(1, new Up(transform,GetPlayer.GetRigidbody)),
+                new InputAction(1, new Down(transform,GetPlayer.GetRigidbody)),
+                new InputAction(0, new Attack(GetPlayer.GetRigidbody)),
+                new InputAction(0, new Item(GetPlayer.GetPlayer_Item.CurrentItem)),
+                new InputAction(0, new Jump(GetPlayer.GetRigidbody,15f)),
+                new InputAction(0, new Rope(anchor)),
+                new InputAction(0, new Bomb(bomb))
             };
 
             for (int i = 0; i < InputActions.Length; i++)
             {
-                var key = PlayerInput.keyCodes[i];
+                var key = PlayerInputManager.keyCodes[i];
                 keyValue[key] = new InputState(InputActions[i].value, false);
                 keyDelegate[key] = InputActions[i];
             }
@@ -85,8 +86,15 @@ namespace player
         {
             foreach (var press in keyValue)
             {
+                if (!press.Value.isPressed)
+                    continue;
+
+                ICommand command = keyDelegate[press.Key].Command;
                 if (press.Value.isPressed && press.Value.value != 0)
-                    keyDelegate[press.Key].Command.Execute(GetPlayer);
+                {
+                    if (GetPlayer.CurrentState.CanExecute(command))
+                        command.Execute(GetPlayer);
+                }
             }
         }
         void UpdateMethod()
@@ -94,28 +102,36 @@ namespace player
             bool anyKeyPressed = false;
             foreach (var key in keyDelegate.Keys)
             {
-                keyValue[key].isPressed = (keyValue[key].value == 0)
-                ? Input.GetKeyDown(key)  // 단발 입력
-                : Input.GetKey(key);     // 지속 입력
-                if (keyValue[key].isPressed)
+                var inputState = keyValue[key];
+                inputState.isPressed = (inputState.value == 0) ? Input.GetKeyDown(key) : Input.GetKey(key);
+                keyValue[key] = inputState;
+                if (inputState.isPressed)
                     anyKeyPressed = true;
             }
 
             if (!anyKeyPressed)
             {
-                Idle.Execute();
+                if (GetPlayer.CurrentState.CanExecute(Idle))
+                    Idle.Execute(GetPlayer);
                 return;
             }
 
             foreach (var press in keyValue)
             {
+                if (!press.Value.isPressed)
+                    continue;
+
+                ICommand command = keyDelegate[press.Key].Command;
                 if (press.Value.isPressed && press.Value.value == 0)
-                    keyDelegate[press.Key].Command.Execute(GetPlayer);
+                {
+                    if(GetPlayer.CurrentState.CanExecute(command))
+                        command.Execute(GetPlayer);
+                }
             }
         }
         public Move GetRightMove => RightMove;
         public Move GetLeftMove => LeftMove;
         public bool GetKeyPress(KeyCode key) => keyValue[key].isPressed;
-        public Interact PlayerKey => PlayerInput;
+        public Interact PlayerKey => PlayerInputManager;
     }
 }

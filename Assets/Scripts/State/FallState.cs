@@ -1,13 +1,14 @@
 namespace player
 {
-    public class FalIState : IState
+    public class FallState : IState
     {
         Player player;
-        public FalIState(Player GetPlayer)
+        public FallState(Player GetPlayer)
         {
             player = GetPlayer;
         }
-        public bool CanExcute(ICommand command)
+        public PlayerStateType StateType => PlayerStateType.Fall;
+        public bool CanExecute(ICommand command)
         {
             if (player.GetDamaged)
             {
@@ -16,12 +17,13 @@ namespace player
             }
             if (player.GetRigidbody.linearVelocityY > 5f)
             {
-                player.CurrentState = player.GetLand;
-                return false;
+                if (player.GetPlayer_Rigidbody.GetGrounded)
+                {
+                    player.CurrentState = player.GetLand;
+                    return false;
+                }
             }
             if (command is Attack)
-                return true;
-            if (command is Bomb)
                 return true;
             if (command is Down)
             {
@@ -32,7 +34,10 @@ namespace player
             if (command is Idle)
             {
                 if (player.GetPlayer_Rigidbody.GetGrounded)
+                {
+                    player.CurrentState = player.GetIdle;
                     return true;
+                }
                 return false;
             }
             if (command is Jump)
@@ -40,18 +45,19 @@ namespace player
             if (command is Move)
             {
                 if (player.GetPlayer_Rigidbody.GetGrounded)
-                    return true;
-                return false;
-            }
-            if (command is Rope)
+                    player.CurrentState = player.GetMove;
                 return true;
+            }
             if (command is Up)
             {
                 if (player.GetPlayer_Rigidbody.GetLadder)
+                {
+                    player.CurrentState = player.GetLadder;
                     return true;
+                }
                 return false;
             }
-            return false;
+            return true;
         }
     }
 }

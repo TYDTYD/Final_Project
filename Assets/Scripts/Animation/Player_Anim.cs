@@ -33,16 +33,18 @@ namespace player
         private void Start() => preHealth = Stage_UI_View.Instance.GetHp;
         private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
         private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+
         void UpdateMethod()
         {
             if (currentState != previousState)
             {
-                Debug.Log(currentState);
+                Debug.Log($"State changed: {previousState} => {currentState}");
                 TriggerAnimation(currentState, previousState);
                 SetAnimation(currentState, previousState);
                 previousState = currentState;
             }
-
+        }
+        /*
             bool isJumpPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Jump);
             bool isUpPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Up);
             bool isRightPressed = GetPlayer_Input.GetKeyPress(GetPlayer_Input.PlayerKey.Right);
@@ -52,13 +54,13 @@ namespace player
             // 생사 여부
             if (Stage_UI_View.Instance.GetHp <= 0)
             {
-                SetState(DeathState);
+                SetState(deathState);
                 return;
             }
 
             if (Stage_UI_View.Instance.GetHp != preHealth)
             {
-                SetState(DamageState);
+                SetState(damageState);
                 ResetDamageState();
                 preHealth = Stage_UI_View.Instance.GetHp;
                 return;
@@ -67,7 +69,7 @@ namespace player
             // 사다리 여부
             if (GetPlayer_Rigidbody.GetClimbing)
             {
-                SetState(isJumpPressed ? JumpState: LadderState);
+                SetState(isJumpPressed ? jumpState: ladderState);
                 return;
             }
 
@@ -77,10 +79,10 @@ namespace player
                 BeforeGrounded = false;
                 if (isJumpPressed)
                 {
-                    CurrentState = JumpState;
+                    CurrentState = jumpState;
                     return;
                 }
-                CurrentState = FallState;
+                CurrentState = fallState;
                 return;
             }
 
@@ -101,12 +103,12 @@ namespace player
                     GetPlayer_Attack.GetBox.enabled = false;
                     isAttack = false;
                     AttackTime = 0f;
-                    SetState(IdleState);
+                    SetState(idleState);
                 }
                 return;
             }
 
-            if (CurrentState == AttackState)
+            if (CurrentState == attackState)
             {
                 isAttack = true;
                 AttackTime = 0.2f;
@@ -120,21 +122,21 @@ namespace player
             {
                 if (!BeforeSitting)
                 {
-                    SetState(SittingStartState);
+                    SetState(sittingStartState);
                     BeforeSitting = true;
                     return;
                 }
 
                 if (isRightPressed || isLeftPressed)
                 {
-                    SetState(SittingMoveState);
+                    SetState(sittingMoveState);
                     isSittingMoved = true;
                     SittingTime = 0f;
                     return;
                 }
                 else
                 {
-                    SetState(SittingState);
+                    SetState(sittingState);
                     isSittingMoved = false;
                     SittingTime += Time.deltaTime;
                 }
@@ -146,18 +148,19 @@ namespace player
 
             if (isJumpPressed)
             {
-                SetState(JumpState);
+                SetState(jumpState);
                 return;
             }
 
             if (isRightPressed || isLeftPressed)
             {
-                SetState(MoveState);
+                SetState(moveState);
                 return;
             }
 
-            SetState(IdleState);
+            SetState(idleState);
         }
+        */
         public float GetSittingTime => SittingTime;
         public bool GetDamaged => IsDamaged.Value;
     }

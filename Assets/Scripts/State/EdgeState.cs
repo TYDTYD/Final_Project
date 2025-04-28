@@ -7,7 +7,8 @@ namespace player
         {
             player = GetPlayer;
         }
-        public bool CanExcute(ICommand command)
+        public PlayerStateType StateType => PlayerStateType.Edge;
+        public bool CanExecute(ICommand command)
         {
             if (player.GetDamaged)
             {

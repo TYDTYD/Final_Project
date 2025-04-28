@@ -7,8 +7,10 @@ namespace player
         {
             player = GetPlayer;
         }
-        public bool CanExcute(ICommand command)
+        public PlayerStateType StateType => PlayerStateType.Damage;
+        public bool CanExecute(ICommand command)
         {
+            player.CurrentState = player.GetDamage;
             return false;
         }
     }
