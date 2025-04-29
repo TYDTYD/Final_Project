@@ -11,7 +11,7 @@ namespace player
         public PlayerStateType StateType => PlayerStateType.Move;
         public bool CanExecute(ICommand command)
         {
-            if (player.GetDamaged)
+            if (player.GetPlayer_Health.GetDamaged)
             {
                 player.CurrentState = player.GetDamage;
                 return false;
@@ -22,8 +22,7 @@ namespace player
             }
             if (command is Attack)
             {
-                player.CurrentState = player.GetAttackState;
-                return true;
+                return false;
             }
             if (command is Down)
             {
@@ -31,7 +30,11 @@ namespace player
                 {
                     return true;
                 }
-                return false;
+                if (player.GetPlayer_Rigidbody.GetGrounded)
+                {
+                    player.CurrentState = player.GetSitting;
+                    return true;
+                }
             }
             if (command is Idle)
             {

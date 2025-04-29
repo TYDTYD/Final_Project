@@ -6,7 +6,7 @@ public class Move : ICommand
     float speed = 6f, RunSpeed = 6f, SittingSpeed = 2f;
     float Direction;
     float wallContacted = 1f;
-    const float Left = -1f, Right = 1f;
+    readonly float Left = -1f, Right = 1f;
     public Move(Rigidbody2D rigidbody, float _speed, bool dir)
     {
         Rigidbody2D = rigidbody;
@@ -20,6 +20,8 @@ public class Move : ICommand
     public void Execute(Player player)
     {
         player.GetSprite.flipX = (Direction < 0) ? true : false;
+        if (player.CurrentState == player.GetSitting)
+            player.CurrentState = player.GetSittingMove;
         speed = (player.CurrentState == player.GetSittingMove) ? SittingSpeed : RunSpeed;
         speed *= wallContacted;
         Rigidbody2D.linearVelocityX = Direction * speed;

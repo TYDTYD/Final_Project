@@ -29,7 +29,6 @@ public class Stone : MonoBehaviour, ICatchable
         }
         if (collision.gameObject.TryGetComponent(out IHealth health))
         {
-            Debug.Log(rb.linearVelocity.magnitude);
             if (Owner != null && Owner == collision.gameObject)
                 return;
             health.TakeDamage(damage, 100, gameObject);

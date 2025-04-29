@@ -12,19 +12,14 @@ namespace player
 
         public bool CanExecute(ICommand command)
         {
-            if (player.GetDamaged)
+            if (player.GetPlayer_Health.GetDamaged)
             {
                 player.CurrentState = player.GetDamage;
                 return false;
             }
-            if (command is Attack)
+            if (!player.GetPlayer_Rigidbody.GetGrounded)
             {
-                player.CurrentState = player.GetAttackState;
-                return true;
-            }
-            if (command is Down)
-            {
-                return true;
+                player.CurrentState = player.GetFall;
             }
             if (command is Idle)
             {
@@ -34,14 +29,13 @@ namespace player
                     return true;
                 }
             }
-            if (command is Jump)
-            {
-                player.CurrentState = player.GetJump;
-                return true;
-            }
             if (command is Move)
             {
-                return true;
+                if (player.GetPlayer_Rigidbody.GetGrounded)
+                {
+                    return true;
+                }
+                return false;
             }
                 
             if (command is Up)

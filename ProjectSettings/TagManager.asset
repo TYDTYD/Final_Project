@@ -11,6 +11,7 @@ TagManager:
   - Monster
   - Pause
   - Light
+  - Bullet
   layers:
   - Default
   - TransparentFX

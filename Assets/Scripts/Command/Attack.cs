@@ -25,6 +25,7 @@ public class Attack : ICommand
             item.Use();
         else
         {
+            player.CurrentState = player.GetAttackState;
             player.GetPlayer_Attack.GetBox.enabled = true;
             player.StartCoroutine(AttackTiming(player));
         }

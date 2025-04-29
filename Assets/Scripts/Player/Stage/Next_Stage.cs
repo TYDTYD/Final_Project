@@ -19,7 +19,7 @@ public class Next_Stage : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             canInteract = true; // 상호작용 가능 상태로 변경
-            text.text = $"Press {GetPlayer.GetPlayer_Input.PlayerKey.Item} key";
+            text.text = $"Press {GetPlayer.GetPlayer_Input.PlayerKey.keyCodes[(int)KeySequence.Item]} key";
             text.enabled = true;
         }
     }
@@ -36,7 +36,7 @@ public class Next_Stage : MonoBehaviour
     private void Update()
     {
         if (canInteract && !trigger && 
-            GetPlayer.GetPlayer_Input.GetKeyPress(GetPlayer.GetPlayer_Input.PlayerKey.Item))
+            GetPlayer.GetPlayer_Input.GetKeyPress(GetPlayer.GetPlayer_Input.PlayerKey.keyCodes[(int)KeySequence.Item]))
         {
             trigger = true;
             GameManager.Instance.GetStageNumber = GameManager.Instance.CurrentSceneNumber + 1;

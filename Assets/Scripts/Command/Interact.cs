@@ -1,27 +1,22 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+
+public enum KeySequence
+{
+    Left,
+    Right,
+    Up,
+    Down,
+    Attack,
+    Item,
+    Jump,
+    Rope,
+    Bomb
+}
 public class Interact : MonoBehaviour
 {
     public static Interact instance;
-
-    public Interact Instance
-    {
-        get => instance = this;
-    }
-    public enum KeySequence
-    {
-        Left,
-        Right,
-        Up,
-        Down,
-        Attack,
-        Item,
-        Jump,
-        Rope,
-        Bomb
-    }
-
     private void Awake()
     {
         if (instance == null)
@@ -47,17 +42,17 @@ public class Interact : MonoBehaviour
         keyCodes.Add(KeyCode.B);
     }
 
-    public List<KeyCode> keyCodes = new List<KeyCode>();
+    public List<KeyCode> keyCodes { get; private set; } = new List<KeyCode>(); 
 
-    public KeyCode Left = KeyCode.LeftArrow;
-    public KeyCode Right = KeyCode.RightArrow;
-    public KeyCode Up = KeyCode.UpArrow;
-    public KeyCode Down = KeyCode.DownArrow;
-    public KeyCode Attack = KeyCode.A;
-    public KeyCode Item = KeyCode.Z;
-    public KeyCode Jump = KeyCode.Space;
-    public KeyCode Rope = KeyCode.E;
-    public KeyCode Bomb = KeyCode.B;
+    KeyCode Left = KeyCode.LeftArrow;
+    KeyCode Right = KeyCode.RightArrow;
+    KeyCode Up = KeyCode.UpArrow;
+    KeyCode Down = KeyCode.DownArrow;
+    KeyCode Attack = KeyCode.A;
+    KeyCode Item = KeyCode.Z;
+    KeyCode Jump = KeyCode.Space;
+    KeyCode Rope = KeyCode.E;
+    KeyCode Bomb = KeyCode.B;
 
     public void SetKeyCode(string code, int index)
     {

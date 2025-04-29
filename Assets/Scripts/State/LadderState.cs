@@ -10,15 +10,14 @@ namespace player
         public PlayerStateType StateType => PlayerStateType.Ladder;
         public bool CanExecute(ICommand command)
         {
-            if (player.GetDamaged)
+            if (player.GetPlayer_Health.GetDamaged)
             {
                 player.CurrentState = player.GetDamage;
                 return false;
             }
             if (command is Attack)
             {
-                player.GetPlayer_Rigidbody.GetClimbing = false;
-                return true;
+                return false;
             }
             if (command is Bomb)
                 return false;
@@ -48,7 +47,10 @@ namespace player
             if (command is Move)
             {
                 if (player.GetPlayer_Rigidbody.GetGrounded)
+                {
+                    player.CurrentState = player.GetMove;
                     return true;
+                }
                 return false;
             }
             if (command is Rope)
@@ -56,8 +58,15 @@ namespace player
             if (command is Up)
             {
                 if (player.GetPlayer_Rigidbody.GetLadder)
+                {
+                    player.CurrentState = player.GetLadder;
                     return true;
+                }
                 return false;
+            }
+            if(!player.GetPlayer_Rigidbody.GetLadder && !player.GetPlayer_Rigidbody.GetGrounded)
+            {
+                player.CurrentState = player.GetFall;
             }
             return false;
         }

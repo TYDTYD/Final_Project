@@ -13,7 +13,6 @@ namespace player
         Move,
         Fall,
         Land,
-        EdgeDetect,
         SittingStart,
         Sitting,
         SittingMove,
@@ -45,7 +44,6 @@ namespace player
         MoveState moveState;
         FallState fallState;
         LandState landState;
-        EdgeDetectState edgeDetectState;
         SittingState sittingState;
         SittingMoveState sittingMoveState;
         EdgeState edgeState;
@@ -66,9 +64,8 @@ namespace player
             { PlayerStateType.Land, Animator.StringToHash("Land") },
             { PlayerStateType.Sitting, Animator.StringToHash("Sitting") },
             { PlayerStateType.SittingMove, Animator.StringToHash("SittingMove") },
-            { PlayerStateType.EdgeDetect, Animator.StringToHash("Edge_Idle") },
-            { PlayerStateType.Death, Animator.StringToHash("Death") },
-            { PlayerStateType.Edge, Animator.StringToHash("CanClimb") }
+            { PlayerStateType.Edge, Animator.StringToHash("Edge_Idle") },
+            { PlayerStateType.Death, Animator.StringToHash("Death") }
         };
 
             rigidBody = GetComponent<Rigidbody2D>();
@@ -87,7 +84,6 @@ namespace player
             moveState = new MoveState(this);
             fallState = new FallState(this);
             landState = new LandState(this);
-            edgeDetectState = new EdgeDetectState(this);
             sittingState = new SittingState(this);
             sittingMoveState = new SittingMoveState(this);
             edgeState = new EdgeState(this);
@@ -147,7 +143,6 @@ namespace player
         public MoveState GetMove => moveState;
         public FallState GetFall => fallState;
         public LandState GetLand => landState;
-        public EdgeDetectState GetEdgeDetect => edgeDetectState;
         public SittingState GetSitting => sittingState;
         public SittingMoveState GetSittingMove => sittingMoveState;
         public EdgeState GetEdge => edgeState;

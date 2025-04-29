@@ -10,15 +10,10 @@ namespace player
         public PlayerStateType StateType => PlayerStateType.Edge;
         public bool CanExecute(ICommand command)
         {
-            if (player.GetDamaged)
+            if (player.GetPlayer_Health.GetDamaged)
             {
                 player.CurrentState = player.GetDamage;
                 return false;
-            }
-            if (command is Attack)
-            {
-                player.CurrentState = player.GetAttackState;
-                return true;
             }
             if (command is Bomb)
                 return false;

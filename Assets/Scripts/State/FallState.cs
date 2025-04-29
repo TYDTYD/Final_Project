@@ -10,7 +10,7 @@ namespace player
         public PlayerStateType StateType => PlayerStateType.Fall;
         public bool CanExecute(ICommand command)
         {
-            if (player.GetDamaged)
+            if (player.GetPlayer_Health.GetDamaged)
             {
                 player.CurrentState = player.GetDamage;
                 return false;

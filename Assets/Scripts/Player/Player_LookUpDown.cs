@@ -14,8 +14,8 @@ namespace player
         Player_Rigidbody player_Rigidbody;
         CinemachineCamera virtualCamera;
 
-        float keyPressTime = 0f;              // 키가 눌린 시간
-        float holdTime = 1f;                   // 카메라가 전환되는 키 누름 시간
+        float keyPressTime = 0f;
+        float holdTime = 1f;
         bool isTopView = false;
         bool isDownView = false;
 
@@ -33,15 +33,23 @@ namespace player
 
         void UpdateMethod()
         {
-            if (player_Rigidbody.GetLadder)
+            if (GetPlayer.CurrentState == GetPlayer.GetLadder)
                 return;
             // 위 방향키 입력 체크
-            if (GetPlayer_Input.GetKeyPress(GetKeyCode.Up))
+            if (GetPlayer_Input.GetKeyPress(GetKeyCode.keyCodes[(int)KeySequence.Up]))
             {
                 keyPressTime += Time.deltaTime;
                 if (keyPressTime > holdTime && !isTopView)
                 {
                     SetTopView();
+                }
+            }
+            else if (GetPlayer.CurrentState == GetPlayer.GetSitting)
+            {
+                keyPressTime += Time.deltaTime;
+                if (keyPressTime > holdTime && !isDownView)
+                {
+                    SetDownView();
                 }
             }
             else
@@ -51,14 +59,6 @@ namespace player
                 {
                     SetPlayerView(true);
                 }
-            }
-
-            if (GetPlayer.GetSittingTime > holdTime && !isDownView)
-            {
-                SetDownView();
-            }
-            else if (GetPlayer.GetSittingTime < holdTime)
-            {
                 if (isDownView)
                 {
                     SetPlayerView(false);
