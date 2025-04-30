@@ -7,6 +7,7 @@ public class ShotGun : MonoBehaviour, ICatchable, IItem
     SpriteRenderer sprite;
     GameObject Owner;
     Vector3 Offset = Vector3.zero;
+    Vector3 localOffset = new Vector3(0f, -0.06f);
 
     [SerializeField] Projectile projectilePrefab;
     [SerializeField] Transform shootPositionRight;
@@ -28,10 +29,15 @@ public class ShotGun : MonoBehaviour, ICatchable, IItem
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
     }
-    void Update()
+    private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
+    private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
+    void UpdateMethod()
     {
         if (Owner != null)
+        {
             sprite.flipX = Owner.GetComponent<SpriteRenderer>().flipX;
+            transform.localPosition = localOffset;
+        }
     }
     Projectile CreateProjectile()
     {
@@ -72,6 +78,7 @@ public class ShotGun : MonoBehaviour, ICatchable, IItem
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.AddForce(dir * 20f, ForceMode2D.Impulse);
         gameObject.layer = 0;
+        Owner = null;
     }
     public void Use()
     {
@@ -97,10 +104,13 @@ public class ShotGun : MonoBehaviour, ICatchable, IItem
 
             bullet.transform.SetPositionAndRotation(currentShootPos.position, currentShootPos.rotation);
             
-            float randomAngle = Random.Range(-45f, 45f);
+            float randomAngle = Random.Range(-15f, 15f);
             Vector2 rotatedDir = Quaternion.Euler(0, 0, randomAngle) * shootDir;
 
-            bullet.GetComponent<Rigidbody2D>().AddForce(rotatedDir.normalized * speed, ForceMode2D.Impulse);
+            float speedRange = Random.Range(0.8f, 1.2f);
+            Vector2 finalForce = rotatedDir.normalized * speed * speedRange;
+
+            bullet.GetComponent<Rigidbody2D>().AddForce(finalForce, ForceMode2D.Impulse);
         }
 
         nextTimeToShoot = Time.time + cooldown;

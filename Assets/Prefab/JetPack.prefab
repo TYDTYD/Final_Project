@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7761681537526166629
+--- !u!1 &2310846277836763207
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7848664357685961189}
-  - component: {fileID: 7638448107969195628}
-  - component: {fileID: 8275230367794117274}
-  - component: {fileID: 704521161066154073}
-  - component: {fileID: 5680113525966798833}
+  - component: {fileID: 5865126267780603192}
+  - component: {fileID: 2840759951958427842}
+  - component: {fileID: 7914504804759843184}
+  - component: {fileID: 2322846553596219711}
+  - component: {fileID: 7818601115226907163}
   m_Layer: 0
-  m_Name: Bullet
-  m_TagString: Bullet
+  m_Name: JetPack
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7848664357685961189
+--- !u!4 &5865126267780603192
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7761681537526166629}
+  m_GameObject: {fileID: 2310846277836763207}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.576994, y: 6.7450867, z: 0}
+  m_LocalPosition: {x: 12.795372, y: 5.233353, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7638448107969195628
+--- !u!212 &2840759951958427842
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7761681537526166629}
+  m_GameObject: {fileID: 2310846277836763207}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d16be79ac5e9bbb4ca255c0782a05c80, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2cb76be5d731c2c4b810ae7ba775944e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -90,13 +90,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &8275230367794117274
-CircleCollider2D:
+--- !u!61 &7914504804759843184
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7761681537526166629}
+  m_GameObject: {fileID: 2310846277836763207}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -124,16 +124,26 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.07
---- !u!50 &704521161066154073
+  m_Offset: {x: -0.04, y: 0.05}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.3, y: 0.78}
+  m_EdgeRadius: 0
+--- !u!50 &2322846553596219711
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7761681537526166629}
+  m_GameObject: {fileID: 2310846277836763207}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -151,17 +161,19 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
---- !u!114 &5680113525966798833
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &7818601115226907163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7761681537526166629}
+  m_GameObject: {fileID: 2310846277836763207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 865ab04afd8726a4d8348b11fb4dc3ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 754b25bd6c7452a48a8cc2df7ac35f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  original: {fileID: 21300000, guid: 2cb76be5d731c2c4b810ae7ba775944e, type: 3}
+  boost: {fileID: 21300000, guid: e4d21d25eea3ec646a51bc7bc437271c, type: 3}

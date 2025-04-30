@@ -27,7 +27,6 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out IHealth health))
         {
             health.TakeDamage(damage, 100, gameObject);
-            
         }
 
         if (!isReleased)

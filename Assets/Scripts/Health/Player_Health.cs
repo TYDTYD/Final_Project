@@ -44,6 +44,8 @@ namespace player
         public void Heal(int amount) => Stage_UI_View.Instance.IncreaseHealth(amount);
         public void TakeDamage(int damage, int force, GameObject obj)
         {
+            if (GetPlayer.CurrentState == GetPlayer.GetDamage)
+                return;
             Stage_UI_View.Instance.DecreaseHealth(damage);
             Vector3 dir = (transform.position - obj.transform.position).normalized;
             Vector3 knockbackDir = new Vector3((dir.x > 0 ? 1f : -1f), 1f, 0f);

@@ -1,18 +1,16 @@
 namespace player
 {
     using UnityEngine;
-    public class Player_Item : MonoBehaviour
+
+    public class Player_BagItem : MonoBehaviour
     {
         GameObject obj = null;
-        GameObject BagObj = null;
-        GameObject BagItem = null;
         GameObject item = null;
         Vector2 rightPos = new Vector2(0.25f, -0.05f);
         Vector2 leftPos = new Vector2(-0.25f, -0.05f);
         [SerializeField] Player parent;
         [SerializeField] BoxCollider2D GetBox;
         bool IsCatch = false;
-        bool IsPutOn = false;
 
         private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
         private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
@@ -26,11 +24,6 @@ namespace player
                 obj = collision.gameObject;
                 return;
             }
-            if (collision.gameObject.TryGetComponent(out IBag _))
-            {
-                BagObj = collision.gameObject;
-                return;
-            }
         }
         private void OnTriggerExit2D(Collider2D collision)
         {
@@ -41,19 +34,20 @@ namespace player
                     obj = null;
                 }
             }
-            if (collision.gameObject.TryGetComponent(out IBag _))
-            {
-                if (collision.gameObject == obj)
-                {
-                    BagObj = null;
-                }
-            }
         }
+
+        public void PutOn()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void TakeOff()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public GameObject GetObj => obj;
-        public GameObject GetBagObj => BagObj;
         public GameObject CurrentItem { get => item; set => item = value; }
-        public GameObject CurrentBag { get => BagItem; set => BagItem = value; }
         public bool GetCatch { get => IsCatch; set => IsCatch = value; }
-        public bool GetPutOn { get => IsPutOn; set => IsPutOn = value; }
     }
 }

@@ -36,7 +36,7 @@ namespace player
             if (GetPlayer.CurrentState == GetPlayer.GetLadder)
                 return;
             // 위 방향키 입력 체크
-            if (GetPlayer_Input.GetKeyPress(GetKeyCode.keyCodes[(int)KeySequence.Up]))
+            if (GetPlayer_Input.GetKeyPress(GetKeyCode.keyCodes[(int)KeySequence.Up]) && GetPlayer.CurrentState == GetPlayer.GetIdle)
             {
                 keyPressTime += Time.deltaTime;
                 if (keyPressTime > holdTime && !isTopView)
