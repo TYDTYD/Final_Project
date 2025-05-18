@@ -10,18 +10,12 @@ namespace player
         public PlayerStateType StateType => PlayerStateType.Fall;
         public bool CanExecute(ICommand command)
         {
+            if (player.GetPlayer_Health.GetHp <= 0)
+                player.CurrentState = player.GetDeath;
             if (player.GetPlayer_Health.GetDamaged)
             {
                 player.CurrentState = player.GetDamage;
                 return false;
-            }
-            if (player.GetRigidbody.linearVelocityY > 5f)
-            {
-                if (player.GetPlayer_Rigidbody.GetGrounded)
-                {
-                    player.CurrentState = player.GetLand;
-                    return false;
-                }
             }
             if (command is Attack)
                 return true;
@@ -55,9 +49,14 @@ namespace player
                     player.CurrentState = player.GetLadder;
                     return true;
                 }
+                if (player.GetPlayer_Rigidbody.GetGrounded)
+                {
+                    player.CurrentState = player.GetIdle;
+                    return false;
+                }
                 return false;
             }
-            return true;
+            return false;
         }
     }
 }

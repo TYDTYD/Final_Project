@@ -34,10 +34,10 @@ namespace player
             if (hp != Stage_UI_View.Instance.GetHp)
             {
                 if (Stage_UI_View.Instance.GetHp <= 0)
+                {
                     DeathEvent?.Invoke();
+                }
                 ResetDamageState();
-                Debug.Log($"hp : {hp}");
-                Debug.Log($"Stage_UI_View.Instance.GetHp : {Stage_UI_View.Instance.GetHp}");
                 hp = Stage_UI_View.Instance.GetHp;
             }
         }
@@ -61,5 +61,6 @@ namespace player
                 .Subscribe(_ => IsDamaged.Value = false);
         }
         public bool GetDamaged => IsDamaged.Value;
+        public int GetHp => hp;
     }
 }

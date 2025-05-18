@@ -14,6 +14,8 @@ namespace player
 
         public bool CanExecute(ICommand command)
         {
+            if (player.GetPlayer_Health.GetHp <= 0)
+                player.CurrentState = player.GetDeath;
             if (player.GetPlayer_Health.GetDamaged)
             {
                 player.CurrentState = player.GetDamage;
@@ -25,13 +27,7 @@ namespace player
                 return false;
             if (command is Idle)
             {
-                timeIdx += Time.deltaTime;
-                if (player.GetPlayer_Rigidbody.GetGrounded && timeIdx > LandTime)
-                {
-                    timeIdx = 0f;
-                    return true;
-                }
-                return false;
+                return true;
             }
             if (command is Jump)
                 return false;

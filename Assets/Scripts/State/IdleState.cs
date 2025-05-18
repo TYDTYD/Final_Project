@@ -1,5 +1,6 @@
 namespace player
 {
+    using UnityEngine;
     public class IdleState : IState
     {
         Player player;
@@ -12,7 +13,10 @@ namespace player
         {
             if (player.GetPlayer_Health.GetDamaged)
             {
-                player.CurrentState = player.GetDamage;
+                if (player.GetPlayer_Health.GetHp <= 0)
+                    player.CurrentState = player.GetDeath;
+                else
+                    player.CurrentState = player.GetDamage;
                 return false;
             }
             if (!player.GetPlayer_Rigidbody.GetGrounded)

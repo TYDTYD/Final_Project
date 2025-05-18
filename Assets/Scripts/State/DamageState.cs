@@ -10,6 +10,8 @@ namespace player
         public PlayerStateType StateType => PlayerStateType.Damage;
         public bool CanExecute(ICommand command)
         {
+            if (player.GetPlayer_Health.GetHp <= 0)
+                player.CurrentState = player.GetDeath;
             if (player.GetPlayer_Health.GetDamaged)
                 return false;
             if (command is Down)

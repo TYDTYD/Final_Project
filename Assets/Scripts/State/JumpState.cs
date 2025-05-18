@@ -10,6 +10,8 @@ namespace player
         public PlayerStateType StateType => PlayerStateType.Jump;
         public bool CanExecute(ICommand command)
         {
+            if (player.GetPlayer_Health.GetHp <= 0)
+                player.CurrentState = player.GetDeath;
             if (player.GetPlayer_Health.GetDamaged)
             {
                 player.CurrentState = player.GetDamage;
@@ -36,6 +38,11 @@ namespace player
             }
             if(command is Up)
             {
+                if (player.GetPlayer_Rigidbody.GetGrounded)
+                {
+                    player.CurrentState = player.GetIdle;
+                    return false;
+                }
                 if (player.GetPlayer_Rigidbody.GetLadder)
                 {
                     player.CurrentState = player.GetLadder;

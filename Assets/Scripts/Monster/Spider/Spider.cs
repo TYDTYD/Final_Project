@@ -5,9 +5,10 @@ public class Spider : MonoBehaviour, IHealth
 {
     int health = 1;
     bool reversed = true;
+    readonly float jumpHorizontalForce = 4f;
     float detectDistance = 5f;
     float jumpDelay = 1.5f;
-    float jumpForce = 17f;
+    float jumpForce = 15f;
     bool canJump = true;
     GameObject player;
     ICommand jump;
@@ -54,7 +55,8 @@ public class Spider : MonoBehaviour, IHealth
             if (player != null)
             {
                 Vector2 direction = (player.transform.position - transform.position).normalized;
-                jump = new Jump(GetRigidbody, jumpForce, direction);
+                float dir = (direction.x > 0) ? jumpHorizontalForce : -jumpHorizontalForce;
+                jump = new Jump(GetRigidbody, jumpForce, new Vector2(dir, 0));
                 StartCoroutine(ExecuteJump());
             }
         }
