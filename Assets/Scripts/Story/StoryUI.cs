@@ -79,8 +79,9 @@ public class StoryUI : MonoBehaviour
                 {
                     StartCoroutine(GetMask.Darker(ChangeSprite, GetMask.Brighter()));
                     return;
-                }
+                }                
             }
+
             if (textPos < Texts.Count - 1)
             {
                 text.text = Texts[++textPos];
@@ -89,5 +90,13 @@ public class StoryUI : MonoBehaviour
         }
     }
 
-    void Change() => BackGround.sprite = images[++pos];
+    void Change() 
+    {
+        BackGround.sprite = images[++pos];
+        if (textPos < Texts.Count - 1)
+        {
+            text.text = Texts[++textPos];
+            person.text = Person_Texts[textPos];
+        }
+    }
 }
