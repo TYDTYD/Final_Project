@@ -1,6 +1,7 @@
 # SHADOW OF THE VALKYRIE
 ![Main Capsule](https://github.com/user-attachments/assets/40bd850d-9d49-406a-a737-22bfdf0791c9)
-### [플레이 영상](https://youtu.be/oa9fx0yrxX4)
+
+### <p align="center">[플레이 영상](https://youtu.be/oa9fx0yrxX4)</p>
 
 # 기술 경험
 ## Github Actions를 통한 CI 구축
