@@ -77,4 +77,11 @@ public class Model
     public void UpdateTotalTime(int time) => totalTime.Value += time;
     public void InitTime() => time.Value = 0;
     public void InitMoney() => currentMoney.Value = 0;
+    public void InitHealth() => health.Value = 4;
+    public void InitItem()
+    {
+        bomb.Value = 0;
+        rope.Value = 0;
+        money.Value = 0;
+    }
 }

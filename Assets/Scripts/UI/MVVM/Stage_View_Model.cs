@@ -34,4 +34,6 @@ public class Stage_View_Model
     }
     public void InitTimeUI() => GetModel.InitTime();
     public void InitMoney() => GetModel.InitMoney();
+    public void InitHealth() => GetModel.InitHealth();
+    public void InitItem() => GetModel.InitItem();
 }

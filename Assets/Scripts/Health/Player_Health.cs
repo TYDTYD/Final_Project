@@ -20,6 +20,11 @@ namespace player
             GetRigidbody2D = GetPlayer.GetRigidbody;
             hp = Stage_UI_View.Instance.GetHp;
         }
+
+        public void Init()
+        {
+            hp = 4;
+        }
         private void OnEnable() => UpdateManager.Instance.SubscribeUpdate(UpdateMethod);
         private void OnDisable() => UpdateManager.Instance.UnSubscribeUpdate(UpdateMethod);
         private void OnDestroy()
@@ -35,6 +40,7 @@ namespace player
             {
                 if (Stage_UI_View.Instance.GetHp <= 0)
                 {
+                    GetPlayer.CurrentState = GetPlayer.GetDeath;
                     DeathEvent?.Invoke();
                 }
                 ResetDamageState();

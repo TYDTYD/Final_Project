@@ -38,6 +38,7 @@ public class PausedUI : MonoBehaviour
                     
                     break;
                 case 2:
+                    GameManager.Instance.initialized = false;
                     StartCoroutine(GameManager.Instance.PreloadScene(1, GetMask.Darker()));
                     break;
                 case 3:

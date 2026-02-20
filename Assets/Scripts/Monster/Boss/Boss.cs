@@ -5,15 +5,18 @@ public class Boss : MonoBehaviour, IHealth
 {
     bool isAttackStarted = false;
     bool isCharging = false;
-    float speed = 10f;
-    float chargeDistance = 30f;
+    float speed = 8f;
+    float chargeDistance = 10f;
     float waitAfterCharge = 3f;
     int damage = 10;
     int force = 3;
-    int hp = 50;
+    int hp = 20;
+    bool isDeath = false;
+    [SerializeField] Animator animator;
 
     GameObject player;
     Rigidbody2D rb;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -39,17 +42,24 @@ public class Boss : MonoBehaviour, IHealth
 
     IEnumerator Charge(float dir)
     {
+        if (isDeath)
+            yield break;
         float moved = 0f;
         isCharging = true;
 
-        while(chargeDistance > moved)
-        {
+        transform.localScale = new Vector3(-dir * 3f, 3f);
+
+        animator.SetBool("1_Move", true);
+
+        while (chargeDistance > moved)
+        {            
             float delta = speed * Time.deltaTime;
             transform.position += new Vector3(delta * dir, 0f);
             moved += delta;
             yield return null;
         }
 
+        animator.SetBool("1_Move", false);
         isCharging = false;
         yield return new WaitForSeconds(waitAfterCharge);
         isAttackStarted = false;
@@ -57,6 +67,8 @@ public class Boss : MonoBehaviour, IHealth
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isDeath)
+            return;
         if (collision.gameObject.CompareTag("Player"))
         {
             if(collision.gameObject.TryGetComponent(out IHealth health))
@@ -85,13 +97,30 @@ public class Boss : MonoBehaviour, IHealth
         }
         else
         {
-            collision.gameObject.SetActive(false);
+            if(!collision.gameObject.CompareTag("Item"))
+                collision.gameObject.SetActive(false);
         }
     }
 
     public void TakeDamage(int damage, int force, GameObject obj)
     {
         hp -= damage;
+
+        if(hp <= 0)
+        {            
+            isDeath = true;
+            StopAllCoroutines();
+            animator.SetBool("4_Death", true);
+            Invoke("Death", 5f);
+            return;
+        }
+        Debug.Log($"Boss Health : {hp}, Damage : {damage}, attacked by obj : {obj.name}");
+        animator.SetBool("3_Damaged", true);
+    }
+
+    void Death()
+    {
+        gameObject.SetActive(false);
     }
 
     public void Heal(int amount)

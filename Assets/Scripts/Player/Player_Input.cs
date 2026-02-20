@@ -61,6 +61,7 @@ namespace player
             Idle = new Idle(GetPlayer.GetRigidbody);
 
             GetPlayer.GetPlayer_Health.DeathEvent += DisableInput;
+            GameManager.Instance.Restart += EnableInput;
 
             InputAction[] InputActions = new InputAction[]
             {

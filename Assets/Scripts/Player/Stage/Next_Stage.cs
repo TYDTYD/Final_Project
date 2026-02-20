@@ -38,7 +38,12 @@ public class Next_Stage : MonoBehaviour
         if (canInteract && !trigger && 
             GetPlayer.GetPlayer_Input.GetKeyPress(GetPlayer.GetPlayer_Input.PlayerKey.keyCodes[(int)KeySequence.Item]))
         {
-            trigger = true;
+            trigger = true;            
+            if (GameManager.Instance.CurrentSceneNumber == 4)
+            {
+                StartCoroutine(GameManager.Instance.PreloadScene("Credit", GetMaskVariation.Darker()));
+                return;
+            }
             GameManager.Instance.GetStageNumber = GameManager.Instance.CurrentSceneNumber + 1;
             StartCoroutine(GameManager.Instance.PreloadScene("Stage Rest", GetMaskVariation.Darker()));
         }

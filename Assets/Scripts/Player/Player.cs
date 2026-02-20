@@ -1,8 +1,8 @@
-namespace player
-{
-    using UnityEngine;
-    using System.Collections.Generic;
+using UnityEngine;
+using System.Collections.Generic;
 
+namespace player
+{    
     public enum PlayerStateType
     {
         Idle,
@@ -22,6 +22,8 @@ namespace player
 
     public partial class Player : MonoBehaviour
     {
+        public static Player Instance { get; private set; }
+
         [SerializeField] Player_Health player_health;
         [SerializeField] Player_Item player_Item;
         [SerializeField] Player_Rigidbody player_Rigidbody;
@@ -51,22 +53,37 @@ namespace player
 
         private void Awake()
         {
+            // 싱글톤 패턴 구현
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject); // 씬 변경 시에도 유지
+            }
+            else
+            {
+                Destroy(gameObject); // 중복 방지
+                return;
+            }
+
+            GameManager.Instance.Restart += InitStatus;
+            player_health.DeathEvent += () => GameManager.Instance.initialized = false;
+
             CreateState();
             animationHashes = new Dictionary<PlayerStateType, int>
-        {
-            { PlayerStateType.Idle, Animator.StringToHash("Idle") },
-            { PlayerStateType.Jump, Animator.StringToHash("Jump") },
-            { PlayerStateType.Ladder, Animator.StringToHash("Ladder") },
-            { PlayerStateType.Damage, Animator.StringToHash("Hurt") },
-            { PlayerStateType.Attack, Animator.StringToHash("Attack") },
-            { PlayerStateType.Move, Animator.StringToHash("Move") },
-            { PlayerStateType.Fall, Animator.StringToHash("Fall") },
-            { PlayerStateType.Land, Animator.StringToHash("Land") },
-            { PlayerStateType.Sitting, Animator.StringToHash("Sitting") },
-            { PlayerStateType.SittingMove, Animator.StringToHash("SittingMove") },
-            { PlayerStateType.Edge, Animator.StringToHash("Edge_Idle") },
-            { PlayerStateType.Death, Animator.StringToHash("Death") }
-        };
+            {
+                { PlayerStateType.Idle, Animator.StringToHash("Idle") },
+                { PlayerStateType.Jump, Animator.StringToHash("Jump") },
+                { PlayerStateType.Ladder, Animator.StringToHash("Ladder") },
+                { PlayerStateType.Damage, Animator.StringToHash("Hurt") },
+                { PlayerStateType.Attack, Animator.StringToHash("Attack") },
+                { PlayerStateType.Move, Animator.StringToHash("Move") },
+                { PlayerStateType.Fall, Animator.StringToHash("Fall") },
+                { PlayerStateType.Land, Animator.StringToHash("Land") },
+                { PlayerStateType.Sitting, Animator.StringToHash("Sitting") },
+                { PlayerStateType.SittingMove, Animator.StringToHash("SittingMove") },
+                { PlayerStateType.Edge, Animator.StringToHash("Edge_Idle") },
+                { PlayerStateType.Death, Animator.StringToHash("Death") }
+            };
 
             rigidBody = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
@@ -74,6 +91,17 @@ namespace player
             currentState = idleState;
             previousState = currentState;
         }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.Restart -= InitStatus;
+        }
+
+        void InitStatus()
+        {
+            currentState = idleState;
+        }
+
         void CreateState()
         {
             idleState = new IdleState(this);

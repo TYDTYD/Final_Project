@@ -29,7 +29,7 @@ public class Explosion : MonoBehaviour
             {
                 health.TakeDamage(10, 50, gameObject);
             }
-            else if (col.gameObject != gameObject)
+            else if (col.gameObject != gameObject && !col.CompareTag("Player"))
             {
                 Destroy(col.gameObject);
             }

@@ -39,6 +39,11 @@ public class Stage_UI_View : MonoBehaviour
     {
         GameManager.Instance.StageLoad -= InitTime;
         GameManager.Instance.StageLoad -= InitMoney;
+        if(GameManager.Instance.GetPlayer != null && GameManager.Instance.GetPlayer.TryGetComponent<Player_Health>(out var player))
+        {
+            player.DeathEvent -= DeathEvent;
+        }
+        
     }
     private void Start()
     {
@@ -53,8 +58,15 @@ public class Stage_UI_View : MonoBehaviour
         View_Model.Stage.Subscribe(stage => stage_text.text = stage.ToString()).AddTo(this);
 
         GameManager.Instance.StageLoad += InitTime;
+        GameManager.Instance.Restart += InitHealth;
         GameManager.Instance.StageLoad += InitMoney;
-        GameManager.Instance.GetPlayer.GetComponent<Player_Health>().DeathEvent += () => gameObject.SetActive(false);
+        GameManager.Instance.Restart += InitRestart;
+        GameManager.Instance.GetPlayer.GetComponent<Player_Health>().DeathEvent += DeathEvent;
+    }
+
+    void DeathEvent()
+    {
+        gameObject.SetActive(false);
     }
     private void UpdateMethod()
     {
@@ -84,8 +96,15 @@ public class Stage_UI_View : MonoBehaviour
     public void DecreaseMoney(int amount) => View_Model.UpdateMoneyUI(-amount);
     public void IncreaseStage() => View_Model.UpdateStageUI(1);
     public void IncreaseTime() => View_Model.UpdateTimeUI(1);
+    public void InitHealth() => View_Model.InitHealth();
     public void InitTime() => View_Model.InitTimeUI();
     public void InitMoney() => View_Model.InitMoney();
+
+    public void InitRestart()
+    {
+        View_Model.InitHealth();
+        View_Model.InitItem();
+    }
     string ChangeIntToString(int t)
     {
         TimeSpan timeSpan = TimeSpan.FromSeconds(t);

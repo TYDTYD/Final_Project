@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using player;
+
 public partial class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -17,6 +19,7 @@ public partial class GameManager : MonoBehaviour
     public event Action SceneLoad;
     public event Action StageLoad;
     public event Action RestAreaLoad;
+    public event Action Restart;
 
     private void Awake()
     {
@@ -48,11 +51,26 @@ public partial class GameManager : MonoBehaviour
     }
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
+        if (!initialized)
+        {
+            Restart?.Invoke();
+            initialized = true;
+        }
+
         SceneLoad?.Invoke();
         int sceneNum = scene.buildIndex;
         if (IsStageScene(sceneNum))
         {
-            player = InstantiatePlayer(GetStageStartPosition(sceneNum));
+            var playerPos = GetStageStartPosition(sceneNum);
+            
+            if (player == null)
+            {
+                player = InstantiatePlayer(playerPos);
+            }
+            else
+            {
+                player.transform.position = playerPos;
+            }            
             StageLoad?.Invoke();
             if (Stage_UI_View.Instance)
                 Stage_UI_View.Instance.gameObject.SetActive(true);
@@ -60,8 +78,10 @@ public partial class GameManager : MonoBehaviour
         else
         {
             if (sceneNum == 5)
+            {                
                 RestAreaLoad?.Invoke();
-            player = null;
+            }                
+            
             if (Stage_UI_View.Instance)
             {
                 Stage_UI_View.Instance.gameObject.SetActive(false);
